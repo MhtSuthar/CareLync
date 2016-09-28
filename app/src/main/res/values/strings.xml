@@ -1,0 +1,39 @@
+<resources>
+    <string name="app_name">CareLynk</string>
+
+    <string name="navigation_drawer_open">Open navigation drawer</string>
+    <string name="navigation_drawer_close">Close navigation drawer</string>
+
+    <string name="action_settings">Settings</string>
+    <string name="login">Login</string>
+    <string name="enter_email">Enter Email</string>
+    <string name="enter_password">Enter Password</string>
+    <string name="registation">Registation</string>
+    <string name="remember_me">Remember Me</string>
+    <string name="dummy_text">It is a long established fact that a reader will be distracted by the readable content of a page when looking at its layout. The point of using Lorem Ipsum is that it has a more-or-less normal distribution of letters</string>
+    <string name="logout">Logout</string>
+    <string name="sure_logout">Are you sure want to logout?</string>
+    <string name="register_if_not_member">No account yet? Register</string>
+    <string name="my_profile">My Profile</string>
+    <string name="my_timeline">My Timeline</string>
+    <string name="my_group">My Group</string>
+    <string name="my_forum">My Forum</string>
+    <string name="my_event">My Event</string>
+    <string name="my_search">My Search</string>
+    <string name="back_to_login">Back To Login</string>
+    <string name="add_photo">Add your photo</string>
+    <string name="follow">Follow</string>
+
+    <string-array name="gender">
+        <item>Gender</item>
+        <item>Male</item>
+        <item>Female</item>
+    </string-array>
+
+    <string-array name="about_me">
+        <item>About Me</item>
+        <item>I am single</item>
+        <item>I am in a Relationship</item>
+        <item>I am Married</item>
+    </string-array>
+</resources>

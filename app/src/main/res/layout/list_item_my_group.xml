@@ -1,0 +1,95 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools">
+
+    <data>
+
+        <variable
+            name="feed"
+            type="com.carelynk.recent.model.TimelineModel" />
+    </data>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:paddingLeft="@dimen/common_margin"
+        android:paddingRight="@dimen/common_margin"
+        android:paddingTop="1dp">
+
+        <android.support.v7.widget.CardView
+            android:id="@+id/cardView"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            app:cardBackgroundColor="@android:color/white"
+            app:cardElevation="5dp"
+            app:cardPreventCornerOverlap="true"
+            app:cardUseCompatPadding="true">
+
+            <RelativeLayout
+                android:layout_width="match_parent"
+                android:layout_height="100dp"
+                android:orientation="vertical">
+
+                <ImageView
+                    android:id="@+id/imgGroup"
+                    android:layout_width="100dp"
+                    android:layout_height="match_parent"
+                    android:scaleType="centerCrop"
+                    android:src="@drawable/dummy_bg_img" />
+
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:layout_toLeftOf="@+id/txtFollow"
+                    android:padding="@dimen/common_margin"
+                    android:layout_toRightOf="@+id/imgGroup"
+                    android:gravity="center|left"
+                    android:orientation="vertical">
+
+                    <TextView
+                        android:id="@+id/txtGroupName"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:text="@{feed.name}"
+                        android:textAppearance="?android:textAppearanceMedium"
+                        android:textColor="@color/colorPrimaryDark"
+                        app:font="@{`bold`}"
+                        tools:text="dfsdfdsfsdf sdf"
+
+                        />
+
+                    <TextView
+                        android:id="@+id/txtCreated"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:text="created by Anuj"
+                        android:textAppearance="?android:textAppearanceSmall"
+                        android:textColor="@color/colorPrimaryDark"
+                        app:font="@{`light`}" />
+
+                </LinearLayout>
+
+                <TextView
+                    android:id="@+id/txtFollow"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentRight="true"
+                    android:layout_centerVertical="true"
+                    android:layout_margin="@dimen/common_margin"
+                    android:padding="@dimen/common_margin"
+                    android:textColor="@{feed.isFollowing ? @color/white : @color/colorPrimary}"
+                    android:background="@{feed.isFollowing ? @drawable/rectangle_blue : @drawable/rectangle_white}"
+                    android:text="@{feed.isFollowing ? `Following` : `Follow`}"
+                    app:font="@{`medium`}" />
+
+            </RelativeLayout>
+
+
+        </android.support.v7.widget.CardView>
+
+
+    </LinearLayout>
+</layout>
