@@ -23,6 +23,7 @@ public abstract class BaseActivityWithSidebar extends BaseActivity {
     protected DrawerLayout mDrawer;
     protected FrameLayout mActivityContent;
     protected ActivityBaseBinding binding;
+    //Hi this is mht
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
