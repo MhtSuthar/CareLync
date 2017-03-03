@@ -31,6 +31,7 @@ import com.carelynk.dashboard.fragment.HeighlightFragment;
 import com.carelynk.dashboard.fragment.HealthFeedsFragment;
 import com.carelynk.dashboard.fragment.MyGroupFragment;
 import com.carelynk.event.EventListActivity;
+import com.carelynk.friends.MyFriendsActivity;
 import com.carelynk.profile.MyProfileActivity;
 import com.carelynk.search.MySearchActivity;
 import com.carelynk.utilz.AnimationUtils;
@@ -130,7 +131,7 @@ public class HomeActivity extends BaseActivity {
                 moveActivity(new Intent(HomeActivity.this, MyProfileActivity.class), HomeActivity.this);
                 break;
             case R.id.menu_invite:
-                moveActivity(new Intent(HomeActivity.this, MyProfileActivity.class), HomeActivity.this);
+                moveActivity(new Intent(HomeActivity.this, MyFriendsActivity.class), HomeActivity.this);
                 break;
         }
         return true;
