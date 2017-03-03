@@ -12,12 +12,22 @@
         android:layout_height="match_parent"
         android:orientation="vertical">
 
+
         <android.support.v7.widget.RecyclerView
             android:id="@+id/recyclerView"
             android:layout_width="match_parent"
-            android:paddingTop="@dimen/common_margin"
+            android:layout_height="match_parent"
             android:clipToPadding="false"
-            android:layout_height="match_parent"/>
+            android:paddingTop="@dimen/common_margin" />
+
+        <ProgressBar
+            android:id="@+id/progressBar"
+            style="?android:attr/progressBarStyleLarge"
+            android:layout_width="50dp"
+            android:visibility="gone"
+            android:layout_height="50dp"
+            android:layout_centerHorizontal="true"
+            android:layout_marginTop="@dimen/activity_horizontal_margin" />
 
     </RelativeLayout>
 </layout>

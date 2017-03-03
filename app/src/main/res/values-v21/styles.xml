@@ -9,13 +9,13 @@
 
     //V7 Button Style
     <style name="ButtonStyle" parent="Widget.AppCompat.Button.Colored">
-        <item name="android:colorButtonNormal">@color/colorAccent</item>
+        <item name="colorButtonNormal">@color/colorBlueAccent</item>
         <item name="android:textColor">@android:color/white</item>
         <item name="android:padding">16dp</item>
     </style>
 
     <style name="ButtonStyleDark" parent="Widget.AppCompat.Button.Colored">
-        <item name="android:colorButtonNormal">@color/colorPrimaryDark</item>
+        <item name="colorButtonNormal">@color/colorBlueAccent</item>
         <item name="android:textColor">@android:color/white</item>
         <item name="android:padding">16dp</item>
     </style>

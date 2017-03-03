@@ -1,0 +1,240 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+
+    <data>
+
+
+    </data>
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:animateLayoutChanges="true"
+        android:orientation="vertical">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:orientation="vertical">
+
+            <android.support.v7.widget.Toolbar
+                android:id="@+id/toolbar"
+                android:layout_width="match_parent"
+                android:layout_height="?attr/actionBarSize"
+                android:background="?attr/colorPrimary"
+                android:elevation="5dp"
+                app:layout_scrollFlags="scroll|enterAlways"
+                app:popupTheme="@style/AppTheme.PopupOverlay">
+
+                <RelativeLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:gravity="center">
+
+                    <TextView
+                        android:id="@+id/txtToolbar"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_centerHorizontal="true"
+                        android:layout_alignParentLeft="true"
+                        android:padding="10dp"
+                        android:text="@string/create_group"
+                        android:textAppearance="?android:textAppearanceLarge"
+                        android:textColor="@color/colorAccent"
+                        app:font="@{`medium`}" />
+
+                    <TextView
+                        android:id="@+id/txtCreate"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_alignParentRight="true"
+                        android:layout_centerHorizontal="true"
+                        android:onClick="onClickDone"
+                        android:padding="10dp"
+                        android:text="@string/create"
+                        android:textAppearance="?android:textAppearanceLarge"
+                        android:textColor="@color/colorAccent"
+                        app:font="@{`medium`}" />
+
+                </RelativeLayout>
+
+            </android.support.v7.widget.Toolbar>
+
+
+            <!--<RelativeLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:paddingTop="50dp"
+                android:paddingBottom="@dimen/activity_horizontal_margin"
+                android:background="@color/colorPrimary">
+
+                <ImageView
+                    android:id="@+id/imgPreview"
+                    android:layout_width="100dp"
+                    android:layout_height="100dp"
+                    android:layout_centerHorizontal="true"
+                    android:layout_marginTop="@dimen/activity_horizontal_margin"
+                    android:background="@drawable/circle_white_trasparent_bg"
+                    android:padding="2dp"
+                    android:visibility="gone" />
+
+                <ImageView
+                    android:id="@+id/imgSelect"
+                    android:layout_width="100dp"
+                    android:layout_centerHorizontal="true"
+                    android:layout_height="100dp"
+                    android:layout_marginTop="@dimen/activity_horizontal_margin"
+                    android:background="@drawable/circle_white_trasparent_bg"
+                    android:padding="25dp"
+                    android:src="@drawable/ic_camera" />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_centerHorizontal="true"
+                    android:layout_below="@+id/imgSelect"
+                    android:layout_marginBottom="@dimen/activity_horizontal_margin"
+                    android:layout_marginTop="@dimen/common_margin"
+                    android:text="Add Photo"
+                    android:textAppearance="?android:textAppearanceMedium"
+                    android:textColor="@android:color/white"
+                    app:font="@{`medium`}" />
+
+            </RelativeLayout>-->
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical"
+                app:cardBackgroundColor="@android:color/white"
+                app:cardElevation="5dp"
+                app:cardPreventCornerOverlap="true"
+                app:cardUseCompatPadding="true">
+
+                <RelativeLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:padding="@dimen/activity_horizontal_margin">
+
+                    <android.support.v4.widget.NestedScrollView
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent">
+
+                        <LinearLayout
+                            android:layout_width="match_parent"
+                            android:layout_height="match_parent"
+                            android:gravity="center|top"
+                            android:orientation="vertical">
+
+                            <ImageView
+                                android:id="@+id/imgSelect"
+                                android:layout_width="100dp"
+                                android:layout_height="100dp"
+                                android:layout_centerHorizontal="true"
+                                android:background="@drawable/circle_blue_trasparent_bg"
+                                android:padding="25dp"
+                                android:src="@drawable/ic_camera_blue" />
+
+                            <ImageView
+                                android:id="@+id/imgPreview"
+                                android:layout_width="100dp"
+                                android:layout_height="100dp"
+                                android:layout_centerHorizontal="true"
+                                android:layout_marginTop="@dimen/activity_horizontal_margin"
+                                android:background="@drawable/circle_blue_trasparent_bg"
+                                android:padding="2dp"
+                                android:visibility="gone" />
+
+                            <Spinner
+                                android:id="@+id/spnrGroupCategory"
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:layout_marginTop="@dimen/activity_horizontal_margin"
+                                android:entries="@array/group_category" />
+
+                            <android.support.design.widget.TextInputLayout
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:layout_marginTop="@dimen/activity_horizontal_margin"
+                                android:textColorHint="@color/color_text_dark">
+
+                                <EditText
+                                    android:id="@+id/edtGroupName"
+                                    android:layout_width="match_parent"
+                                    android:layout_height="wrap_content"
+                                    android:hint="@string/enter_group_name"
+                                    android:lines="1"
+                                    android:textColor="@android:color/black"
+                                    android:textColorHint="@color/color_text_dark"
+                                    app:font="@{`light`}" />
+
+                            </android.support.design.widget.TextInputLayout>
+
+                            <EditText
+                                android:id="@+id/edtDescription"
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:layout_marginTop="@dimen/activity_horizontal_margin"
+                                android:hint="@string/description"
+                                android:inputType="textMultiLine"
+                                android:maxHeight="100dp"
+                                android:textColor="@android:color/black"
+                                android:textColorHint="@color/color_text_dark"
+                                app:font="@{`light`}" />
+
+                            <CheckBox
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:layout_marginTop="@dimen/common_margin"
+                                android:text="@string/make_this_group_is_private"
+                                android:textColor="@android:color/black"
+                                app:font="@{`medium`}" />
+
+                        </LinearLayout>
+
+                    </android.support.v4.widget.NestedScrollView>
+
+                </RelativeLayout>
+
+            </LinearLayout>
+
+        </LinearLayout>
+
+        <RelativeLayout
+            android:id="@+id/relHeader"
+            android:layout_width="match_parent"
+            android:layout_height="?actionBarSize"
+            android:visibility="gone">
+
+            <ImageView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:onClick="onClickCancel"
+                android:padding="@dimen/activity_horizontal_margin"
+                android:src="@drawable/ic_close" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_centerInParent="true"
+                android:text="@string/create_group"
+                android:textAllCaps="true"
+                android:textAppearance="?android:textAppearanceMedium"
+                android:textColor="@android:color/white" />
+
+
+            <ImageView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentRight="true"
+                android:onClick="onClickDone"
+                android:padding="@dimen/activity_horizontal_margin"
+                android:src="@drawable/ic_done" />
+
+
+        </RelativeLayout>
+
+
+    </RelativeLayout>
+</layout>

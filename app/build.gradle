@@ -24,6 +24,9 @@ android {
 }
 
 def glideVersion = "3.6.1"
+def okHttpVersion = "3.3.1"
+def retrofitVersion = "2.1.0"
+def gsonVersion = "2.6.2"
 
 dependencies {
     compile fileTree(dir: 'libs', include: ['*.jar'])
@@ -33,7 +36,8 @@ dependencies {
     compile 'com.android.support:cardview-v7:23.0.+'
     compile "com.github.bumptech.glide:glide:$glideVersion"
 
-    //Retrofit
-    compile 'com.squareup.retrofit2:retrofit:2.0.0'
-    compile 'com.squareup.retrofit2:converter-gson:2.0.0-beta4'
+    //retrofit & OkHttp
+    compile "com.squareup.retrofit2:converter-gson:$retrofitVersion"
+    compile "com.squareup.okhttp3:logging-interceptor:$okHttpVersion"
+    compile "com.google.code.gson:gson:$gsonVersion"
 }

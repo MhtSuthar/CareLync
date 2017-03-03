@@ -64,33 +64,35 @@ public class AnimationUtils {
 
 
     public static void animateScaleOut(final View view){
-        view.setScaleX(0.2f);
-        view.setScaleY(0.2f);
-        view.animate()
-                .setStartDelay(100)
-                .alpha(1)
-                .scaleX(1)
-                .scaleY(1).setListener(new Animator.AnimatorListener() {
-            @Override
-            public void onAnimationStart(Animator animation) {
+        if(!view.isShown()) {
+            view.setScaleX(0f);
+            view.setScaleY(0f);
+            view.animate()
+                    .setStartDelay(100)
+                    .alpha(1)
+                    .scaleX(1)
+                    .scaleY(1).setListener(new Animator.AnimatorListener() {
+                @Override
+                public void onAnimationStart(Animator animation) {
 
-            }
+                }
 
-            @Override
-            public void onAnimationEnd(Animator animation) {
-                view.setVisibility(View.VISIBLE);
-            }
+                @Override
+                public void onAnimationEnd(Animator animation) {
+                    view.setVisibility(View.VISIBLE);
+                }
 
-            @Override
-            public void onAnimationCancel(Animator animation) {
+                @Override
+                public void onAnimationCancel(Animator animation) {
 
-            }
+                }
 
-            @Override
-            public void onAnimationRepeat(Animator animation) {
+                @Override
+                public void onAnimationRepeat(Animator animation) {
 
-            }
-        });
+                }
+            });
+        }
     }
 
     public static void animateScaleIn(final View view){

@@ -1,18 +1,22 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <color name="colorPrimary">#505084</color>
-    <color name="colorPrimaryDark">#2A2A46</color>
-    <color name="colorAccent">#EB4A6F</color>
+    <color name="colorPrimary">#ffffff</color>
+    <color name="colorPrimaryDark">#A7AAC4</color>
+    <color name="colorAccent">#3B5998</color>
+    <color name="colorBluePrimary">#3B5998</color>
+    <color name="colorBluePrimaryDark">#3B5998</color>
+    <color name="colorBlueAccent">#EB4A6F</color>
     <color name="textColor">#A7AAC4</color>
     <color name="color_text_dark">#5F5F61</color>
-    <color name="colorTrasparentBlue">#E6505084</color>
     <color name="colorBg">#465172</color>
-    <color name="colorTrasparentYellow">#E6EDC92C</color>
-    <color name="colorTrasparentGreen">#E671D456</color>
-    <color name="colorTrasparentOrange">#E6D24A58</color>
-    <color name="colorTrasparentBlueDashboard">#E648A0DC</color>
-    <color name="colorTrasparentLightRed">#E6EF8D6F</color>
+    <color name="colorTrasparentBlue">#B33B5998</color>
+    <color name="colorTrasparentYellow">#B3EDC92C</color>
+    <color name="colorTrasparentGreen">#B371D456</color>
+    <color name="colorTrasparentOrange">#B3D24A58</color>
+    <color name="colorTrasparentBlueDashboard">#B348A0DC</color>
+    <color name="colorTrasparentLightRed">#B3EF8D6F</color>
     <color name="semiTransparent">#86505084</color>
+    <color name="semiTransparentBlack">#95000000</color>
     <color name="white">#ffffff</color>
 
 </resources>

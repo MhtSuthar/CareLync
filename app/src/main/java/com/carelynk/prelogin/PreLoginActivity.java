@@ -12,7 +12,7 @@ public class PreLoginActivity extends BaseActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        statusBarColor(ContextCompat.getColor(this, R.color.colorPrimaryDark));
+        statusBarColor(ContextCompat.getColor(this, R.color.colorBluePrimaryDark));
         setContentView(R.layout.activity_pre_login);
         replaceFragmentWithoutAnim(new LoginFragment());
     }

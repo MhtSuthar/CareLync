@@ -22,8 +22,8 @@ public class CareLynkApp extends Application {
         *  Add Font using binding
         *
          */
-        FontCache.addFont("bold","HelveticaBold.ttf");
-        FontCache.addFont("light","HelveticaLight.ttf");
-        FontCache.addFont("medium","HelveticaMedium.ttf");
+        FontCache.addFont("bold","TimesNewRomanBold.ttf");
+        FontCache.addFont("light","TimesNewRoman.ttf");
+        FontCache.addFont("medium","TimesNewRoman.ttf");
     }
 }

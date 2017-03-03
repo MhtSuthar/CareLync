@@ -35,15 +35,28 @@
 
     //V7 Button Style
     <style name="ButtonStyle" parent="Widget.AppCompat.Button.Colored">
-        <item name="colorButtonNormal">@color/colorAccent</item>
+        <item name="colorButtonNormal">@color/colorBlueAccent</item>
         <item name="android:textColor">@android:color/white</item>
         <item name="android:padding">16dp</item>
     </style>
 
     <style name="ButtonStyleDark" parent="Widget.AppCompat.Button.Colored">
-        <item name="colorButtonNormal">@color/colorPrimaryDark</item>
+        <item name="colorButtonNormal">@color/colorBlueAccent</item>
         <item name="android:textColor">@android:color/white</item>
         <item name="android:padding">16dp</item>
+    </style>
+
+    <style name="ThemeDialogFit" parent="android:Theme.Holo.Dialog">
+        <item name="android:windowMinWidthMajor">100%</item>
+        <item name="android:windowMinWidthMinor">100%</item>
+    </style>
+
+    <style name="ThemeDialog" parent="android:Theme.Holo.Dialog">
+        <item name="android:windowMinWidthMajor">90%</item>
+        <item name="android:windowMinWidthMinor">90%</item>
+        <item name="android:backgroundDimEnabled">true</item>
+        <item name="android:windowEnterAnimation">@anim/dialog_up</item>
+        <item name="android:windowExitAnimation">@anim/dialog_down</item>
     </style>
 
    <!-- <style name="menu_labels_style">

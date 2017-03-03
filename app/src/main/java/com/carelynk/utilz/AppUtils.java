@@ -29,6 +29,12 @@ import java.util.Date;
 public class AppUtils {
 
 
+    /**
+     * Intent Extra and Bundles
+     */
+    public static String Extra_Goal_Id = "goal_id";
+    public static String Extra_Group_Id = "group_id";
+
 
     private static Dialog dialog;
 

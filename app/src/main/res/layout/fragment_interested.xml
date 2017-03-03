@@ -1,0 +1,55 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+
+<RelativeLayout
+    android:orientation="vertical"
+    android:layout_width="match_parent"
+    android:background="@color/colorAccent"
+    android:layout_height="match_parent">
+
+    <TextView
+        android:id="@+id/txtTitle"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:gravity="center"
+        android:text="Select Interest"
+        android:padding="@dimen/activity_horizontal_margin"
+        app:font="@{`bold`}"
+        android:textAppearance="?android:textAppearanceLarge"
+        android:textColor="@android:color/white"
+        />
+
+    <android.support.v7.widget.RecyclerView
+        android:id="@+id/recyclerView"
+        android:layout_below="@+id/txtTitle"
+        android:layout_width="match_parent"
+        android:paddingTop="@dimen/activity_horizontal_margin"
+        android:clipToPadding="false"
+        android:layout_above="@+id/edtAbout"
+        android:layout_height="match_parent"/>
+
+    <EditText
+        android:id="@+id/edtAbout"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:hint="About Me"
+        android:cursorVisible="true"
+        android:layout_margin="@dimen/activity_horizontal_margin"
+        app:font="@{`light`}"
+        android:layout_above="@+id/btnSubmit"
+        android:textColor="@android:color/white"
+        android:textColorHint="@color/textColor" />
+
+    <android.support.v7.widget.AppCompatButton
+        android:id="@+id/btnSubmit"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="@string/submit"
+        android:layout_alignParentBottom="true"
+        android:textAppearance="?android:textAppearanceMedium"
+        android:theme="@style/ButtonStyle"
+        app:font="@{`medium`}" />
+
+</RelativeLayout>
+</layout>

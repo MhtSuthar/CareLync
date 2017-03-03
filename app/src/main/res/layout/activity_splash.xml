@@ -19,18 +19,19 @@
             android:layout_height="wrap_content"
             android:layout_centerInParent="true"
             android:scaleType="centerCrop"
+            android:visibility="gone"
             android:src="@drawable/ic_splah_logo" />
 
         <TextView
             android:id="@+id/txtAppName"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginBottom="@dimen/activity_horizontal_margin"
             android:gravity="center"
+            android:layout_centerInParent="true"
             android:padding="@dimen/activity_horizontal_margin"
             android:text="@string/app_name"
             app:font="@{`bold`}"
-            android:textColor="@android:color/white"
+            android:textColor="@color/colorAccent"
             android:textSize="40sp"
             android:textStyle="bold" />
 

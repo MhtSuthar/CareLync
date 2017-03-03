@@ -22,7 +22,7 @@ import java.net.URL;
 
 public class JsonParser {
 
-	private final String BaseUrl = "http://wcfmobile.gayatrihomes.com/Service1.svc/";
+	private final String BaseUrl = "http://wcfcarelynk.shauryatech.co.in.204-11-58-75.bhus-pp-wb8.webhostbox.net/Service1.svc/";
 
 	public String postResponse(String mUrl, JSONObject object) throws Exception {
 		HttpURLConnection conexao = null;

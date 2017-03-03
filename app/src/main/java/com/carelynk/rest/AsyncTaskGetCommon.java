@@ -1,17 +1,16 @@
-package com.carelynk.utilz;
+package com.carelynk.rest;
 
 import android.content.Context;
 import android.os.AsyncTask;
+import android.util.Log;
 
-import com.carelynk.rest.JsonParser;
 
-
-public class AsyncTaskCommon extends AsyncTask<String, Void, String> {
+public class AsyncTaskGetCommon extends AsyncTask<String, Void, String> {
 
     private AsyncTaskCompleteListener callback;
     private Context context;
 
-    public AsyncTaskCommon(Context context, AsyncTaskCompleteListener cb) {
+    public AsyncTaskGetCommon(Context context, AsyncTaskCompleteListener cb) {
         this.context = context;
         this.callback = cb;
     }

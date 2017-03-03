@@ -14,15 +14,61 @@
     <string name="logout">Logout</string>
     <string name="sure_logout">Are you sure want to logout?</string>
     <string name="register_if_not_member">No account yet? Register</string>
-    <string name="my_profile">My Profile</string>
-    <string name="my_timeline">My Timeline</string>
+    <string name="my_profile">Profile</string>
+    <string name="my_timeline">Highlight</string>
     <string name="my_group">My Group</string>
+    <string name="support_group">Support Group</string>
     <string name="my_forum">My Forum</string>
+    <string name="health_feed">Health Feed</string>
     <string name="my_event">My Event</string>
-    <string name="my_search">My Search</string>
+    <string name="my_search">Discovery</string>
     <string name="back_to_login">Back To Login</string>
     <string name="add_photo">Add your photo</string>
     <string name="follow">Follow</string>
+    <string name="create_topic">Create Topic</string>
+    <string name="your_interest">Your interest</string>
+    <string name="group_focus">Group Focus</string>
+    <string name="topic_timeline">Topic Timeline</string>
+    <string name="my_friends">My Friends</string>
+    <string name="enter_topic_name">Enter Topic Name</string>
+    <string name="description">Description</string>
+    <string name="frirnds_list">Friends List</string>
+    <string name="event_name">Event Name</string>
+    <string name="event_date">Event Date</string>
+    <string name="category">Categoty</string>
+    <string name="select_category">Select Categoty</string>
+    <string name="enter_group_name">Enter Group Name</string>
+    <string name="create_focus">Create Focus</string>
+    <string name="create_group">Create Group</string>
+    <string name="create_forum">Create Focus</string>
+    <string name="forum_timeline">Forum Timeline</string>
+    <string name="update_goal">Update Goal</string>
+    <string name="focus_timeline">Focus Timeline</string>
+    <string name="goal_detail">Goal Details</string>
+    <string name="group_detail">Group Details</string>
+    <string name="update_group">Update Group</string>
+    <string name="want_to_share_ask">Want to share something or ask?</string>
+    <string name="post">Post</string>
+
+    <string name="no_internet">No Internet Connection</string>
+    <string name="error_server">Server Error!</string>
+    <string name="search">Search</string>
+    <string name="make_this_group_is_private">Make this group as private</string>
+    <string name="create">Create</string>
+    <string name="create_event">Create Event</string>
+    <string name="invite">Invite</string>
+    <string name="submit">Submit</string>
+    <string name="enter_name">Please enter name</string>
+    <string name="enter_date_of_birth">Please enter date of birth</string>
+    <string name="enter_confirm_pass">Please enter confirm password</string>
+    <string name="pass_not_match">Password is not match</string>
+    <string name="enter_contact_no">Please enter contact no</string>
+    <string name="enter_correct_contact_no">Please enter correct contact no</string>
+    <string name="enter_correcr_email">Please enter correct email</string>
+    <string name="select_who_am_i">Please select who am i</string>
+    <string name="select_gender">Please select gender</string>
+    <string name="enter_about_me">Please enter about me</string>
+    <string name="select_interest">Select your interest</string>
 
     <string-array name="gender">
         <item>Gender</item>
@@ -31,9 +77,31 @@
     </string-array>
 
     <string-array name="about_me">
-        <item>About Me</item>
-        <item>I am single</item>
-        <item>I am in a Relationship</item>
-        <item>I am Married</item>
+        <item>Who am I</item>
+        <item>Individual</item>
+        <item>Entity</item>
+    </string-array>
+
+    <string-array name="interest_area">
+        <item>Baby Health</item>
+        <item>Kids Health</item>
+        <item>Teenage Health</item>
+        <item>Men and Women Health</item>
+        <item>Elderly Health</item>
+        <item>Parenting</item>
+        <item>Pregnancy</item>
+        <item>Nutrition</item>
+        <item>Recipe</item>
+        <item>Exercise</item>
+        <item>Yoga</item>
+        <item>Weight Loss</item>
+        <item>Special needs kids</item>
+    </string-array>
+
+    <string-array name="group_category">
+        <item>Select Group Category</item>
+        <item>Health</item>
+        <item>Pregnancy</item>
+        <item>Seek</item>
     </string-array>
 </resources>

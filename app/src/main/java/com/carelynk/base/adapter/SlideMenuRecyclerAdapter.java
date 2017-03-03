@@ -53,16 +53,20 @@ public class SlideMenuRecyclerAdapter extends RecyclerView.Adapter<SlideMenuRecy
                 holder.getBinding().imgMenu.setImageResource(R.drawable.ic_home);
                 break;
             case 1:
-                holder.getBinding().txtMenu.setText("My Timeline");
+                holder.getBinding().txtMenu.setText("Highlights");
                 holder.getBinding().imgMenu.setImageResource(R.drawable.ic_timeline);
                 break;
+           /* case 2:
+                holder.getBinding().txtMenu.setText("My Friends");
+                holder.getBinding().imgMenu.setImageResource(R.drawable.ic_friends);
+                break;*/
             case 2:
-                holder.getBinding().txtMenu.setText("My Profile");
-                holder.getBinding().imgMenu.setImageResource(R.drawable.ic_profile);
+                holder.getBinding().txtMenu.setText("Discovery");
+                holder.getBinding().imgMenu.setImageResource(R.drawable.ic_search);
                 break;
             case 3:
-                holder.getBinding().txtMenu.setText("Search");
-                holder.getBinding().imgMenu.setImageResource(R.drawable.ic_search);
+                holder.getBinding().txtMenu.setText("Profile");
+                holder.getBinding().imgMenu.setImageResource(R.drawable.ic_profile);
                 break;
             case 4:
                 holder.getBinding().txtMenu.setText("About Us");

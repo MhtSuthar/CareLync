@@ -4,8 +4,6 @@
 
     <data>
 
-        <import type="android.os.Build" />
-        <import type="android.view.View" />
     </data>
 
         <android.support.v7.widget.Toolbar
@@ -27,8 +25,8 @@
                     android:id="@+id/toolbar_title"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:singleLine="true"
                     android:text="Home"
+                    android:lines="1"
                     android:textAllCaps="true"
                     android:textAppearance="?android:textAppearanceMedium"
                     android:textColor="@android:color/white" />
@@ -37,10 +35,7 @@
 
         </android.support.v7.widget.Toolbar>
 
-       <!-- <View android:layout_width="match_parent"
-            android:layout_height="5dp"
-            android:visibility="@{Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP ? View.GONE : View.VISIBLE}"
-            android:background="@drawable/toolbar_shadow"/>-->
+
 
 
 </layout>

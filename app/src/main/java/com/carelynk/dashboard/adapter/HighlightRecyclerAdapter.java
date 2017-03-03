@@ -1,15 +1,18 @@
-package com.carelynk.recent.adapter;
+package com.carelynk.dashboard.adapter;
 
 import android.content.Context;
-import android.databinding.DataBindingUtil;
+import android.graphics.Color;
+import android.support.v4.content.ContextCompat;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.CheckBox;
+import android.widget.ImageView;
+import android.widget.TextView;
 
 import com.bumptech.glide.Glide;
 import com.carelynk.R;
-import com.carelynk.databinding.ListItemTimelineBinding;
 import com.carelynk.recent.model.TimelineModel;
 import com.carelynk.utilz.CircleTransform;
 
@@ -18,7 +21,7 @@ import java.util.List;
 /**
  * Created by ubuntu on 19/4/16.
  */
-public class MyTimelineRecyclerAdapter extends RecyclerView.Adapter<MyTimelineRecyclerAdapter.ViewHolder> {
+public class HighlightRecyclerAdapter extends RecyclerView.Adapter<HighlightRecyclerAdapter.ViewHolder> {
 
     private static final int ANIM_DURATION = 300;
     private List<TimelineModel> mListPatient;
@@ -26,18 +29,25 @@ public class MyTimelineRecyclerAdapter extends RecyclerView.Adapter<MyTimelineRe
     private int lastPos = 0;
 
     public static class ViewHolder extends RecyclerView.ViewHolder {
-        private ListItemTimelineBinding binding;
+
+        public TextView txtName, txtPostTime, txtDesc, txtFollow;
+        public ImageView imgCover, imgUser;
+        public CheckBox chkFav;
 
         public ViewHolder(View rowView) {
             super(rowView);
-            binding = DataBindingUtil.bind(rowView);
+            txtName= (TextView) rowView.findViewById(R.id.txtName);
+            txtPostTime = (TextView) rowView.findViewById(R.id.txtPostTime);
+            txtDesc= (TextView) rowView.findViewById(R.id.txtDesc);
+            txtFollow= (TextView) rowView.findViewById(R.id.txtFollow);
+            imgCover= (ImageView) rowView.findViewById(R.id.imgCover);
+            chkFav = (CheckBox) rowView.findViewById(R.id.chkFav);
+            imgUser = (ImageView) rowView.findViewById(R.id.imgUser);
         }
-        public ListItemTimelineBinding getBinding() {
-            return binding;
-        }
+
     }
 
-    public MyTimelineRecyclerAdapter(Context context, List<TimelineModel> mListPatient) {
+    public HighlightRecyclerAdapter(Context context, List<TimelineModel> mListPatient) {
         this.mListPatient = mListPatient;
         mContext = context;
     }
@@ -60,14 +70,20 @@ public class MyTimelineRecyclerAdapter extends RecyclerView.Adapter<MyTimelineRe
     @Override
     public void onBindViewHolder(final ViewHolder holder, int position) {
         final TimelineModel feedModel= mListPatient.get(position);
-        holder.getBinding().setFeed(feedModel);
-        holder.getBinding().executePendingBindings();
         Glide.with(mContext).load(R.drawable.dummy_img).
-                transform(new CircleTransform(mContext)).into(holder.getBinding().imgUser);
-        //holder.getBinding().cardView.setUseCompatPadding(true);
-        //holder.getBinding().txtDate.setText(AppUtils.dateConvert("yyyy-MM-dd", "dd MMMM,yyyy", interestModel.getDob()));
+                transform(new CircleTransform(mContext)).into(holder.imgUser);
+        holder.txtName.setText(feedModel.getName());
 
-        holder.getBinding().txtFollow.setOnClickListener(new View.OnClickListener() {
+        if(feedModel.isFollowing){
+            holder.txtFollow.setTextColor(Color.WHITE);
+            holder.txtFollow.setText("Following");
+            holder.txtFollow.setBackgroundResource(R.drawable.round_corner_white);
+        }else{
+            holder.txtFollow.setTextColor(ContextCompat.getColor(mContext, R.color.colorPrimary));
+            holder.txtFollow.setText("Follow");
+            holder.txtFollow.setBackgroundResource(R.drawable.round_corner_blue_fill);
+        }
+        holder.txtFollow.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 if(feedModel.isFollowing)
@@ -77,7 +93,7 @@ public class MyTimelineRecyclerAdapter extends RecyclerView.Adapter<MyTimelineRe
                 notifyDataSetChanged();
             }
         });
-        //animateStackByStack(holder.itemView, position);
+        animateStackByStack(holder.itemView, position);
     }
 
     @Override

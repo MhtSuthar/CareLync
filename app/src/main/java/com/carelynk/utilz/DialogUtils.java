@@ -3,8 +3,12 @@ package com.carelynk.utilz;
 import android.app.Dialog;
 import android.content.Context;
 import android.graphics.drawable.ColorDrawable;
+import android.view.Gravity;
 import android.view.Window;
+import android.view.WindowManager;
 import android.widget.RelativeLayout;
+
+import com.carelynk.R;
 
 
 /**
@@ -18,7 +22,7 @@ public class DialogUtils {
         this.context=context;
     }
 
-    /*public Dialog setupCustomeDialogFromBottom(int layout) {
+    public Dialog setupCustomeDialogFromBottom(int layout) {
         Dialog dialog = new Dialog(context, R.style.ThemeDialog);
         dialog.getWindow().getAttributes().windowAnimations = R.style.ThemeDialog;
         Window window = dialog.getWindow();
@@ -31,7 +35,7 @@ public class DialogUtils {
         dialog.setContentView(layout);
         dialog.getWindow().setLayout(RelativeLayout.LayoutParams.MATCH_PARENT, RelativeLayout.LayoutParams.WRAP_CONTENT);
         return dialog;
-    }*/
+    }
 
 
    /* public Dialog showDialogForValidation(int layout) {

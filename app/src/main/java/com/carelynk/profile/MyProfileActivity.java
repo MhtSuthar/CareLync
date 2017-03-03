@@ -1,5 +1,6 @@
 package com.carelynk.profile;
 
+import android.content.Intent;
 import android.databinding.DataBindingUtil;
 import android.os.Build;
 import android.os.Bundle;
@@ -43,6 +44,13 @@ public class MyProfileActivity extends BaseActivity {
             @Override
             public void onClick(View v) {
                 onBackPressed();
+            }
+        });
+
+        binding.btnEdit.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                moveActivity(new Intent(MyProfileActivity.this, EditProfileActivity.class), MyProfileActivity.this);
             }
         });
     }

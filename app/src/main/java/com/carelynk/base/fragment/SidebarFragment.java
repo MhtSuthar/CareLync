@@ -17,12 +17,16 @@ import com.carelynk.base.BaseActivity;
 import com.carelynk.base.BaseActivityWithSidebar;
 import com.carelynk.base.BaseFragment;
 import com.carelynk.base.adapter.SlideMenuRecyclerAdapter;
-import com.carelynk.dashboard.HomeActivity;
+import com.carelynk.dashboard.MenuActivity;
 import com.carelynk.databinding.FragmentSidebarBinding;
-import com.carelynk.recent.RecentActivity;
+import com.carelynk.prelogin.PreLoginActivity;
+import com.carelynk.dashboard.HomeActivity;
 import com.carelynk.profile.MyProfileActivity;
+import com.carelynk.search.MySearchActivity;
+import com.carelynk.storage.SharedPreferenceUtil;
 import com.carelynk.utilz.CircleTransform;
 import com.carelynk.utilz.Constants;
+import com.carelynk.utilz.PrefUtils;
 
 /**
  * Created by Admin on 12-Sep-16.
@@ -55,7 +59,10 @@ public class SidebarFragment extends BaseFragment {
         showAlertDialog(new BaseActivity.OnDialogClick() {
             @Override
             public void onPositiveBtnClick() {
-
+                SharedPreferenceUtil.putValue(PrefUtils.PREF_IS_LOGIN, false);
+                SharedPreferenceUtil.save();
+                moveActivity(new Intent(getActivity(), PreLoginActivity.class), getActivity(), true);
+                //getActivity().finish();
             }
 
             @Override
@@ -83,7 +90,7 @@ public class SidebarFragment extends BaseFragment {
                 new Handler().postDelayed(new Runnable() {
                     @Override
                     public void run() {
-                        moveActivity(new Intent(getActivity(), HomeActivity.class), getActivity(), true);
+                        moveActivity(new Intent(getActivity(), MenuActivity.class), getActivity(), true);
                     }
                 }, 400);
 
@@ -93,7 +100,7 @@ public class SidebarFragment extends BaseFragment {
                 new Handler().postDelayed(new Runnable() {
                     @Override
                     public void run() {
-                        Intent intent = new Intent(getActivity(), RecentActivity.class);
+                        Intent intent = new Intent(getActivity(), HomeActivity.class);
                         intent.putExtra(Constants.BUNDLE_WHICH_LINK, 0);
                         moveActivity(intent, getActivity(), false);
                     }
@@ -105,7 +112,27 @@ public class SidebarFragment extends BaseFragment {
                 new Handler().postDelayed(new Runnable() {
                     @Override
                     public void run() {
+                        moveActivity(new Intent(getActivity(), MySearchActivity.class), getActivity(), false);
+                    }
+                }, 400);
+
+                break;
+            case 3:
+                ((BaseActivityWithSidebar)getActivity()).closeDrawer();
+                new Handler().postDelayed(new Runnable() {
+                    @Override
+                    public void run() {
                         moveActivity(new Intent(getActivity(), MyProfileActivity.class), getActivity(), false);
+                    }
+                }, 400);
+
+                break;
+            case 4:
+                ((BaseActivityWithSidebar)getActivity()).closeDrawer();
+                new Handler().postDelayed(new Runnable() {
+                    @Override
+                    public void run() {
+                       // moveActivity(new Intent(getActivity(), MySearchActivity.class), getActivity(), false);
                     }
                 }, 400);
 

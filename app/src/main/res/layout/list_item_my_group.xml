@@ -1,95 +1,91 @@
 <?xml version="1.0" encoding="utf-8"?>
-<layout xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    xmlns:tools="http://schemas.android.com/tools">
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:orientation="vertical"
+    android:paddingLeft="5dp"
+    android:paddingRight="5dp"
+    android:paddingTop="1dp">
 
-    <data>
-
-        <variable
-            name="feed"
-            type="com.carelynk.recent.model.TimelineModel" />
-    </data>
-
-    <LinearLayout
+    <android.support.v7.widget.CardView
+        android:id="@+id/cardView"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:orientation="vertical"
-        android:paddingLeft="@dimen/common_margin"
-        android:paddingRight="@dimen/common_margin"
-        android:paddingTop="1dp">
+        app:cardBackgroundColor="@android:color/white"
+        app:cardElevation="5dp"
+        app:cardPreventCornerOverlap="true"
+        app:cardUseCompatPadding="true">
 
-        <android.support.v7.widget.CardView
-            android:id="@+id/cardView"
+        <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            app:cardBackgroundColor="@android:color/white"
-            app:cardElevation="5dp"
-            app:cardPreventCornerOverlap="true"
-            app:cardUseCompatPadding="true">
+            android:orientation="vertical">
+
+            <TextView
+                android:id="@+id/txtGroupName"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_toLeftOf="@+id/txtFollow"
+                android:padding="@dimen/activity_horizontal_margin"
+                android:paddingRight="@dimen/item_margin"
+                android:textAppearance="?android:textAppearanceMedium"
+                android:textColor="@android:color/black"
+                tools:text="gdfgdfg" />
+
+            <ImageView
+                android:id="@+id/imgGroup"
+                android:layout_width="match_parent"
+                android:layout_height="120dp"
+                android:scaleType="centerCrop"
+                android:visibility="gone"
+                android:src="@drawable/dummy_bg_img" />
 
             <RelativeLayout
                 android:layout_width="match_parent"
-                android:layout_height="100dp"
-                android:orientation="vertical">
+                android:layout_height="wrap_content">
 
-                <ImageView
-                    android:id="@+id/imgGroup"
-                    android:layout_width="100dp"
-                    android:layout_height="match_parent"
-                    android:scaleType="centerCrop"
-                    android:src="@drawable/dummy_bg_img" />
-
-
-                <LinearLayout
+                <TextView
+                    android:id="@+id/txtDesc"
                     android:layout_width="match_parent"
-                    android:layout_height="match_parent"
-                    android:layout_toLeftOf="@+id/txtFollow"
-                    android:padding="@dimen/common_margin"
-                    android:layout_toRightOf="@+id/imgGroup"
-                    android:gravity="center|left"
-                    android:orientation="vertical">
+                    android:layout_height="wrap_content"
+                    android:padding="@dimen/activity_horizontal_margin"
+                    android:paddingRight="@dimen/item_margin"
+                    android:textAppearance="?android:textAppearanceMedium"
+                    android:textColor="@android:color/black"
+                    tools:text="gdfgdfg" />
 
-                    <TextView
-                        android:id="@+id/txtGroupName"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:text="@{feed.name}"
-                        android:textAppearance="?android:textAppearanceMedium"
-                        android:textColor="@color/colorPrimaryDark"
-                        app:font="@{`bold`}"
-                        tools:text="dfsdfdsfsdf sdf"
-
-                        />
-
-                    <TextView
-                        android:id="@+id/txtCreated"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:text="created by Anuj"
-                        android:textAppearance="?android:textAppearanceSmall"
-                        android:textColor="@color/colorPrimaryDark"
-                        app:font="@{`light`}" />
-
-                </LinearLayout>
+                <TextView
+                    android:id="@+id/txtCreatedName"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentRight="true"
+                    android:layout_below="@+id/txtDesc"
+                    android:padding="@dimen/activity_horizontal_margin"
+                    android:paddingRight="@dimen/item_margin"
+                    android:textAppearance="?android:textAppearanceSmall"
+                    android:textColor="@color/color_text_dark"
+                    tools:text="gdfgdfg" />
 
                 <TextView
                     android:id="@+id/txtFollow"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_alignParentRight="true"
-                    android:layout_centerVertical="true"
                     android:layout_margin="@dimen/common_margin"
-                    android:padding="@dimen/common_margin"
-                    android:textColor="@{feed.isFollowing ? @color/white : @color/colorPrimary}"
-                    android:background="@{feed.isFollowing ? @drawable/rectangle_blue : @drawable/rectangle_white}"
-                    android:text="@{feed.isFollowing ? `Following` : `Follow`}"
-                    app:font="@{`medium`}" />
+                    android:background="@drawable/round_corner_blue"
+                    android:text="Follow"
+                    android:textColor="@color/colorPrimary"
+                    android:visibility="gone" />
 
             </RelativeLayout>
 
 
-        </android.support.v7.widget.CardView>
+        </LinearLayout>
 
 
-    </LinearLayout>
-</layout>
+    </android.support.v7.widget.CardView>
+
+
+</LinearLayout>
