@@ -104,6 +104,7 @@
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:text="Basic Info :"
+                            android:visibility="gone"
                             android:textAppearance="?android:textAppearanceMedium"
                             android:textColor="@color/colorAccent" />
 
@@ -124,53 +125,22 @@
 
                         </android.support.design.widget.TextInputLayout>
 
-                        <LinearLayout
+                        <android.support.design.widget.TextInputLayout
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
-                            android:orientation="horizontal">
+                            android:textColorHint="@color/color_text_dark">
 
-                            <android.support.design.widget.TextInputLayout
-                                android:layout_width="0dp"
+                            <EditText
+                                android:id="@+id/edtEventAddress"
+                                android:layout_width="match_parent"
                                 android:layout_height="wrap_content"
-                                android:layout_weight="1"
-                                android:textColorHint="@color/color_text_dark">
+                                android:hint="@string/event_adress"
+                                android:textColor="@android:color/black"
+                                android:textAppearance="?android:textAppearanceMedium" />
+                            android:textColorHint="@color/color_text_dark"
+                            app:font="@{`light`}" />
 
-                                <EditText
-                                    android:id="@+id/edtEventFromDate"
-                                    android:layout_width="match_parent"
-                                    android:layout_height="wrap_content"
-                                    android:focusable="false"
-                                    android:hint="From Date"
-                                    android:lines="1"
-                                    android:textColor="@android:color/black"
-                                    android:textAppearance="?android:textAppearanceMedium"
-                                    android:textColorHint="@color/color_text_dark"
-                                    app:font="@{`light`}" />
-
-                            </android.support.design.widget.TextInputLayout>
-
-                            <android.support.design.widget.TextInputLayout
-                                android:layout_width="0dp"
-                                android:layout_height="wrap_content"
-                                android:layout_weight="1"
-                                android:textColorHint="@color/color_text_dark">
-
-                                <EditText
-                                    android:id="@+id/edtEventToDate"
-                                    android:layout_width="match_parent"
-                                    android:layout_height="wrap_content"
-                                    android:focusable="false"
-                                    android:hint="To Date"
-                                    android:lines="1"
-                                    android:textColor="@android:color/black"
-                                    android:textAppearance="?android:textAppearanceMedium"
-                                    android:textColorHint="@color/color_text_dark"
-                                    app:font="@{`light`}" />
-
-                            </android.support.design.widget.TextInputLayout>
-
-
-                        </LinearLayout>
+                        </android.support.design.widget.TextInputLayout>
 
                         <LinearLayout
                             android:layout_width="match_parent"
@@ -184,11 +154,11 @@
                                 android:textColorHint="@color/color_text_dark">
 
                                 <EditText
-                                    android:id="@+id/edtEventFromTime"
+                                    android:id="@+id/edtEventDate"
                                     android:layout_width="match_parent"
                                     android:layout_height="wrap_content"
                                     android:focusable="false"
-                                    android:hint="Time From"
+                                    android:hint="Date"
                                     android:lines="1"
                                     android:textColor="@android:color/black"
                                     android:textAppearance="?android:textAppearanceMedium"
@@ -204,11 +174,11 @@
                                 android:textColorHint="@color/color_text_dark">
 
                                 <EditText
-                                    android:id="@+id/edtEventToTime"
+                                    android:id="@+id/edtEventTime"
                                     android:layout_width="match_parent"
                                     android:layout_height="wrap_content"
                                     android:focusable="false"
-                                    android:hint="Time to"
+                                    android:hint="Time"
                                     android:lines="1"
                                     android:textColor="@android:color/black"
                                     android:textAppearance="?android:textAppearanceMedium"
@@ -219,6 +189,8 @@
 
 
                         </LinearLayout>
+
+
 
                         <TextView
                             android:layout_width="wrap_content"
@@ -226,6 +198,7 @@
                             android:layout_marginLeft="5dp"
                             android:layout_marginTop="10dp"
                             android:text="Event Type :"
+                            android:visibility="gone"
                             android:textAppearance="?android:textAppearanceMedium"
                             android:textColor="@color/colorAccent" />
 
@@ -233,6 +206,7 @@
                             android:id="@+id/radioGroup"
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
+                            android:visibility="gone"
                             android:layout_below="@+id/imageView"
                             android:orientation="horizontal"
                             android:weightSum="1">
@@ -260,47 +234,26 @@
 
                 </LinearLayout>
 
-                <LinearLayout
+                <android.support.design.widget.TextInputLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_marginTop="10dp"
-                    android:padding="@dimen/activity_horizontal_margin">
+                    android:layout_margin="@dimen/activity_horizontal_margin"
+                    android:textColorHint="@color/color_text_dark">
 
-                    <LinearLayout
+                    <EditText
+                        android:id="@+id/edtDesc"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:orientation="vertical">
+                        android:gravity="top"
+                        android:hint="@string/description"
+                        android:inputType="textMultiLine"
+                        android:minHeight="80dp"
+                        android:textAppearance="?android:textAppearanceMedium"
+                        android:textColor="@android:color/black"
+                        android:textColorHint="@color/color_text_dark"
+                        app:font="@{`light`}" />
 
-                        <TextView
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:text="Other Details :"
-                            android:textAppearance="?android:textAppearanceMedium"
-                            android:textColor="@color/colorAccent" />
-
-                        <android.support.design.widget.TextInputLayout
-                            android:layout_width="match_parent"
-                            android:layout_height="wrap_content"
-                            android:textColorHint="@color/color_text_dark">
-
-                            <EditText
-                                android:id="@+id/edtDesc"
-                                android:layout_width="match_parent"
-                                android:layout_height="wrap_content"
-                                android:gravity="top"
-                                android:hint="@string/description"
-                                android:inputType="textMultiLine"
-                                android:minHeight="120dp"
-                                android:textAppearance="?android:textAppearanceMedium"
-                                android:textColor="@android:color/black"
-                                android:textColorHint="@color/color_text_dark"
-                                app:font="@{`light`}" />
-
-                        </android.support.design.widget.TextInputLayout>
-                    </LinearLayout>
-
-
-                </LinearLayout>
+                </android.support.design.widget.TextInputLayout>
 
 
             </LinearLayout>

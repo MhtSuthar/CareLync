@@ -22,16 +22,14 @@ import java.net.URL;
 
 public class JsonParser {
 
-	private final String BaseUrl = "http://wcfcarelynk.shauryatech.co.in.204-11-58-75.bhus-pp-wb8.webhostbox.net/Service1.svc/";
-
 	public String postResponse(String mUrl, JSONObject object) throws Exception {
 		HttpURLConnection conexao = null;
 		if (Build.VERSION.SDK_INT < Build.VERSION_CODES.FROYO) {
 			System.setProperty("http.keepAlive", "false");
 		}
 		try {
-			Log.e("url", ""+BaseUrl+""+mUrl);
-			URL url = new URL(BaseUrl+""+mUrl);
+			Log.e("url", ""+mUrl);
+			URL url = new URL(mUrl);
 			conexao = (HttpURLConnection) url.openConnection();
 			conexao.setConnectTimeout(20000);
 			conexao.setReadTimeout(15000);
@@ -85,7 +83,7 @@ public class JsonParser {
 	}
 
 	public String postToResponse(String mUrl, String object) throws IOException, JSONException {
-		URL url = new URL(BaseUrl+""+mUrl);
+		URL url = new URL(mUrl);
 		HttpURLConnection conn = (HttpURLConnection) url.openConnection();
 		conn.setConnectTimeout(5000);
 		conn.setRequestProperty("Content-Type", "application/json; charset=UTF-8");
@@ -99,7 +97,7 @@ public class JsonParser {
 
 		// read the response
 		InputStream in = new BufferedInputStream(conn.getInputStream());
-		Log.e("url", ""+BaseUrl+""+mUrl);
+		Log.e("url", ""+mUrl);
 		Log.e("req code", ""+conn.getResponseCode());
 		BufferedReader reader = new BufferedReader(new InputStreamReader(in));
 		StringBuilder result = new StringBuilder();
@@ -118,8 +116,8 @@ public class JsonParser {
 		StringBuffer response = null;
 		HttpURLConnection urlConnection = null;
 		try {
-			Log.e("Url",""+BaseUrl+""+mUrl);
-			url = new URL(BaseUrl+""+mUrl);
+			Log.e("Url",""+mUrl);
+			url = new URL(mUrl);
 
 			urlConnection = (HttpURLConnection) url
 					.openConnection();

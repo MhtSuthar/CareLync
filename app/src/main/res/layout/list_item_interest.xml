@@ -13,7 +13,7 @@
             android:id="@+id/imgSelect"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:background="@drawable/circle_white_trasparent_bg"
+            android:background="@drawable/circle_blue_trasparent_bg"
             />
 
         <TextView
@@ -23,7 +23,7 @@
             android:text="df"
             android:gravity="center"
             android:textAppearance="?android:textAppearanceSmall"
-            android:textColor="@android:color/white"
+            android:textColor="@color/colorAccent"
             android:layout_centerInParent="true"
             />
 

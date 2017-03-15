@@ -1,5 +1,6 @@
 <resources>
     <string name="app_name">CareLynk</string>
+    <string name="google_api_key">AIzaSyD2ncaSbNnw6rjv6C3ZA-EBjV4AG3Kt5qo</string>
 
     <string name="navigation_drawer_open">Open navigation drawer</string>
     <string name="navigation_drawer_close">Close navigation drawer</string>
@@ -10,7 +11,7 @@
     <string name="enter_password">Enter Password</string>
     <string name="registation">Registation</string>
     <string name="remember_me">Remember Me</string>
-    <string name="dummy_text">It is a long established fact that a reader will be distracted by the readable content of a page when looking at its layout. The point of using Lorem Ipsum is that it has a more-or-less normal distribution of letters</string>
+    <string name="dummy_text">It is a long established fact that a reader will be distracted by the readable content of a page when looking at its layout.</string>
     <string name="logout">Logout</string>
     <string name="sure_logout">Are you sure want to logout?</string>
     <string name="register_if_not_member">No account yet? Register</string>
@@ -21,7 +22,7 @@
     <string name="my_forum">My Forum</string>
     <string name="health_feed">Health Feed</string>
     <string name="my_event">My Event</string>
-    <string name="my_search">Discovery</string>
+    <string name="my_search">Search</string>
     <string name="back_to_login">Back To Login</string>
     <string name="add_photo">Add your photo</string>
     <string name="follow">Follow</string>
@@ -69,6 +70,20 @@
     <string name="select_gender">Please select gender</string>
     <string name="enter_about_me">Please enter about me</string>
     <string name="select_interest">Select your interest</string>
+    <string name="forget_pass">Forgot Password</string>
+    <string name="send">Send</string>
+    <string name="comment">Comment</string>
+    <string name="registation_success">Registation Success</string>
+    <string name="event_adress">Enter Location or Address</string>
+    <string name="are_you_sure_logout">Are you sure want to logout?</string>
+    <string name="delete">Delete</string>
+    <string name="are_you_sure_delete">Are you sure want to delete?</string>
+    <string name="edit_event">Edit Event</string>
+    <string name="ask_a_question">Ask a Question?</string>
+    <string name="write_a_article">Write a Article</string>
+    <string name="tag_line">Helping you to lead a Stronger and Healthier Life</string>
+    <string name="search_from_google">Search From Google</string>
+    <string name="event_detail">Event Detail</string>
 
     <string-array name="gender">
         <item>Gender</item>

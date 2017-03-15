@@ -394,6 +394,7 @@ public class RegistrationFragment extends BaseFragment {
     }
 
     private void attemptRegistration() {
+        DialogUtils.showProgressDialog(getActivity());
         ApiInterface apiInterface = ApiFactory.provideInterface();
             RegisterStepOne registerStepOne = new RegisterStepOne(Float.parseFloat(binding.edtContactNo.getText().toString()),
                     binding.edtEmail.getText().toString(),
@@ -403,21 +404,12 @@ public class RegistrationFragment extends BaseFragment {
                     binding.edtName.getText().toString(),
                     binding.spnrGender.getSelectedItem().toString(),
                     AppUtils.formattedDate("dd MMMM yyyy", "dd/MM/yyyy", binding.edtDateOfBirth.getText().toString()),
-                    0);
-           /* HashMap<String, String> mMap = new HashMap<>();
-            mMap.put(Constants.Email, binding.edtEmail.getText().toString());
-            mMap.put(Constants.PasswordHash, binding.edtPassword.getText().toString());
-            mMap.put(Constants.AboutMe, binding.edtPassword.getText().toString());
-            mMap.put(Constants.ContactNo, binding.edtPassword.getText().toString());
-            mMap.put(Constants.DateOfBirth, binding.edtPassword.getText().toString());
-            mMap.put(Constants.Gender, binding.edtPassword.getText().toString());
-            mMap.put(Constants.FirstName, binding.edtPassword.getText().toString());
-            mMap.put(Constants.LastName, binding.edtPassword.getText().toString());
-            mMap.put(Constants.UserProfileId, binding.edtPassword.getText().toString());*/
+                    getGender());
             Call<JsonObject> call = apiInterface.registrationOne(registerStepOne);
             call.enqueue(new Callback<JsonObject>() {
                 @Override
                 public void onResponse(Call<JsonObject>call, Response<JsonObject> response) {
+                    DialogUtils.stopProgressDialog();
                     if (response.isSuccessful()) {
                         try{
                             JSONObject jsonObject = new JSONObject(response.body().toString());
@@ -437,6 +429,12 @@ public class RegistrationFragment extends BaseFragment {
                     Log.e(TAG, t.toString());
                 }
             });
+    }
+
+    private int getGender() {
+        if(binding.spnrGender.getSelectedItem().toString().equalsIgnoreCase("men"))
+            return 0;
+        return 1;
     }
 
 

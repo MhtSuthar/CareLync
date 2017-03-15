@@ -9,6 +9,7 @@
         android:id="@+id/circleAnim"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:layout_centerInParent="true"
         app:indicator="LineScalePulseOutRapid"
         app:indicator_color="@android:color/white"
         />

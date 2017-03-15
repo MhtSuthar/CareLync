@@ -12,7 +12,7 @@ import retrofit2.converter.gson.GsonConverterFactory;
 public class ApiFactory {
 
     //static String API_BASE_URL="http://wcfcarelynk.shauryatech.co.in.204-11-58-75.bhus-pp-wb8.webhostbox.net/Service1.svc/";
-    static String API_BASE_URL = "http://wcf.carelynk.com/api/";
+    public static String API_BASE_URL = "http://wcf.carelynk.com/api/";
 
     private static Retrofit retrofit = null;
 

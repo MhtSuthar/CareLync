@@ -5,14 +5,25 @@ import android.databinding.DataBindingUtil;
 import android.os.Build;
 import android.os.Bundle;
 import android.support.v4.content.ContextCompat;
+import android.util.Log;
 import android.view.Gravity;
 import android.view.View;
 import android.view.WindowManager;
 
 import com.carelynk.R;
 import com.carelynk.base.BaseActivity;
-import com.carelynk.databinding.ActivityHomeBinding;
 import com.carelynk.databinding.ActivityMyProfileBinding;
+import com.carelynk.rest.ApiFactory;
+import com.carelynk.rest.ApiInterface;
+import com.carelynk.rest.AsyncTaskGetCommon;
+import com.carelynk.rest.Urls;
+import com.google.gson.JsonArray;
+
+import org.json.JSONArray;
+
+import retrofit2.Call;
+import retrofit2.Callback;
+import retrofit2.Response;
 
 /**
  * Created by Admin on 15-Sep-16.
@@ -20,6 +31,7 @@ import com.carelynk.databinding.ActivityMyProfileBinding;
 public class MyProfileActivity extends BaseActivity {
 
     private ActivityMyProfileBinding binding;
+    private static final String TAG = "lMyProfileActivity";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -28,6 +40,21 @@ public class MyProfileActivity extends BaseActivity {
         setupSlideWindowAnimationSlide(Gravity.BOTTOM);
         binding = DataBindingUtil.setContentView(this, R.layout.activity_my_profile);
         init();
+        getProfile();
+    }
+
+    void getProfile() {
+        if (isOnline(this)) {
+            AsyncTaskGetCommon asyncTaskGetCommon = new AsyncTaskGetCommon(this, new AsyncTaskGetCommon.AsyncTaskCompleteListener() {
+                @Override
+                public void onTaskComplete(String result) {
+                    Log.e(TAG, "onTaskComplete: "+result);
+                }
+            });
+            asyncTaskGetCommon.execute(ApiFactory.API_BASE_URL+""+ Urls.GET_PROFILE);
+        } else {
+            showSnackbar(binding.getRoot(), getString(R.string.no_internet));
+        }
     }
 
     void init(){

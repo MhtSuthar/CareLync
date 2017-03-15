@@ -35,9 +35,6 @@ public class AppUtils {
     public static String Extra_Goal_Id = "goal_id";
     public static String Extra_Group_Id = "group_id";
 
-
-    private static Dialog dialog;
-
     public static void closeKeyBoard(Activity context) {
         View view =  context.getCurrentFocus();
         if (view != null) {
@@ -131,26 +128,5 @@ public class AppUtils {
         return formattedDate;
     }
 
-    public static void showProgressDialog(Context context) {
-        if (dialog != null) {
-            if (dialog.isShowing())
-                dialog.dismiss();
-            dialog = null;
-        }
-        dialog = new Dialog(context);
-        dialog.requestWindowFeature(Window.FEATURE_NO_TITLE);
-        dialog.setCancelable(false);
-        dialog.getWindow().setBackgroundDrawable(new ColorDrawable(android.graphics.Color.TRANSPARENT));
-       // dialog.setContentView(R.layout.dialog_loader);
-        dialog.show();
-    }
-
-    public static void stopProgressDialog() {
-        if (dialog != null) {
-            if (dialog.isShowing())
-                dialog.dismiss();
-            dialog = null;
-        }
-    }
 
 }

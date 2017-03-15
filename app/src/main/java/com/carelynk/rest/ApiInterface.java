@@ -1,6 +1,7 @@
 package com.carelynk.rest;
 
 import com.carelynk.prelogin.model.RegisterStepOne;
+import com.carelynk.prelogin.model.RegisterStepTwo;
 import com.google.gson.JsonArray;
 import com.google.gson.JsonObject;
 
@@ -19,22 +20,23 @@ import retrofit2.http.Part;
 
 public interface ApiInterface {
 
-    @FormUrlEncoded
     @POST("UserProfile/login")
-    Call<JsonObject> login(@FieldMap HashMap<String, String> authData);
+    Call<JsonObject> login(@Body JsonObject bean);
 
     @POST("UserProfile/Registration")
     Call<JsonObject> registrationOne(@Body RegisterStepOne registerStepOne);
 
-    @FormUrlEncoded
     @POST("UserProfile/Registration2")
-    Call<JsonObject> registrationTwo(@FieldMap HashMap<String, String> authData);
+    Call<JsonObject> registrationTwo(@Body RegisterStepTwo registerStepTwo);
 
     @GET(Urls.GET_MAIN_GROUP)
     Call<JsonArray> getMainGroupJs();
 
-    @GET(Urls.GET_GROUP_POST)
-    Call<JsonArray> getGroupDetail();
+    @GET(Urls.GET_HELTH_FEED)
+    Call<JsonArray> getHealthFeed();
+
+    @GET(Urls.GET_HELTH_FEED)
+    Call<JsonObject> getProfile();
 
     @Multipart
     @POST("api/editUserProfile")

@@ -13,6 +13,7 @@ import android.view.animation.ScaleAnimation;
 
 import com.carelynk.R;
 import com.carelynk.base.BaseActivity;
+import com.carelynk.dashboard.HomeActivity;
 import com.carelynk.dashboard.MenuActivity;
 import com.carelynk.databinding.ActivitySplashBinding;
 import com.carelynk.storage.SharedPreferenceUtil;
@@ -43,6 +44,11 @@ public class SplashActivity extends BaseActivity {
         fade_in.setDuration(1000);
         fade_in.setFillAfter(true);
         findViewById(R.id.txtAppName).startAnimation(fade_in);
+
+        ScaleAnimation fade_inTag =  new ScaleAnimation(0f, 1f, 0f, 1f, Animation.RELATIVE_TO_SELF, 0.5f, Animation.RELATIVE_TO_SELF, 0.5f);
+        fade_inTag.setDuration(1000);
+        fade_inTag.setFillAfter(true);
+        findViewById(R.id.txtTagLine).startAnimation(fade_inTag);
     }
 
     void startTimer(){
@@ -51,7 +57,7 @@ public class SplashActivity extends BaseActivity {
             public void run() {
                 Intent intent;
                 if(SharedPreferenceUtil.getBoolean(PrefUtils.PREF_IS_LOGIN, false))
-                    intent = new Intent(SplashActivity.this, MenuActivity.class);
+                    intent = new Intent(SplashActivity.this, HomeActivity.class);
                 else
                     intent = new Intent(SplashActivity.this, PreLoginActivity.class);
                 startActivity(intent);

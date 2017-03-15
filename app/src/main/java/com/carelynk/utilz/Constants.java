@@ -24,7 +24,7 @@ public class Constants {
      */
     public static final String BUNDLE_WHICH_LINK = "which_link";
     public static final String BUNDLE_USER_ID = "key_id";
-
+    public static final String EXTRA_IS_FOR_EDIT_EVENT = "is_from_edit_event";
 
     /**
      * This for passing ws data
@@ -39,4 +39,7 @@ public class Constants {
     public static final String Gender = "Gender";
     public static final String ContactNo = "ContactNo";
 
+
+    public static final int REQUEST_CODE_FINE_LOCATION = 505;
+    public static final int REQUEST_LOCATION = 506;
 }

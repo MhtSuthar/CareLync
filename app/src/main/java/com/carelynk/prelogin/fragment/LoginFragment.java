@@ -13,19 +13,16 @@ import android.view.ViewGroup;
 import com.carelynk.R;
 import com.carelynk.base.BaseFragment;
 import com.carelynk.dashboard.HomeActivity;
-import com.carelynk.dashboard.MenuActivity;
 import com.carelynk.databinding.FragmentLoginBinding;
 import com.carelynk.rest.ApiFactory;
 import com.carelynk.rest.ApiInterface;
 import com.carelynk.storage.SharedPreferenceUtil;
 import com.carelynk.utilz.Constants;
+import com.carelynk.utilz.DialogUtils;
 import com.carelynk.utilz.PrefUtils;
 import com.google.gson.JsonObject;
 
-import org.json.JSONArray;
 import org.json.JSONObject;
-
-import java.util.HashMap;
 
 import retrofit2.Call;
 import retrofit2.Callback;
@@ -48,21 +45,23 @@ public class LoginFragment extends BaseFragment {
     @Override
     public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
+
+        binding.chkRemember.setChecked(SharedPreferenceUtil.getBoolean(PrefUtils.PREF_REMEMBER_ME, false));
+        if(SharedPreferenceUtil.getBoolean(PrefUtils.PREF_REMEMBER_ME, false)){
+            binding.edtEmail.setText(SharedPreferenceUtil.getString(PrefUtils.PREF_EMAIL, ""));
+            binding.edtPass.setText(SharedPreferenceUtil.getString(PrefUtils.PREF_PASSWORD, ""));
+        }
+
         binding.btnLogin.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 if(isValid()) {
-                    SharedPreferenceUtil.putValue(PrefUtils.PREF_IS_LOGIN, true);
-                    SharedPreferenceUtil.save();
-                    Intent intent = new Intent(getActivity(), HomeActivity.class);
-                    //intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_CLEAR_TOP);
-                    moveActivity(intent, getActivity(), true);
+                    attemptLogin();
                 }else {
-                    Intent intent = new Intent(getActivity(), HomeActivity.class);
+                    /*Intent intent = new Intent(getActivity(), HomeActivity.class);
                     //intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_CLEAR_TOP);
-                    moveActivity(intent, getActivity(), true);
+                    moveActivity(intent, getActivity(), true);*/
                 }
-
             }
         });
 
@@ -88,24 +87,49 @@ public class LoginFragment extends BaseFragment {
         return true;
     }
 
-    private void attempLogin() {
+    private void attemptLogin() {
         if(isOnline(getContext())){
+            DialogUtils.showProgressDialog(getContext());
             ApiInterface apiInterface = ApiFactory.provideInterface();
-            HashMap<String, String> mMap = new HashMap<>();
-            mMap.put(Constants.Email, binding.edtEmail.getText().toString());
-            mMap.put(Constants.PasswordHash, binding.edtPass.getText().toString());
-            Call<JsonObject> call = apiInterface.login(mMap);
+            JsonObject payerReg = new JsonObject();
+            payerReg.addProperty(Constants.Email, binding.edtEmail.getText().toString());
+            payerReg.addProperty(Constants.PasswordHash, binding.edtPass.getText().toString());
+            Log.e(TAG, "attemptLogin: "+payerReg.toString());
+            Call<JsonObject> call = apiInterface.login(payerReg);
             call.enqueue(new Callback<JsonObject>() {
                 @Override
                 public void onResponse(Call<JsonObject>call, Response<JsonObject> response) {
+                    DialogUtils.stopProgressDialog();
                     if (response.isSuccessful()) {
                         try{
-                            JSONArray jsonArray = new JSONArray(response.body().toString());
-                            for (int i = 0; i < jsonArray.length(); i++) {
-                                //[{"mMainGroupID":1,"MainGroupName":"Heath"},
-                                JSONObject object = jsonArray.getJSONObject(i);
-
+                            // {"PasswordHash":null,"ProfilePicUrl":null,"IsSuccess":false,"ErrorMessage":"Login Id is invalid!"
+                            // ,"Message":"Login Id is invalid!","UserProfileId":0,"DateEdited":"0001-01-01T00:00:00",
+                            // "Email":null,"FirstName":null,"LastName":null,
+                            // "DateOfBirth":null,"Gender":null,"Address":null,"City":null,"State":null,"Country":null,"ZipCode":null,"ContactNo":null,"UserId":null,"DisplayName":null,"AboutMe":null,"AboutMeText":null,"Alternate_EmailID":null,"Marital_Status":null,"Occupation":null,"Food_Habits":null,"Someone_Message_Email":null,"Friend_Request_Email":null,"News_Updates_Protal_Email":null,"Recd_notif_Email":null,"IsPrivate_Profile":null,"Profile_Persent":null,"InterestArea":null}
+                            JSONObject jsonObject = new JSONObject(response.body().toString());
+                            if (jsonObject.getBoolean("IsSuccess")) {
+                                SharedPreferenceUtil.putValue(PrefUtils.PREF_IS_LOGIN, true);
+                                SharedPreferenceUtil.putValue(PrefUtils.PREF_PASSWORD, jsonObject.getString("PasswordHash"));
+                                SharedPreferenceUtil.putValue(PrefUtils.PREF_PROFILE_PIC,  jsonObject.getString("ProfilePicUrl"));
+                                SharedPreferenceUtil.putValue(PrefUtils.PREF_USER_PROFILE_ID, jsonObject.getInt("UserProfileId"));
+                                SharedPreferenceUtil.putValue(PrefUtils.PREF_EMAIL, jsonObject.getString("Email"));
+                                SharedPreferenceUtil.putValue(PrefUtils.PREF_FIRST_NAME, jsonObject.getString("FirstName"));
+                                SharedPreferenceUtil.putValue(PrefUtils.PREF_LAST_NAME,  jsonObject.getString("LastName"));
+                                SharedPreferenceUtil.putValue(PrefUtils.PREF_DATE_OF_BIRTH,  jsonObject.getString("DateOfBirth"));
+                                SharedPreferenceUtil.putValue(PrefUtils.PREF_GENDER,  jsonObject.getString("Gender"));
+                                SharedPreferenceUtil.putValue(PrefUtils.PREF_CONTACT,  jsonObject.getString("ContactNo"));
+                                SharedPreferenceUtil.putValue(PrefUtils.PREF_INTEREST_AREA,  jsonObject.getString("InterestArea"));
+                                SharedPreferenceUtil.putValue(PrefUtils.PREF_USER_ID, jsonObject.getString("UserId"));
+                                if(binding.chkRemember.isChecked())
+                                    SharedPreferenceUtil.putValue(PrefUtils.PREF_REMEMBER_ME, true);
+                                SharedPreferenceUtil.save();
+                                Intent intent = new Intent(getActivity(), HomeActivity.class);
+                                //intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_CLEAR_TOP);
+                                moveActivity(intent, getActivity(), true);
+                            }else{
+                                showSnackbar(binding.getRoot(), jsonObject.getString("ErrorMessage"));
                             }
+
                         }catch (Exception e){
                             e.printStackTrace();
                         }

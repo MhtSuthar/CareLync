@@ -3,6 +3,7 @@ package com.carelynk.dashboard.adapter;
 import android.content.Context;
 import android.support.v7.widget.CardView;
 import android.support.v7.widget.RecyclerView;
+import android.text.TextUtils;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -12,7 +13,9 @@ import android.widget.TextView;
 import com.bumptech.glide.Glide;
 import com.carelynk.R;
 import com.carelynk.dashboard.fragment.HealthFeedsFragment;
-import com.carelynk.recent.model.HealthFeedModel;
+import com.carelynk.dashboard.model.HealthFeedModel;
+import com.carelynk.dashboard.model.HighlightModel;
+import com.carelynk.utilz.AppUtils;
 
 import java.util.List;
 
@@ -26,7 +29,7 @@ public class HealthFeedRecyclerAdapter extends RecyclerView.Adapter<HealthFeedRe
     private View header;
 
     private static final int ANIM_DURATION = 300;
-    private List<HealthFeedModel> mListPatient;
+    private List<HighlightModel> mListPatient;
     private Context mContext;
     private int lastPos = 0;
     private HealthFeedsFragment myForumFragment;
@@ -36,20 +39,22 @@ public class HealthFeedRecyclerAdapter extends RecyclerView.Adapter<HealthFeedRe
 
         public CardView cardView;
         public TextView txtGoalName, txtDesc;
-        public TextView txtCreatedName;
+        public TextView txtCreatedName, txtAnswer, txtSupport;
         public ImageView imgGroup;
 
         public ViewHolder(View rowView) {
             super(rowView);
             cardView = (CardView) rowView.findViewById(R.id.cardView);
             txtGoalName = (TextView) rowView.findViewById(R.id.txtGoalName);
+            txtAnswer = (TextView) rowView.findViewById(R.id.txtAnswer);
+            txtSupport = (TextView) rowView.findViewById(R.id.txtSupport);
             txtCreatedName = (TextView) rowView.findViewById(R.id.txtCreatedName);
             txtDesc = (TextView) rowView.findViewById(R.id.txtDesc);
             imgGroup = (ImageView) rowView.findViewById(R.id.imgGroup);
         }
     }
 
-    public HealthFeedRecyclerAdapter(View header, Context context, List<HealthFeedModel> mListPatient, HealthFeedsFragment myForumFragment) {
+    public HealthFeedRecyclerAdapter(View header, Context context, List<HighlightModel> mListPatient, HealthFeedsFragment myForumFragment) {
         if (header == null) {
             throw new IllegalArgumentException("header may not be null");
         }
@@ -80,11 +85,14 @@ public class HealthFeedRecyclerAdapter extends RecyclerView.Adapter<HealthFeedRe
         if (isHeader(position)) {
             return;
         }
-        final HealthFeedModel feedModel = mListPatient.get(position-1);
+        final HighlightModel feedModel = mListPatient.get(position-1);
         holder.txtGoalName.setText(feedModel.GoalName);
 
-        holder.txtCreatedName.setText("Created by "+feedModel.UserName);
-        holder.txtDesc.setText(feedModel.Desc);
+        holder.txtCreatedName.setText("Created by "+feedModel.UserName+" at "+ AppUtils.formattedDate("yyyy-MM-dd", "dd-MMM-yyyy", feedModel.CreatedDate.split("T")[0]));
+        holder.txtSupport.setText(""+feedModel.SupportCount+" Supports");
+        holder.txtSupport.setText(""+feedModel.AnswerCount+" Answers");
+        if(!TextUtils.isEmpty(feedModel.Desc))
+            holder.txtDesc.setText(feedModel.Desc);
 
         if(feedModel.PhotoURL != null && !feedModel.PhotoURL.equals("") && !feedModel.PhotoURL.equals("null")) {
             holder.imgGroup.setVisibility(View.VISIBLE);

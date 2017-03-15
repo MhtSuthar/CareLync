@@ -1,6 +1,8 @@
 package com.carelynk.prelogin.adapter;
 
 import android.content.Context;
+import android.graphics.Color;
+import android.support.v4.content.ContextCompat;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -77,7 +79,7 @@ public class InterestRecyclerAdapter extends RecyclerView.Adapter<InterestRecycl
     @Override
     public void onBindViewHolder(final ViewHolder holder, final int position) {
         holder.txtInterest.setText(mListPatient.get(position));
-        holder.txtInterest.setOnClickListener(new View.OnClickListener() {
+        holder.imgSelect.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 if(mSelectInterest[position]){
@@ -91,9 +93,11 @@ public class InterestRecyclerAdapter extends RecyclerView.Adapter<InterestRecycl
         });
 
         if(mSelectInterest[position]){
+            holder.txtInterest.setTextColor(Color.WHITE);
             holder.imgSelect.setBackgroundResource(R.drawable.circle_red_bg);
         }else{
-            holder.imgSelect.setBackgroundResource(R.drawable.circle_white_trasparent_bg);
+            holder.txtInterest.setTextColor(ContextCompat.getColor(mContext, R.color.colorAccent));
+            holder.imgSelect.setBackgroundResource(R.drawable.circle_blue_trasparent_bg);
         }
     }
 

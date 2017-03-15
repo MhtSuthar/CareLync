@@ -7,7 +7,7 @@
 
         <variable
             name="feed"
-            type="com.carelynk.recent.model.TimelineModel" />
+            type="com.carelynk.dashboard.model.GroupModel" />
     </data>
 
     <LinearLayout

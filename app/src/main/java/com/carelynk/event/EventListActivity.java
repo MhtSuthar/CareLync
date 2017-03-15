@@ -4,7 +4,10 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.design.widget.FloatingActionButton;
+import android.support.v4.app.DialogFragment;
 import android.support.v4.content.ContextCompat;
+import android.support.v7.widget.DefaultItemAnimator;
+import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
 import android.view.Gravity;
@@ -14,13 +17,17 @@ import android.widget.TextView;
 
 import com.carelynk.R;
 import com.carelynk.base.BaseActivity;
-import com.carelynk.recent.HealthFeedDetailActivity;
-import com.carelynk.recent.model.HealthFeedDetailModel;
-import com.carelynk.rest.AsyncTaskGetCommon;
-import com.carelynk.rest.Urls;
+import com.carelynk.dashboard.HomeActivity;
+import com.carelynk.dashboard.fragment.CommentDialogFragment;
+import com.carelynk.event.adapter.EventListAdapter;
+import com.carelynk.event.fragment.EventDetailDialogFragment;
+import com.carelynk.prelogin.PreLoginActivity;
+import com.carelynk.storage.SharedPreferenceUtil;
+import com.carelynk.utilz.AppUtils;
+import com.carelynk.utilz.Constants;
 
-import org.json.JSONArray;
-import org.json.JSONObject;
+import java.util.ArrayList;
+import java.util.List;
 
 /**
  * Created by Admin on 24-Dec-16.
@@ -32,8 +39,8 @@ public class EventListActivity extends BaseActivity {
     private FloatingActionButton mFloatingActionButton;
     private Toolbar toolbar;
     private TextView txtToolbar;
-    private AsyncTaskGetCommon asyncTaskGetCommon;
     private ProgressBar progressBar;
+    private EventListAdapter eventListAdapter;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -43,6 +50,7 @@ public class EventListActivity extends BaseActivity {
         setupWindowAnimationsExplodeSlide(Gravity.BOTTOM);
 
         initView();
+        setRecyclerAdapter();
     }
 
     private void initView() {
@@ -71,35 +79,57 @@ public class EventListActivity extends BaseActivity {
         });
     }
 
+    private void setRecyclerAdapter() {
+        eventListAdapter = new EventListAdapter(this, getDummyList(), EventListActivity.this);
+        mRecyclerView.setHasFixedSize(true);
+        LinearLayoutManager mLayoutManager = new LinearLayoutManager(this);
+        mRecyclerView.setLayoutManager(mLayoutManager);
+        mRecyclerView.setItemAnimator(new DefaultItemAnimator());
+        mRecyclerView.setAdapter(eventListAdapter);
+    }
+
+    private List<String> getDummyList() {
+        List<String> list = new ArrayList<>();
+        list.add("");
+        list.add("");
+        list.add("");
+        list.add("");
+        list.add("");
+        return list;
+    }
+
     void getHealthFeedDetail() {
         if (isOnline(this)) {
-            asyncTaskGetCommon = new AsyncTaskGetCommon(this, new AsyncTaskGetCommon.AsyncTaskCompleteListener() {
-                @Override
-                public void onTaskComplete(String result) {
-                    /*try {
-                        JSONArray jsonArray = new JSONArray(result);
-                        for (int i = 0; i < jsonArray.length(); i++) {
-                            JSONObject object = jsonArray.getJSONObject(i);
-                            HealthFeedDetailModel helthFeedModel = new HealthFeedDetailModel();
-                            helthFeedModel.GoalId = ""+object.getInt("GoalId");
-                            helthFeedModel.PhotoURL = object.getString("PhotoURL");
-                            helthFeedModel.Updatemsg = object.getString("Updatemsg");
-                            helthFeedModel.status = ""+object.getInt("status");
-                            helthFeedModel.UpdateDate = object.getString("UpdateDate");
-                            helthFeedModel.UpdateId = ""+object.getInt("UpdateId");
-                            mGroupList.add(helthFeedModel);
-                        }
-                        mProgressBarHeader.setVisibility(View.GONE);
-                        healthFeedDetailRecyclerAdapter.notifyDataSetChanged();
-                    } catch (Exception e) {
-                        e.printStackTrace();
-                    }*/
-                }
-            });
-            asyncTaskGetCommon.execute(Urls.GET_EVENT_LIST + "/0");
+
         } else {
             progressBar.setVisibility(View.GONE);
            // showSnackbar(binding.getRoot(), getString(R.string.no_internet));
         }
+    }
+
+    public void onEditClick(int position) {
+        Intent intent = new Intent(EventListActivity.this, EventCreateActivity.class);
+        intent.putExtra(Constants.EXTRA_IS_FOR_EDIT_EVENT, true);
+        moveActivity(intent, EventListActivity.this);
+    }
+
+    public void onDeleteClick(int position) {
+        showAlertDialog(new OnDialogClick() {
+            @Override
+            public void onPositiveBtnClick() {
+
+            }
+
+            @Override
+            public void onNegativeBtnClick() {
+
+            }
+        }, getString(R.string.delete), getString(R.string.are_you_sure_delete), true);
+    }
+
+    public void onClickDetail(int position) {
+        DialogFragment newFragment = new EventDetailDialogFragment();
+        //newFragment.setTargetFragment(this, Constants.REQUEST_CODE_SEND_FRIEND);
+        newFragment.show(getSupportFragmentManager().beginTransaction(), "dialog");
     }
 }

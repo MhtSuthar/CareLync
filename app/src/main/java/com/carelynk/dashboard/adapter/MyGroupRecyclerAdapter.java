@@ -13,7 +13,7 @@ import android.widget.TextView;
 import com.bumptech.glide.Glide;
 import com.carelynk.R;
 import com.carelynk.dashboard.fragment.MyGroupFragment;
-import com.carelynk.recent.model.GroupModel;
+import com.carelynk.dashboard.model.GroupModel;
 
 import java.util.List;
 
@@ -25,13 +25,11 @@ public class MyGroupRecyclerAdapter extends RecyclerView.Adapter<MyGroupRecycler
     private static final int ANIM_DURATION = 300;
     private List<GroupModel> mListGroup;
     private Context mContext;
-    private int lastPos = 0;
     private MyGroupFragment myGroupFragment;
 
     public static class ViewHolder extends RecyclerView.ViewHolder {
 
-        public CardView cardView;
-        public TextView txtGroupName;
+        public TextView txtGroupName, txt_edit, txt_delete;
         public TextView txtCreatedName;
         public ImageView imgGroup;
         public TextView txtDesc;
@@ -39,8 +37,9 @@ public class MyGroupRecyclerAdapter extends RecyclerView.Adapter<MyGroupRecycler
 
         public ViewHolder(View rowView) {
             super(rowView);
-            cardView = (CardView) rowView.findViewById(R.id.cardView);
             txtGroupName = (TextView) rowView.findViewById(R.id.txtGroupName);
+            txt_edit = (TextView) rowView.findViewById(R.id.txt_edit);
+            txt_delete = (TextView) rowView.findViewById(R.id.txt_delete);
             txtCreatedName = (TextView) rowView.findViewById(R.id.txtCreatedName);
             txtDesc = (TextView) rowView.findViewById(R.id.txtDesc);
             imgGroup = (ImageView) rowView.findViewById(R.id.imgGroup);
@@ -78,6 +77,20 @@ public class MyGroupRecyclerAdapter extends RecyclerView.Adapter<MyGroupRecycler
             }
         });
 
+        holder.txt_edit.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                myGroupFragment.onEditItemClick(position);
+            }
+        });
+
+        holder.txt_delete.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                myGroupFragment.onDeleteItemClick(position);
+            }
+        });
+
         if(feedModel.PhotoURL != null && !feedModel.PhotoURL.equals("") && !feedModel.PhotoURL.equals("null")) {
             holder.imgGroup.setVisibility(View.VISIBLE);
             Log.e("Image", "onBindVieold http://www.demo.carelynk.com/Content"+feedModel.PhotoURL.
@@ -85,8 +98,6 @@ public class MyGroupRecyclerAdapter extends RecyclerView.Adapter<MyGroupRecycler
             Glide.with(mContext).load("http://www.demo.carelynk.com/Content"+feedModel.PhotoURL.split("Content")[1]).into(holder.imgGroup);
         }else
             holder.imgGroup.setVisibility(View.GONE);
-
-        animateStackByStack(holder.itemView, position);
     }
 
     @Override
@@ -94,20 +105,6 @@ public class MyGroupRecyclerAdapter extends RecyclerView.Adapter<MyGroupRecycler
         return mListGroup.size();
     }
 
-    @Override
-    public void onViewDetachedFromWindow(ViewHolder holder) {
-        super.onViewDetachedFromWindow(holder);
-        holder.itemView.clearAnimation();
-    }
 
-    private void animateStackByStack(View view, final int pos) {
-        if(pos > lastPos) {
-            view.animate().cancel();
-            view.setTranslationY(50);
-            view.setAlpha(0);
-            view.animate().alpha(1.0f).translationY(0).setDuration(ANIM_DURATION).setStartDelay(100);
-            lastPos = pos;
-        }
-    }
 
 }

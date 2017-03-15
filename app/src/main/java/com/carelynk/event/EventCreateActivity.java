@@ -92,7 +92,9 @@ public class EventCreateActivity extends BaseActivity {
                     WindowManager.LayoutParams.FLAG_TRANSLUCENT_STATUS);
             binding.imgBack.setPadding(getStatusBarHeight()-10, getStatusBarHeight()+10, getStatusBarHeight(), getStatusBarHeight());
         }*/
-
+        if(getIntent().hasExtra(Constants.EXTRA_IS_FOR_EDIT_EVENT)){
+            binding.txtToolbar.setText(getString(R.string.edit_event));
+        }
         binding.toolbar.setNavigationIcon(R.drawable.ic_cancel_grey);
         binding.toolbar.setNavigationOnClickListener(new View.OnClickListener() {
             @Override
@@ -124,65 +126,26 @@ public class EventCreateActivity extends BaseActivity {
 
 
 
-        binding.edtEventFromDate.setOnClickListener(new View.OnClickListener() {
+        binding.edtEventDate.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 DatePickerDialogFragment datePickerDialogFragment = new DatePickerDialogFragment(new DatePickerDialogFragment.OnDateSelection() {
                     @Override
                     public void onDateSelect(String date) {
-                        binding.edtEventFromDate.setText(date);
+                        binding.edtEventDate.setText(date);
                     }
                 });
                 datePickerDialogFragment.show(getSupportFragmentManager(), "datePicker");
             }
         });
 
-        binding.edtEventToDate.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                DatePickerDialogFragment datePickerDialogFragment = new DatePickerDialogFragment(new DatePickerDialogFragment.OnDateSelection() {
-                    @Override
-                    public void onDateSelect(String date) {
-                        binding.edtEventToDate.setText(date);
-                    }
-                });
-                datePickerDialogFragment.show(getSupportFragmentManager(), "datePicker");
-            }
-        });
-
-        binding.edtEventFromTime.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-               /* Calendar mcurrentTime = Calendar.getInstance();
-                int hour = mcurrentTime.get(Calendar.HOUR_OF_DAY);
-                int minute = mcurrentTime.get(Calendar.MINUTE);
-                TimePickerDialog mTimePicker;
-                mTimePicker = new TimePickerDialog(EventCreateActivity.this, new TimePickerDialog.OnTimeSetListener() {
-                    @Override
-                    public void onTimeSet(TimePicker timePicker, int selectedHour, int selectedMinute) {
-                        binding.edtEventFromTime.setText( selectedHour + ":" + selectedMinute);
-                    }
-                }, hour, minute, false);//Yes 24 hour time
-                mTimePicker.setTitle("Select Time");
-                mTimePicker.show();*/
-                TimePickerDialogFragment datePickerDialogFragment = new TimePickerDialogFragment(new TimePickerDialogFragment.OnTimeSelection() {
-                    @Override
-                    public void onTimeSelect(String time) {
-                        binding.edtEventFromTime.setText(time);
-                    }
-                });
-                datePickerDialogFragment.show(getSupportFragmentManager(), "timePicker");
-
-            }
-        });
-
-        binding.edtEventToTime.setOnClickListener(new View.OnClickListener() {
+        binding.edtEventTime.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 TimePickerDialogFragment datePickerDialogFragment = new TimePickerDialogFragment(new TimePickerDialogFragment.OnTimeSelection() {
                     @Override
                     public void onTimeSelect(String time) {
-                        binding.edtEventToTime.setText(time);
+                        binding.edtEventTime.setText(time);
                     }
                 });
                 datePickerDialogFragment.show(getSupportFragmentManager(), "timePicker");
@@ -213,13 +176,7 @@ public class EventCreateActivity extends BaseActivity {
         try{
             jsonObject.put("EventName", binding.edtEventName.getText().toString());
             jsonObject.put("EventDesc", binding.edtDesc.getText().toString());
-            jsonObject.put("EventDateFrom ", binding.edtEventFromDate.getText().toString());
-            jsonObject.put("EventDateTo", binding.edtEventToDate.getText().toString());
-            jsonObject.put("EventTimeFrom ", binding.edtEventFromTime.getText().toString());
-            jsonObject.put("EventTimeTo", binding.edtEventToTime.getText().toString());
-            jsonObject.put("IsPrivate", false);
-            jsonObject.put("User_ID", SharedPreferenceUtil.getString(PrefUtils.PREF_USER_ID, ""));
-            jsonObject.put("PhotoURL", "");
+
         }catch (Exception e){
             e.printStackTrace();
         }
@@ -230,17 +187,11 @@ public class EventCreateActivity extends BaseActivity {
         if(TextUtils.isEmpty(binding.edtEventName.getText().toString())) {
             showSnackbar(binding.getRoot(), "Please enter event name");
             return false;
-        }else  if(TextUtils.isEmpty(binding.edtEventFromDate.getText().toString())) {
-            showSnackbar(binding.getRoot(), "Please select from date");
+        }else  if(TextUtils.isEmpty(binding.edtEventDate.getText().toString())) {
+            showSnackbar(binding.getRoot(), "Please select date");
             return false;
-        }else if(TextUtils.isEmpty(binding.edtEventToDate.getText().toString())) {
-            showSnackbar(binding.getRoot(), "Please select to date");
-            return false;
-        }else if(TextUtils.isEmpty(binding.edtEventFromTime.getText().toString())) {
-            showSnackbar(binding.getRoot(), "Please select from time");
-            return false;
-        }else if(TextUtils.isEmpty(binding.edtEventToTime.getText().toString())) {
-            showSnackbar(binding.getRoot(), "Please select to time");
+        }else if(TextUtils.isEmpty(binding.edtEventTime.getText().toString())) {
+            showSnackbar(binding.getRoot(), "Please select time");
             return false;
         }
         return true;

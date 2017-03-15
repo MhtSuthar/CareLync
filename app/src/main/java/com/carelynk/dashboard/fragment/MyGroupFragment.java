@@ -2,9 +2,11 @@ package com.carelynk.dashboard.fragment;
 
 import android.content.Intent;
 import android.databinding.DataBindingUtil;
+import android.graphics.Color;
 import android.os.Bundle;
 import android.os.Handler;
 import android.support.annotation.Nullable;
+import android.support.v4.content.ContextCompat;
 import android.support.v7.widget.DefaultItemAnimator;
 import android.support.v7.widget.LinearLayoutManager;
 import android.view.LayoutInflater;
@@ -12,19 +14,16 @@ import android.view.View;
 import android.view.ViewGroup;
 
 import com.carelynk.R;
+import com.carelynk.base.BaseActivity;
 import com.carelynk.base.BaseFragment;
-import com.carelynk.databinding.FragmentMyGroupBinding;
-import com.carelynk.recent.GroupDetailListActivity;
+import com.carelynk.dashboard.GroupCreateActivity;
 import com.carelynk.dashboard.HomeActivity;
+import com.carelynk.dashboard.adapter.AllGroupRecyclerAdapter;
+import com.carelynk.dashboard.adapter.GroupFollowedRecyclerAdapter;
 import com.carelynk.dashboard.adapter.MyGroupRecyclerAdapter;
-import com.carelynk.recent.model.GroupModel;
-import com.carelynk.recent.model.HealthFeedModel;
+import com.carelynk.dashboard.model.GroupModel;
+import com.carelynk.databinding.FragmentMyGroupBinding;
 import com.carelynk.rest.AsyncTaskGetCommon;
-import com.carelynk.rest.Urls;
-import com.carelynk.utilz.AppUtils;
-
-import org.json.JSONArray;
-import org.json.JSONObject;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -39,6 +38,8 @@ public class MyGroupFragment extends BaseFragment {
     private MyGroupRecyclerAdapter mMyGroupRecyclerAdapter;
     public AsyncTaskGetCommon asyncTaskGetCommon;
     private static final String TAG = "MyGroupFragment";
+    private GroupFollowedRecyclerAdapter mFollowedRecyclerAdapter;
+    private AllGroupRecyclerAdapter mAllGroupRecyclerAdapter;
 
     @Override
     public void setUserVisibleHint(boolean isVisibleToUser) {
@@ -65,7 +66,7 @@ public class MyGroupFragment extends BaseFragment {
     @Override
     public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
-        setRecyclerAdapter();
+        setOwnGroupRecyclerAdapter();
        /* binding.recyclerView.addOnItemTouchListener(new RecyclerTouchListener(binding.recyclerView, new RecyclerTouchListener.OnRecyclerClickListener() {
             @Override
             public void onClick(View view, final int position) {
@@ -77,9 +78,72 @@ public class MyGroupFragment extends BaseFragment {
             }
         }));*/
 
+        binding.txtOwned.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if(v.getTag().toString().equals("0")){
+                    v.setTag("1");
+                    binding.txtAllGrp.setTag("0");
+                    binding.txtFollowed.setTag("0");
+
+                    binding.txtAllGrp.setBackgroundColor(ContextCompat.getColor(getContext(), R.color.colorLightWhite));
+                    binding.txtFollowed.setBackgroundColor(ContextCompat.getColor(getContext(), R.color.colorLightWhite));
+                    binding.txtOwned.setBackgroundColor(Color.WHITE);
+
+                    binding.txtAllGrp.setTextColor(ContextCompat.getColor(getContext(), R.color.colorAccent));
+                    binding.txtFollowed.setTextColor(ContextCompat.getColor(getContext(), R.color.colorAccent));
+                    binding.txtOwned.setTextColor(Color.BLACK);
+
+                    setOwnGroupRecyclerAdapter();
+                }
+            }
+        });
+
+        binding.txtFollowed.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if(v.getTag().toString().equals("0")) {
+                    v.setTag("1");
+                    binding.txtAllGrp.setTag("0");
+                    binding.txtOwned.setTag("0");
+
+                    binding.txtOwned.setBackgroundColor(ContextCompat.getColor(getContext(), R.color.colorLightWhite));
+                    binding.txtAllGrp.setBackgroundColor(ContextCompat.getColor(getContext(), R.color.colorLightWhite));
+                    binding.txtFollowed.setBackgroundColor(Color.WHITE);
+
+                    binding.txtOwned.setTextColor(ContextCompat.getColor(getContext(), R.color.colorAccent));
+                    binding.txtAllGrp.setTextColor(ContextCompat.getColor(getContext(), R.color.colorAccent));
+                    binding.txtFollowed.setTextColor(Color.BLACK);
+
+                    setFollowRecyclerAdapter();
+                }
+            }
+        });
+
+        binding.txtAllGrp.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if(v.getTag().toString().equals("0")) {
+                    v.setTag("1");
+                    binding.txtOwned.setTag("0");
+                    binding.txtFollowed.setTag("0");
+
+                    binding.txtOwned.setBackgroundColor(ContextCompat.getColor(getContext(), R.color.colorLightWhite));
+                    binding.txtFollowed.setBackgroundColor(ContextCompat.getColor(getContext(), R.color.colorLightWhite));
+                    binding.txtAllGrp.setBackgroundColor(Color.WHITE);
+
+                    binding.txtOwned.setTextColor(ContextCompat.getColor(getContext(), R.color.colorAccent));
+                    binding.txtFollowed.setTextColor(ContextCompat.getColor(getContext(), R.color.colorAccent));
+                    binding.txtAllGrp.setTextColor(Color.BLACK);
+
+                    setAllGroupRecyclerAdapter();
+                }
+            }
+        });
+
     }
 
-    void getGroupList() {
+   /* void getGroupList() {
         if (isOnline(getContext())) {
             mGroupList = new ArrayList<>();
             asyncTaskGetCommon = new AsyncTaskGetCommon(getContext(), new AsyncTaskGetCommon.AsyncTaskCompleteListener() {
@@ -101,7 +165,7 @@ public class MyGroupFragment extends BaseFragment {
                             mGroupList.add(groupModel);
                         }
                         binding.progressBar.setVisibility(View.GONE);
-                        setRecyclerAdapter();
+                        setOwnGroupRecyclerAdapter();
                     } catch (Exception e) {
                         e.printStackTrace();
                     }
@@ -112,15 +176,33 @@ public class MyGroupFragment extends BaseFragment {
             binding.progressBar.setVisibility(View.GONE);
             showSnackbar(binding.getRoot(), getString(R.string.no_internet));
         }
-    }
+    }*/
 
-    private void setRecyclerAdapter() {
+    private void setOwnGroupRecyclerAdapter() {
         mMyGroupRecyclerAdapter = new MyGroupRecyclerAdapter(getActivity(), getDummyList(), MyGroupFragment.this);
         binding.recyclerView.setHasFixedSize(true);
         LinearLayoutManager mLayoutManager = new LinearLayoutManager(getActivity());
         binding.recyclerView.setLayoutManager(mLayoutManager);
         binding.recyclerView.setItemAnimator(new DefaultItemAnimator());
         binding.recyclerView.setAdapter(mMyGroupRecyclerAdapter);
+    }
+
+    private void setAllGroupRecyclerAdapter() {
+        mAllGroupRecyclerAdapter = new AllGroupRecyclerAdapter(getActivity(), new ArrayList<String>(), MyGroupFragment.this);
+        binding.recyclerView.setHasFixedSize(true);
+        LinearLayoutManager mLayoutManager = new LinearLayoutManager(getActivity());
+        binding.recyclerView.setLayoutManager(mLayoutManager);
+        binding.recyclerView.setItemAnimator(new DefaultItemAnimator());
+        binding.recyclerView.setAdapter(mAllGroupRecyclerAdapter);
+    }
+
+    private void setFollowRecyclerAdapter() {
+        mFollowedRecyclerAdapter = new GroupFollowedRecyclerAdapter(getActivity(), new ArrayList<String>(), MyGroupFragment.this);
+        binding.recyclerView.setHasFixedSize(true);
+        LinearLayoutManager mLayoutManager = new LinearLayoutManager(getActivity());
+        binding.recyclerView.setLayoutManager(mLayoutManager);
+        binding.recyclerView.setItemAnimator(new DefaultItemAnimator());
+        binding.recyclerView.setAdapter(mFollowedRecyclerAdapter);
     }
 
     private List<GroupModel> getDummyList() {
@@ -136,8 +218,26 @@ public class MyGroupFragment extends BaseFragment {
     }
 
     public void onItemClick(int position) {
-        Intent intent = new Intent(getActivity(), GroupDetailListActivity.class);
-        intent.putExtra(AppUtils.Extra_Group_Id, mGroupList.get(position).GroupId);
-        moveActivity(intent, getActivity(), false);
+       /* Intent intent = new Intent(getActivity(), HomeActivity.class);
+        //intent.putExtra(AppUtils.Extra_Group_Id, mGroupList.get(position).GroupId);
+        moveActivity(intent, getActivity(), false);*/
+    }
+
+    public void onDeleteItemClick(int position) {
+        showAlertDialog(new BaseActivity.OnDialogClick() {
+            @Override
+            public void onPositiveBtnClick() {
+
+            }
+
+            @Override
+            public void onNegativeBtnClick() {
+
+            }
+        }, "", "", true);
+    }
+
+    public void onEditItemClick(int position) {
+        moveActivity(new Intent(getActivity(), GroupCreateActivity.class), getActivity(), false);
     }
 }

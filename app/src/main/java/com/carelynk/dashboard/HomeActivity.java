@@ -3,7 +3,6 @@ package com.carelynk.dashboard;
 import android.app.SearchManager;
 import android.content.Intent;
 import android.databinding.DataBindingUtil;
-import android.graphics.Color;
 import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
@@ -26,20 +25,23 @@ import android.view.View;
 import com.carelynk.R;
 import com.carelynk.base.BaseActivity;
 import com.carelynk.dashboard.fragment.FollowFragment;
+import com.carelynk.dashboard.fragment.HighlightFragment;
 import com.carelynk.databinding.ActivityRecentBinding;
-import com.carelynk.dashboard.fragment.HeighlightFragment;
 import com.carelynk.dashboard.fragment.HealthFeedsFragment;
 import com.carelynk.dashboard.fragment.MyGroupFragment;
 import com.carelynk.event.EventListActivity;
-import com.carelynk.friends.MyFriendsActivity;
+import com.carelynk.invite.InviteActivity;
+import com.carelynk.prelogin.PreLoginActivity;
 import com.carelynk.profile.MyProfileActivity;
 import com.carelynk.search.MySearchActivity;
+import com.carelynk.storage.SharedPreferenceUtil;
 import com.carelynk.utilz.AnimationUtils;
+import com.carelynk.utilz.Constants;
 
 public class HomeActivity extends BaseActivity {
 
     public ActivityRecentBinding binding;
-    private HeighlightFragment heighlightFragment;
+    private HighlightFragment heighlightFragment;
     private MyGroupFragment myGroupFragment;
     private HealthFeedsFragment helthFeedsFragment;
     private FollowFragment followFragment;
@@ -61,7 +63,7 @@ public class HomeActivity extends BaseActivity {
         binding.txtToolbar.setText(getString(R.string.app_name));
         setTitle("");
         setOverflowButtonColor(binding.toolbar, ContextCompat.getColor(this, R.color.colorAccent));
-        binding.toolbar.setNavigationIcon(R.drawable.ic_comment);
+        binding.toolbar.setNavigationIcon(R.drawable.ic_launcher);
        /* binding.toolbar.setNavigationOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -131,7 +133,23 @@ public class HomeActivity extends BaseActivity {
                 moveActivity(new Intent(HomeActivity.this, MyProfileActivity.class), HomeActivity.this);
                 break;
             case R.id.menu_invite:
-                moveActivity(new Intent(HomeActivity.this, MyFriendsActivity.class), HomeActivity.this);
+                moveActivity(new Intent(HomeActivity.this, InviteActivity.class), HomeActivity.this);
+                break;
+            case R.id.menu_logout:
+                showAlertDialog(new OnDialogClick() {
+                    @Override
+                    public void onPositiveBtnClick() {
+                        SharedPreferenceUtil.putValue(Constants.IS_LOGIN, false);
+                        SharedPreferenceUtil.save();
+                        moveActivity(new Intent(HomeActivity.this, PreLoginActivity.class), HomeActivity.this);
+                        finish();
+                    }
+
+                    @Override
+                    public void onNegativeBtnClick() {
+
+                    }
+                }, getString(R.string.logout), getString(R.string.are_you_sure_logout), true);
                 break;
         }
         return true;
@@ -163,7 +181,7 @@ public class HomeActivity extends BaseActivity {
         @Override
         public Fragment getItem(int position) {
             if(position == 3){
-                heighlightFragment = new HeighlightFragment();
+                heighlightFragment = new HighlightFragment();
                 return heighlightFragment;
             }else if(position == 1){
                 myGroupFragment = new MyGroupFragment();

@@ -13,10 +13,13 @@ import android.view.ViewGroup;
 import com.carelynk.R;
 import com.carelynk.base.BaseFragment;
 import com.carelynk.databinding.FragmentInterestedBinding;
+import com.carelynk.prelogin.PreLoginActivity;
 import com.carelynk.prelogin.adapter.InterestRecyclerAdapter;
+import com.carelynk.prelogin.model.RegisterStepTwo;
 import com.carelynk.rest.ApiFactory;
 import com.carelynk.rest.ApiInterface;
 import com.carelynk.utilz.Constants;
+import com.carelynk.utilz.DialogUtils;
 import com.google.gson.JsonObject;
 
 import org.json.JSONObject;
@@ -83,21 +86,29 @@ public class InterestedFragment extends BaseFragment {
     }
 
     private void attemptRegistration() {
+        DialogUtils.showProgressDialog(getActivity());
         ApiInterface apiInterface = ApiFactory.provideInterface();
-        HashMap<String, String> map = new HashMap<>();
-        map.put("AboutMeText", binding.edtAbout.getText().toString());
-        map.put("InterestArea", interestRecyclerAdapter.getInterestArea());
-        map.put("UserId", getArguments().getString(Constants.BUNDLE_USER_ID, ""));
-        Log.e(TAG, "attemptRegistration: "+map.toString());
-        Call<JsonObject> call = apiInterface.registrationTwo(map);
+        RegisterStepTwo  registerStepTwo = new RegisterStepTwo(binding.edtAbout.getText().toString(),
+                getArguments().getString(Constants.BUNDLE_USER_ID, ""),
+                interestRecyclerAdapter.getInterestArea());
+//        HashMap<String, String> map = new HashMap<>();
+//        map.put("AboutMeText", ""+binding.edtAbout.getText().toString());
+//        map.put("InterestArea", interestRecyclerAdapter.getInterestArea());
+//        map.put("UserId", getArguments().getString(Constants.BUNDLE_USER_ID, ""));
+       // Log.e(TAG, "attemptRegistration: "+map.toString());
+        Call<JsonObject> call = apiInterface.registrationTwo(registerStepTwo);
         call.enqueue(new Callback<JsonObject>() {
             @Override
             public void onResponse(Call<JsonObject> call, Response<JsonObject> response) {
+                DialogUtils.stopProgressDialog();
                 if (response.isSuccessful()) {
                     try {
                         JSONObject jsonObject = new JSONObject(response.body().toString());
                         if (jsonObject.getBoolean("IsSuccess")) {
-
+                            showSnackbar(binding.getRoot(), ""+getString(R.string.registation_success));
+                            ((PreLoginActivity)getActivity()).replaceFragmentWithoutAnim(new LoginFragment());
+                        }else{
+                            showSnackbar(binding.getRoot(), jsonObject.getString("ErrorMessage"));
                         }
                         //{"KeyID":8,"IsSuccess":true,"ErrorMessage":"","Message":""}
                         Log.e(TAG, "onResponse: " + response.body().toString());

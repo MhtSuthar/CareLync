@@ -65,10 +65,10 @@ public class AnimationUtils {
 
     public static void animateScaleOut(final View view){
         if(!view.isShown()) {
-            view.setScaleX(0f);
-            view.setScaleY(0f);
+            view.setScaleX(0.2f);
+            view.setScaleY(0.2f);
             view.animate()
-                    .setStartDelay(100)
+                    .setStartDelay(200)
                     .alpha(1)
                     .scaleX(1)
                     .scaleY(1).setListener(new Animator.AnimatorListener() {

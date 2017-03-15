@@ -1,9 +1,8 @@
 package com.carelynk.dashboard.adapter;
 
 import android.content.Context;
-import android.graphics.Color;
-import android.support.v4.content.ContextCompat;
 import android.support.v7.widget.RecyclerView;
+import android.text.TextUtils;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -13,7 +12,8 @@ import android.widget.TextView;
 
 import com.bumptech.glide.Glide;
 import com.carelynk.R;
-import com.carelynk.recent.model.TimelineModel;
+import com.carelynk.dashboard.fragment.HighlightFragment;
+import com.carelynk.dashboard.model.HighlightModel;
 import com.carelynk.utilz.CircleTransform;
 
 import java.util.List;
@@ -24,19 +24,21 @@ import java.util.List;
 public class HighlightRecyclerAdapter extends RecyclerView.Adapter<HighlightRecyclerAdapter.ViewHolder> {
 
     private static final int ANIM_DURATION = 300;
-    private List<TimelineModel> mListPatient;
+    private List<HighlightModel> mListPatient;
     private Context mContext;
     private int lastPos = 0;
+    private HighlightFragment highlightFragment;
 
     public static class ViewHolder extends RecyclerView.ViewHolder {
 
-        public TextView txtName, txtPostTime, txtDesc, txtFollow;
+        public TextView txtName, txtPostTime, txtDesc, txtFollow, txtTitle;
         public ImageView imgCover, imgUser;
         public CheckBox chkFav;
 
         public ViewHolder(View rowView) {
             super(rowView);
             txtName= (TextView) rowView.findViewById(R.id.txtName);
+            txtTitle = (TextView) rowView.findViewById(R.id.txtTitle);
             txtPostTime = (TextView) rowView.findViewById(R.id.txtPostTime);
             txtDesc= (TextView) rowView.findViewById(R.id.txtDesc);
             txtFollow= (TextView) rowView.findViewById(R.id.txtFollow);
@@ -47,12 +49,13 @@ public class HighlightRecyclerAdapter extends RecyclerView.Adapter<HighlightRecy
 
     }
 
-    public HighlightRecyclerAdapter(Context context, List<TimelineModel> mListPatient) {
+    public HighlightRecyclerAdapter(Context context, List<HighlightModel> mListPatient, HighlightFragment highlightFragment) {
         this.mListPatient = mListPatient;
         mContext = context;
+        this.highlightFragment = highlightFragment;
     }
 
-    public void setPatientList(List<TimelineModel> patientList){
+    public void setPatientList(List<HighlightModel> patientList){
         mListPatient.clear();
         mListPatient.addAll(patientList);
         notifyDataSetChanged();
@@ -62,37 +65,33 @@ public class HighlightRecyclerAdapter extends RecyclerView.Adapter<HighlightRecy
     public ViewHolder onCreateViewHolder(ViewGroup parent,
                                                                 int viewType) {
         View v = LayoutInflater.from(parent.getContext())
-                .inflate(R.layout.list_item_timeline, parent, false);
+                .inflate(R.layout.list_item_heighlight, parent, false);
         ViewHolder vh = new ViewHolder(v);
         return vh;
     }
 
     @Override
-    public void onBindViewHolder(final ViewHolder holder, int position) {
-        final TimelineModel feedModel= mListPatient.get(position);
+    public void onBindViewHolder(final ViewHolder holder, final int position) {
+        final HighlightModel feedModel= mListPatient.get(position);
         Glide.with(mContext).load(R.drawable.dummy_img).
                 transform(new CircleTransform(mContext)).into(holder.imgUser);
-        holder.txtName.setText(feedModel.getName());
+        holder.txtName.setText(feedModel.UserName);
+        holder.txtTitle.setText(feedModel.GoalName);
+        if(!TextUtils.isEmpty(feedModel.Desc))
+            holder.txtDesc.setText(feedModel.Desc);
 
-        if(feedModel.isFollowing){
-            holder.txtFollow.setTextColor(Color.WHITE);
-            holder.txtFollow.setText("Following");
-            holder.txtFollow.setBackgroundResource(R.drawable.round_corner_white);
-        }else{
-            holder.txtFollow.setTextColor(ContextCompat.getColor(mContext, R.color.colorPrimary));
-            holder.txtFollow.setText("Follow");
-            holder.txtFollow.setBackgroundResource(R.drawable.round_corner_blue_fill);
-        }
-        holder.txtFollow.setOnClickListener(new View.OnClickListener() {
+        if(position / 2 == 0)
+            holder.imgCover.setVisibility(View.GONE);
+        else
+            holder.imgCover.setVisibility(View.VISIBLE);
+
+        holder.itemView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                if(feedModel.isFollowing)
-                    feedModel.isFollowing = false;
-                else
-                    feedModel.isFollowing = true;
-                notifyDataSetChanged();
+                    highlightFragment.onItemClick(position);
             }
         });
+
         animateStackByStack(holder.itemView, position);
     }
 

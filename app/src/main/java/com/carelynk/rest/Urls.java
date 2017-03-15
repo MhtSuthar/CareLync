@@ -1,5 +1,8 @@
 package com.carelynk.rest;
 
+import com.carelynk.storage.SharedPreferenceUtil;
+import com.carelynk.utilz.PrefUtils;
+
 /**
  * Created by Admin on 06-Dec-16.
  */
@@ -9,8 +12,11 @@ public class Urls {
     public static final String BaseUrl = "http://wcfcarelynk.shauryatech.co.in.204-11-58-75.bhus-pp-wb8.webhostbox.net/Service1.svc/";
 
     public static final String GET_MAIN_GROUP = "Get_MainGroup";
-    public static final String GET_HELTH_FEED = "Get_Goal_List";
-    public static final String GET_GROUP_LIST = "Get_Group_List";//
+    public static final String GET_HELTH_FEED = "Home/Gethightlights";
+    public static final String GET_PROFILE = "UserProfile/Get?id="+ SharedPreferenceUtil.getString(PrefUtils.PREF_USER_ID, "");
+
+
+    public static final String GET_GROUP_LIST = "Get_Group_List";
     public static final String INSERT_CREATE_GROUP = "Insert_Create_Group";
     public static final String GET_GOAL_POST = "Get_Goal_Post";
     public static final String INSERT_GROUP_POST = "Insert_Group_post";

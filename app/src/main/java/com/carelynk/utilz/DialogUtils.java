@@ -37,6 +37,30 @@ public class DialogUtils {
         return dialog;
     }
 
+    private static Dialog dialog;
+    public static void showProgressDialog(Context context) {
+        if (dialog != null) {
+            if (dialog.isShowing())
+                dialog.dismiss();
+            dialog = null;
+        }
+        dialog = new Dialog(context);
+        dialog.requestWindowFeature(Window.FEATURE_NO_TITLE);
+        dialog.setCancelable(false);
+        dialog.getWindow().setBackgroundDrawable(new ColorDrawable(android.graphics.Color.TRANSPARENT));
+        dialog.setContentView(R.layout.dialog_loader);
+        dialog.show();
+    }
+
+    public static void stopProgressDialog() {
+        if (dialog != null) {
+            if (dialog.isShowing())
+                dialog.dismiss();
+            dialog = null;
+        }
+    }
+
+
 
    /* public Dialog showDialogForValidation(int layout) {
         Dialog dialog = new Dialog(context, R.style.DialogAnimation);

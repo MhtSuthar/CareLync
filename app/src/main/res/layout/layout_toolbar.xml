@@ -29,7 +29,7 @@
                     android:lines="1"
                     android:textAllCaps="true"
                     android:textAppearance="?android:textAppearanceMedium"
-                    android:textColor="@android:color/white" />
+                    android:textColor="@color/colorAccent" />
 
             </LinearLayout>
 
