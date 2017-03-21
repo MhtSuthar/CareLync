@@ -401,7 +401,7 @@ public class RegistrationFragment extends BaseFragment {
                     binding.edtPassword.getText().toString(),
                     0,
                     binding.spnrAboutMe.getSelectedItem().toString(),
-                    binding.edtName.getText().toString(),
+                    "",
                     binding.spnrGender.getSelectedItem().toString(),
                     AppUtils.formattedDate("dd MMMM yyyy", "dd/MM/yyyy", binding.edtDateOfBirth.getText().toString()),
                     getGender());

@@ -79,6 +79,8 @@ public class HighlightRecyclerAdapter extends RecyclerView.Adapter<HighlightRecy
         holder.txtTitle.setText(feedModel.GoalName);
         if(!TextUtils.isEmpty(feedModel.Desc))
             holder.txtDesc.setText(feedModel.Desc);
+        else
+            holder.txtDesc.setVisibility(View.GONE);
 
         if(position / 2 == 0)
             holder.imgCover.setVisibility(View.GONE);

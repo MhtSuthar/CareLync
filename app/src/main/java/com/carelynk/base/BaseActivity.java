@@ -130,6 +130,15 @@ public abstract class BaseActivity extends AppCompatActivity {
         }
     }
 
+    protected void moveActivityResult(Intent intent, Activity context, int code){
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
+            startActivityForResult(intent, code,
+                    ActivityOptions.makeSceneTransitionAnimation(context).toBundle());
+        } else {
+            startActivityForResult(intent, code);
+        }
+    }
+
     protected void setupWindowAnimationsExplodeSlide(int gravity) {
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
             Explode fade = new Explode();

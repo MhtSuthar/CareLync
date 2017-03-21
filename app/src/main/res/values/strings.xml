@@ -84,6 +84,17 @@
     <string name="tag_line">Helping you to lead a Stronger and Healthier Life</string>
     <string name="search_from_google">Search From Google</string>
     <string name="event_detail">Event Detail</string>
+    <string name="event">Event</string>
+    <string name="trending">Trending</string>
+    <string name="requests">Requests</string>
+    <string name="invite_users">Invite Users</string>
+    <string name="view_members">View Members</string>
+    <string name="join_now">Join Now</string>
+    <string name="address">Address</string>
+    <string name="city">City</string>
+    <string name="state">State</string>
+    <string name="country">Country</string>
+    <string name="zipcode">Zipcode</string>
 
     <string-array name="gender">
         <item>Gender</item>

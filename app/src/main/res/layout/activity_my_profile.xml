@@ -13,15 +13,20 @@
         android:layout_height="match_parent"
         tools:context=".dashboard.HomeActivity">
 
-
-
         <ImageView
+            android:id="@+id/imgUser"
             android:layout_width="match_parent"
             android:layout_height="250dp"
             android:scaleType="centerCrop"
-            android:src="@drawable/dummy_img" />
+            android:src="@drawable/ic_placeholder" />
 
-
+        <ProgressBar
+            android:id="@+id/progressBar"
+            style="?android:attr/progressBarStyleSmall"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:padding="@dimen/activity_horizontal_margin"
+            android:layout_alignParentRight="true" />
 
         <android.support.v4.widget.NestedScrollView
             android:layout_width="match_parent"
@@ -51,43 +56,209 @@
                         android:orientation="vertical">
 
                         <TextView
+                            android:id="@+id/txtUserName"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="User Name"
+                            android:layout_gravity="center"
+                            android:textAppearance="?android:textAppearanceLarge"
+                            android:textColor="@color/colorAccent" />
+
+                        <TextView
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:text="Basic Info :"
+                            android:layout_marginTop="10dp"
                             android:textAppearance="?android:textAppearanceMedium"
                             android:textColor="@color/colorPrimaryDark" />
 
-                        <TextView
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:layout_marginLeft="@dimen/activity_horizontal_margin"
-                            android:layout_marginTop="@dimen/common_margin"
-                            android:text="Mac"
-                            android:textAppearance="?android:textAppearanceMedium" />
+                        <LinearLayout
+                            android:layout_width="match_parent"
+                            android:orientation="horizontal"
+                            android:layout_marginTop="10dp"
+                            android:layout_height="wrap_content">
 
-                        <TextView
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:layout_marginLeft="@dimen/activity_horizontal_margin"
-                            android:layout_marginTop="@dimen/common_margin"
-                            android:text="mac@xyz.com"
-                            android:textAppearance="?android:textAppearanceMedium" />
+                            <TextView
+                                android:layout_width="0dp"
+                                android:layout_weight="1"
+                                android:layout_height="wrap_content"
+                                android:text="Who am I: "
+                                android:textAppearance="?android:textAppearanceMedium" />
 
-                        <TextView
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:layout_marginLeft="@dimen/activity_horizontal_margin"
-                            android:layout_marginTop="@dimen/common_margin"
-                            android:text="Male"
-                            android:textAppearance="?android:textAppearanceMedium" />
+                            <TextView
+                                android:id="@+id/txtWhoAmI"
+                                android:layout_width="0dp"
+                                android:layout_weight="1"
+                                android:layout_height="wrap_content"
+                                tools:text="Mac"
+                                android:textAppearance="?android:textAppearanceMedium" />
 
-                        <TextView
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:layout_marginLeft="@dimen/activity_horizontal_margin"
-                            android:layout_marginTop="@dimen/common_margin"
-                            android:text="25 March 1991"
-                            android:textAppearance="?android:textAppearanceMedium" />
+                        </LinearLayout>
+
+                        <LinearLayout
+                            android:layout_width="match_parent"
+                            android:orientation="horizontal"
+                            android:layout_marginTop="10dp"
+                            android:layout_height="wrap_content">
+
+                            <TextView
+                                android:layout_width="0dp"
+                                android:layout_weight="1"
+                                android:layout_height="wrap_content"
+                                android:text="About Me: "
+                                android:textAppearance="?android:textAppearanceMedium" />
+
+                            <TextView
+                                android:id="@+id/txtAboutMe"
+                                android:layout_width="0dp"
+                                android:layout_weight="1"
+                                android:layout_height="wrap_content"
+                                tools:text="Hi"
+                                android:textAppearance="?android:textAppearanceMedium" />
+
+                        </LinearLayout>
+
+                        <LinearLayout
+                            android:layout_width="match_parent"
+                            android:orientation="horizontal"
+                            android:layout_marginTop="10dp"
+                            android:layout_height="wrap_content">
+
+                            <TextView
+                                android:layout_width="0dp"
+                                android:layout_weight="1"
+                                android:layout_height="wrap_content"
+                                android:text="First Name: "
+                                android:textAppearance="?android:textAppearanceMedium" />
+
+                            <TextView
+                                android:id="@+id/txtFirstName"
+                                android:layout_width="0dp"
+                                android:layout_weight="1"
+                                android:layout_height="wrap_content"
+                                tools:text="First"
+                                android:textAppearance="?android:textAppearanceMedium" />
+
+                        </LinearLayout>
+
+
+                        <LinearLayout
+                            android:layout_width="match_parent"
+                            android:orientation="horizontal"
+                            android:layout_marginTop="10dp"
+                            android:layout_height="wrap_content">
+
+                            <TextView
+                                android:layout_width="0dp"
+                                android:layout_weight="1"
+                                android:layout_height="wrap_content"
+                                android:text="Last Name: "
+                                android:textAppearance="?android:textAppearanceMedium" />
+
+                            <TextView
+                                android:id="@+id/txtLastName"
+                                android:layout_width="0dp"
+                                android:layout_weight="1"
+                                android:layout_height="wrap_content"
+                                tools:text="Mac"
+                                android:textAppearance="?android:textAppearanceMedium" />
+
+                        </LinearLayout>
+
+
+                        <LinearLayout
+                            android:layout_width="match_parent"
+                            android:orientation="horizontal"
+                            android:layout_marginTop="10dp"
+                            android:layout_height="wrap_content">
+
+                            <TextView
+                                android:layout_width="0dp"
+                                android:layout_weight="1"
+                                android:layout_height="wrap_content"
+                                android:text="Email Id: "
+                                android:textAppearance="?android:textAppearanceMedium" />
+
+                            <TextView
+                                android:id="@+id/txtEmail"
+                                android:layout_width="0dp"
+                                android:layout_weight="1"
+                                android:layout_height="wrap_content"
+                                tools:text="Mac@gmail.com"
+                                android:textAppearance="?android:textAppearanceMedium" />
+
+                        </LinearLayout>
+
+                        <LinearLayout
+                            android:layout_width="match_parent"
+                            android:orientation="horizontal"
+                            android:layout_marginTop="10dp"
+                            android:layout_height="wrap_content">
+
+                            <TextView
+                                android:layout_width="0dp"
+                                android:layout_weight="1"
+                                android:layout_height="wrap_content"
+                                android:text="Date of Birth: "
+                                android:textAppearance="?android:textAppearanceMedium" />
+
+                            <TextView
+                                android:id="@+id/txtDateOfBirth"
+                                android:layout_width="0dp"
+                                android:layout_weight="1"
+                                android:layout_height="wrap_content"
+                                tools:text="10-10-91"
+                                android:textAppearance="?android:textAppearanceMedium" />
+
+                        </LinearLayout>
+
+                        <LinearLayout
+                            android:layout_width="match_parent"
+                            android:orientation="horizontal"
+                            android:layout_marginTop="10dp"
+                            android:layout_height="wrap_content">
+
+                            <TextView
+                                android:layout_width="0dp"
+                                android:layout_weight="1"
+                                android:layout_height="wrap_content"
+                                android:text="Gender: "
+                                android:textAppearance="?android:textAppearanceMedium" />
+
+                            <TextView
+                                android:id="@+id/txtGender"
+                                android:layout_width="0dp"
+                                android:layout_weight="1"
+                                android:layout_height="wrap_content"
+                                tools:text="Male"
+                                android:textAppearance="?android:textAppearanceMedium" />
+
+                        </LinearLayout>
+
+                        <LinearLayout
+                            android:layout_width="match_parent"
+                            android:orientation="horizontal"
+                            android:layout_marginTop="10dp"
+                            android:layout_height="wrap_content">
+
+                            <TextView
+                                android:layout_width="0dp"
+                                android:layout_weight="1"
+                                android:layout_height="wrap_content"
+                                android:text="Marital Status: "
+                                android:textAppearance="?android:textAppearanceMedium" />
+
+                            <TextView
+                                android:id="@+id/txtMarital"
+                                android:layout_width="0dp"
+                                android:layout_weight="1"
+                                android:layout_height="wrap_content"
+                                tools:text="Married"
+                                android:textAppearance="?android:textAppearanceMedium" />
+
+                        </LinearLayout>
+
+
                     </LinearLayout>
 
 
@@ -113,45 +284,144 @@
                             android:textAppearance="?android:textAppearanceMedium"
                             android:textColor="@color/colorPrimaryDark" />
 
-                        <TextView
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:layout_marginLeft="@dimen/activity_horizontal_margin"
-                            android:layout_marginTop="@dimen/common_margin"
-                            android:text="Address: Goregav E Mumbai"
-                            android:textAppearance="?android:textAppearanceMedium" />
+                        <LinearLayout
+                            android:layout_width="match_parent"
+                            android:orientation="horizontal"
+                            android:layout_marginTop="10dp"
+                            android:layout_height="wrap_content">
 
-                        <TextView
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:layout_marginLeft="@dimen/activity_horizontal_margin"
-                            android:layout_marginTop="@dimen/common_margin"
-                            android:text="City : Mumbai"
-                            android:textAppearance="?android:textAppearanceMedium" />
+                            <TextView
+                                android:layout_width="0dp"
+                                android:layout_weight="1"
+                                android:layout_height="wrap_content"
+                                android:text="Address: "
+                                android:textAppearance="?android:textAppearanceMedium" />
 
-                        <TextView
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:layout_marginLeft="@dimen/activity_horizontal_margin"
-                            android:layout_marginTop="@dimen/common_margin"
-                            android:text="State : Maharashtra"
-                            android:textAppearance="?android:textAppearanceMedium" />
+                            <TextView
+                                android:id="@+id/txtAddress"
+                                android:layout_width="0dp"
+                                android:layout_weight="1"
+                                android:layout_height="wrap_content"
+                                tools:text="Mira"
+                                android:textAppearance="?android:textAppearanceMedium" />
 
-                        <TextView
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:layout_marginLeft="@dimen/activity_horizontal_margin"
-                            android:layout_marginTop="@dimen/common_margin"
-                            android:text="Country : India"
-                            android:textAppearance="?android:textAppearanceMedium" />
+                        </LinearLayout>
 
-                        <TextView
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:layout_marginLeft="@dimen/activity_horizontal_margin"
-                            android:layout_marginTop="@dimen/common_margin"
-                            android:text="Contact No : 9998887771"
-                            android:textAppearance="?android:textAppearanceMedium" />
+                        <LinearLayout
+                            android:layout_width="match_parent"
+                            android:orientation="horizontal"
+                            android:layout_marginTop="10dp"
+                            android:layout_height="wrap_content">
+
+                            <TextView
+                                android:layout_width="0dp"
+                                android:layout_weight="1"
+                                android:layout_height="wrap_content"
+                                android:text="City: "
+                                android:textAppearance="?android:textAppearanceMedium" />
+
+                            <TextView
+                                android:id="@+id/txtCity"
+                                android:layout_width="0dp"
+                                android:layout_weight="1"
+                                android:layout_height="wrap_content"
+                                tools:text="City"
+                                android:textAppearance="?android:textAppearanceMedium" />
+
+                        </LinearLayout>
+
+                        <LinearLayout
+                            android:layout_width="match_parent"
+                            android:orientation="horizontal"
+                            android:layout_marginTop="10dp"
+                            android:layout_height="wrap_content">
+
+                            <TextView
+                                android:layout_width="0dp"
+                                android:layout_weight="1"
+                                android:layout_height="wrap_content"
+                                android:text="State: "
+                                android:textAppearance="?android:textAppearanceMedium" />
+
+                            <TextView
+                                android:id="@+id/txtState"
+                                android:layout_width="0dp"
+                                android:layout_weight="1"
+                                android:layout_height="wrap_content"
+                                tools:text="State"
+                                android:textAppearance="?android:textAppearanceMedium" />
+
+                        </LinearLayout>
+
+                        <LinearLayout
+                            android:layout_width="match_parent"
+                            android:orientation="horizontal"
+                            android:layout_marginTop="10dp"
+                            android:layout_height="wrap_content">
+
+                            <TextView
+                                android:layout_width="0dp"
+                                android:layout_weight="1"
+                                android:layout_height="wrap_content"
+                                android:text="Country: "
+                                android:textAppearance="?android:textAppearanceMedium" />
+
+                            <TextView
+                                android:id="@+id/txtCountry"
+                                android:layout_width="0dp"
+                                android:layout_weight="1"
+                                android:layout_height="wrap_content"
+                                tools:text="Country"
+                                android:textAppearance="?android:textAppearanceMedium" />
+
+                        </LinearLayout>
+
+                        <LinearLayout
+                            android:layout_width="match_parent"
+                            android:orientation="horizontal"
+                            android:layout_marginTop="10dp"
+                            android:layout_height="wrap_content">
+
+                            <TextView
+                                android:layout_width="0dp"
+                                android:layout_weight="1"
+                                android:layout_height="wrap_content"
+                                android:text="ZipCode: "
+                                android:textAppearance="?android:textAppearanceMedium" />
+
+                            <TextView
+                                android:id="@+id/txtZip"
+                                android:layout_width="0dp"
+                                android:layout_weight="1"
+                                android:layout_height="wrap_content"
+                                tools:text="64646"
+                                android:textAppearance="?android:textAppearanceMedium" />
+
+                        </LinearLayout>
+
+                        <LinearLayout
+                            android:layout_width="match_parent"
+                            android:orientation="horizontal"
+                            android:layout_marginTop="10dp"
+                            android:layout_height="wrap_content">
+
+                            <TextView
+                                android:layout_width="0dp"
+                                android:layout_weight="1"
+                                android:layout_height="wrap_content"
+                                android:text="Mobile No: "
+                                android:textAppearance="?android:textAppearanceMedium" />
+
+                            <TextView
+                                android:id="@+id/txtMobile"
+                                android:layout_width="0dp"
+                                android:layout_weight="1"
+                                android:layout_height="wrap_content"
+                                tools:text="949449494"
+                                android:textAppearance="?android:textAppearanceMedium" />
+
+                        </LinearLayout>
+
 
                     </LinearLayout>
 

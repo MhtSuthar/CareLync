@@ -69,7 +69,7 @@ public class AllGroupRecyclerAdapter extends RecyclerView.Adapter<AllGroupRecycl
         holder.itemView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                //myGroupFragment.onItemClick(position);
+                myGroupFragment.onItemAllGroupClick(position);
             }
         });
 

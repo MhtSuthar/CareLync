@@ -42,4 +42,6 @@ public class Constants {
 
     public static final int REQUEST_CODE_FINE_LOCATION = 505;
     public static final int REQUEST_LOCATION = 506;
+    public static final String EXTRA_PROFILE = "profile_data";
+    public static final int REQUEST_PROFILE_UPDATE = 105;
 }

@@ -17,6 +17,7 @@ import com.carelynk.R;
 import com.carelynk.base.BaseActivity;
 import com.carelynk.base.BaseFragment;
 import com.carelynk.dashboard.GroupCreateActivity;
+import com.carelynk.dashboard.GroupDetailActivity;
 import com.carelynk.dashboard.HomeActivity;
 import com.carelynk.dashboard.adapter.AllGroupRecyclerAdapter;
 import com.carelynk.dashboard.adapter.GroupFollowedRecyclerAdapter;
@@ -24,6 +25,7 @@ import com.carelynk.dashboard.adapter.MyGroupRecyclerAdapter;
 import com.carelynk.dashboard.model.GroupModel;
 import com.carelynk.databinding.FragmentMyGroupBinding;
 import com.carelynk.rest.AsyncTaskGetCommon;
+import com.carelynk.utilz.AppUtils;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -217,11 +219,7 @@ public class MyGroupFragment extends BaseFragment {
         return list;
     }
 
-    public void onItemClick(int position) {
-       /* Intent intent = new Intent(getActivity(), HomeActivity.class);
-        //intent.putExtra(AppUtils.Extra_Group_Id, mGroupList.get(position).GroupId);
-        moveActivity(intent, getActivity(), false);*/
-    }
+
 
     public void onDeleteItemClick(int position) {
         showAlertDialog(new BaseActivity.OnDialogClick() {
@@ -234,10 +232,31 @@ public class MyGroupFragment extends BaseFragment {
             public void onNegativeBtnClick() {
 
             }
-        }, "", "", true);
+        }, "Delete", getString(R.string.are_you_sure_delete), true);
     }
 
     public void onEditItemClick(int position) {
         moveActivity(new Intent(getActivity(), GroupCreateActivity.class), getActivity(), false);
     }
+
+    public void onItemClick(int position) {
+        Intent intent = new Intent(getActivity(), GroupDetailActivity.class);
+        //intent.putExtra(AppUtils.Extra_Group_Id, mGroupList.get(position).GroupId);
+        intent.putExtra(AppUtils.Extra_Is_From_Which_Group, 0);
+        moveActivity(intent, getActivity(), false);
+    }
+
+    public void onItemFollowClick(int position) {
+        Intent intent = new Intent(getActivity(), GroupDetailActivity.class);
+        intent.putExtra(AppUtils.Extra_Is_From_Which_Group, 1);
+        moveActivity(intent, getActivity(), false);
+    }
+
+    public void onItemAllGroupClick(int position) {
+        Intent intent = new Intent(getActivity(), GroupDetailActivity.class);
+        intent.putExtra(AppUtils.Extra_Is_From_Which_Group, 2);
+        moveActivity(intent, getActivity(), false);
+    }
+
+
 }

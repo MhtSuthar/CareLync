@@ -34,6 +34,7 @@ public class AppUtils {
      */
     public static String Extra_Goal_Id = "goal_id";
     public static String Extra_Group_Id = "group_id";
+    public static String Extra_Is_From_Which_Group = "is_from_which_group";
 
     public static void closeKeyBoard(Activity context) {
         View view =  context.getCurrentFocus();

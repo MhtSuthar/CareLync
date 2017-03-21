@@ -56,17 +56,20 @@ public class GroupFollowedRecyclerAdapter extends RecyclerView.Adapter<GroupFoll
 
     @Override
     public void onBindViewHolder(final ViewHolder holder, final int position) {
+
+        holder.itemView.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                myGroupFragment.onItemFollowClick(position);
+            }
+        });
+
         //final GroupModel feedModel= mListGroup.get(position);
 
        /* holder.txtGroupName.setText(feedModel.GroupName);
         holder.txtCreatedName.setText("Created by ");
 
-        holder.itemView.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                myGroupFragment.onItemClick(position);
-            }
-        });
+
 
         if(feedModel.PhotoURL != null && !feedModel.PhotoURL.equals("") && !feedModel.PhotoURL.equals("null")) {
             holder.imgGroup.setVisibility(View.VISIBLE);

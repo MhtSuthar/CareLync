@@ -16,15 +16,8 @@ public class Urls {
     public static final String GET_PROFILE = "UserProfile/Get?id="+ SharedPreferenceUtil.getString(PrefUtils.PREF_USER_ID, "");
 
 
-    public static final String GET_GROUP_LIST = "Get_Group_List";
     public static final String INSERT_CREATE_GROUP = "Insert_Create_Group";
-    public static final String GET_GOAL_POST = "Get_Goal_Post";
-    public static final String INSERT_GROUP_POST = "Insert_Group_post";
     public static final String CREATE_GOAL = "Create_Goal";
-    public static final String GET_EVENT_LIST = "Get_EventList";
     public static final String INSERT_EVENT = "Insert_Event";
-    public static final String GET_GROUP_POST = "Get_Group_Post";
-    public static final String GET_GROUP_POST_COMMENT = "Get_Group_Post_Comment";
-    public static final String INSERT_GROUP_POST_COMMENT = "Insert_Group_Post_Comment";
-    public static final String INSERT_GOAL_POST = "Insert_Goal_Post";
+    public static final String CREATE_POST = "Home/CreatePost";
 }

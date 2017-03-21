@@ -28,6 +28,7 @@ import com.carelynk.dashboard.model.HighlightModel;
 import com.carelynk.databinding.FragmentMyGroupBinding;
 import com.carelynk.dashboard.HomeActivity;
 import com.carelynk.databinding.FragmentTimelineBinding;
+import com.carelynk.event.EventListActivity;
 import com.carelynk.rest.ApiFactory;
 import com.carelynk.rest.ApiInterface;
 import com.carelynk.rest.AsyncTaskGetCommon;
@@ -35,9 +36,13 @@ import com.carelynk.rest.AsyncTaskPostCommon;
 import com.carelynk.rest.Urls;
 import com.carelynk.search.MySearchActivity;
 import com.carelynk.storage.SharedPreferenceUtil;
+import com.carelynk.trending.TrendingListActivity;
 import com.carelynk.utilz.AppUtils;
+import com.carelynk.utilz.Constants;
+import com.carelynk.utilz.DialogUtils;
 import com.carelynk.utilz.PrefUtils;
 import com.google.gson.JsonArray;
+import com.google.gson.JsonObject;
 
 import org.json.JSONArray;
 import org.json.JSONObject;
@@ -102,6 +107,8 @@ public class HealthFeedsFragment extends BaseFragment {
                     public void onResponse(Call<JsonArray>call, Response<JsonArray> response) {
                         if (response.isSuccessful()) {
                             try{
+                                mHealthFeedList.clear();
+                                Log.e(TAG, "onResponse: "+response.body().toString());
                                 JSONArray jsonArray = new JSONArray(response.body().toString());
                                 for (int i = 0; i < jsonArray.length(); i++) {
                                     //[{"mMainGroupID":1,"MainGroupName":"Heath"},
@@ -120,6 +127,7 @@ public class HealthFeedsFragment extends BaseFragment {
                                     highlightModel.UserName = object.getString("UserName");
                                     mHealthFeedList.add(highlightModel);
                                 }
+                                Log.e(TAG, "Size: "+mHealthFeedList.size());
                                 if(myHealthFeedRecyclerAdapter != null){
                                     mProgressBarHeader.setVisibility(View.GONE);
                                     myHealthFeedRecyclerAdapter.notifyDataSetChanged();
@@ -166,11 +174,35 @@ public class HealthFeedsFragment extends BaseFragment {
                 linAskQuestions.setVisibility(View.VISIBLE);
             }
         });
+        header.findViewById(R.id.btnPost).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if(!TextUtils.isEmpty(edtTopic.getText().toString())){
+                    createPost(edtTopic.getText().toString());
+                }else{
+                    showSnackbar(binding.getRoot(), "Please Enter Share Text");
+                }
+            }
+        });
 
-        header.findViewById(R.id.cardViewSearch).setOnClickListener(new View.OnClickListener() {
+        header.findViewById(R.id.txtGoogle).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 moveActivity(new Intent(getActivity(), MySearchActivity.class), getActivity(), false);
+            }
+        });
+
+        header.findViewById(R.id.txtEvent).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                moveActivity(new Intent(getActivity(), EventListActivity.class), getActivity(), false);
+            }
+        });
+
+        header.findViewById(R.id.txtTrending).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                moveActivity(new Intent(getActivity(), TrendingListActivity.class), getActivity(), false);
             }
         });
 
@@ -184,6 +216,46 @@ public class HealthFeedsFragment extends BaseFragment {
 
         myHealthFeedRecyclerAdapter = new HealthFeedRecyclerAdapter(header, getActivity(), mHealthFeedList, HealthFeedsFragment.this);
         binding.recyclerView.setAdapter(myHealthFeedRecyclerAdapter);
+    }
+
+    void createPost(String title){
+        if(isOnline(getContext())){
+            DialogUtils.showProgressDialog(getContext());
+            ApiInterface apiInterface = ApiFactory.provideInterface();
+            JsonObject payerReg = new JsonObject();
+            payerReg.addProperty("GoalName", title);
+            payerReg.addProperty("Desc", "");
+            payerReg.addProperty("UserId", SharedPreferenceUtil.getString(PrefUtils.PREF_USER_ID, ""));
+            Log.e(TAG, "create post: "+payerReg.toString());
+            Call<JsonObject> call = apiInterface.createPost(payerReg);
+            call.enqueue(new Callback<JsonObject>() {
+                @Override
+                public void onResponse(Call<JsonObject>call, Response<JsonObject> response) {
+                    DialogUtils.stopProgressDialog();
+                    if (response.isSuccessful()) {
+                        try{
+                            JSONObject jsonObject = new JSONObject(response.body().toString());
+                            JSONObject object = jsonObject.getJSONObject("result");
+                            if (object.getBoolean("IsSuccess")) {
+                                edtTopic.setText("");
+                                AppUtils.closeKeyBoard(getActivity());
+                                getHealthFeed();
+                            }else{
+                                showSnackbar(binding.getRoot(), jsonObject.getString("ErrorMessage"));
+                            }
+                        }catch (Exception e){
+                            e.printStackTrace();
+                        }
+                    }
+                }
+
+                @Override
+                public void onFailure(Call<JsonObject>call, Throwable t) {
+                    Log.e(TAG, t.toString());
+                }
+            });
+        }else
+            showSnackbar(binding.getRoot(), getString(R.string.no_internet));
     }
 
     public void onItemClick(int position) {

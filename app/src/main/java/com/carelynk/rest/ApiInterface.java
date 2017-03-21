@@ -29,6 +29,12 @@ public interface ApiInterface {
     @POST("UserProfile/Registration2")
     Call<JsonObject> registrationTwo(@Body RegisterStepTwo registerStepTwo);
 
+    @POST("UserProfile/ProfileUpdate")
+    Call<JsonObject> profileUpdate(@Body JsonObject bean);
+
+    @POST(Urls.CREATE_POST)
+    Call<JsonObject> createPost(@Body JsonObject bean);
+
     @GET(Urls.GET_MAIN_GROUP)
     Call<JsonArray> getMainGroupJs();
 

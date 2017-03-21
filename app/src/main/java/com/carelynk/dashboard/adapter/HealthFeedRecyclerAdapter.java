@@ -90,15 +90,17 @@ public class HealthFeedRecyclerAdapter extends RecyclerView.Adapter<HealthFeedRe
 
         holder.txtCreatedName.setText("Created by "+feedModel.UserName+" at "+ AppUtils.formattedDate("yyyy-MM-dd", "dd-MMM-yyyy", feedModel.CreatedDate.split("T")[0]));
         holder.txtSupport.setText(""+feedModel.SupportCount+" Supports");
-        holder.txtSupport.setText(""+feedModel.AnswerCount+" Answers");
+        holder.txtAnswer.setText(""+feedModel.AnswerCount+" Answers");
         if(!TextUtils.isEmpty(feedModel.Desc))
             holder.txtDesc.setText(feedModel.Desc);
+        else
+            holder.txtDesc.setVisibility(View.GONE);
 
-        if(feedModel.PhotoURL != null && !feedModel.PhotoURL.equals("") && !feedModel.PhotoURL.equals("null")) {
+        /*if(feedModel.PhotoURL != null && !feedModel.PhotoURL.equals("") && !feedModel.PhotoURL.equals("null")) {
             holder.imgGroup.setVisibility(View.VISIBLE);
             Glide.with(mContext).load("http://www.demo.carelynk.com/Content"+feedModel.PhotoURL.split("Content")[1])
                     .into(holder.imgGroup);
-        }else
+        }else*/
             holder.imgGroup.setVisibility(View.GONE);
 
         holder.itemView.setOnClickListener(new View.OnClickListener() {

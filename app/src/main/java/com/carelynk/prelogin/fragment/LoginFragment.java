@@ -120,6 +120,7 @@ public class LoginFragment extends BaseFragment {
                                 SharedPreferenceUtil.putValue(PrefUtils.PREF_CONTACT,  jsonObject.getString("ContactNo"));
                                 SharedPreferenceUtil.putValue(PrefUtils.PREF_INTEREST_AREA,  jsonObject.getString("InterestArea"));
                                 SharedPreferenceUtil.putValue(PrefUtils.PREF_USER_ID, jsonObject.getString("UserId"));
+                                Log.e(TAG, "User id: "+jsonObject.getString("UserId"));
                                 if(binding.chkRemember.isChecked())
                                     SharedPreferenceUtil.putValue(PrefUtils.PREF_REMEMBER_ME, true);
                                 SharedPreferenceUtil.save();
