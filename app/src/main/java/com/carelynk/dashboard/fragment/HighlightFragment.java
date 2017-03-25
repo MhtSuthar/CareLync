@@ -69,7 +69,9 @@ public class HighlightFragment extends BaseFragment {
                 public void onResponse(Call<JsonArray>call, Response<JsonArray> response) {
                     if (response.isSuccessful()) {
                         try{
-                            JSONArray jsonArray = new JSONArray(response.body().toString());
+                              JSONObject jsonObject = new JSONObject(response.body().toString());
+                              JSONArray jsonArray = jsonObject.getJSONArray("result");
+                              //JSONArray jsonArray = new JSONArray(response.body().toString());
                             for (int i = 0; i < jsonArray.length(); i++) {
                                 //[{"mMainGroupID":1,"MainGroupName":"Heath"},
                                 JSONObject object = jsonArray.getJSONObject(i);
