@@ -3,17 +3,21 @@ package com.carelynk.search;
 import android.Manifest;
 import android.app.Activity;
 import android.app.Dialog;
+import android.content.Context;
 import android.content.Intent;
+import android.content.IntentSender;
 import android.content.pm.PackageManager;
 import android.databinding.DataBindingUtil;
 import android.location.Location;
+import android.location.LocationManager;
 import android.os.Bundle;
-import android.provider.Settings;
+import android.os.Handler;
 import android.support.v4.content.ContextCompat;
 import android.support.v7.widget.DefaultItemAnimator;
 import android.support.v7.widget.LinearLayoutManager;
 import android.text.Editable;
 import android.text.TextWatcher;
+import android.util.Log;
 import android.view.Gravity;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -21,29 +25,34 @@ import android.view.View;
 
 import com.carelynk.R;
 import com.carelynk.base.BaseActivity;
-import com.carelynk.dashboard.adapter.AllGroupRecyclerAdapter;
-import com.carelynk.dashboard.fragment.MyGroupFragment;
 import com.carelynk.databinding.ActivityMySearchBinding;
 import com.carelynk.rest.AsyncTaskGetCommon;
 import com.carelynk.search.adapter.SearchListAdapter;
 import com.carelynk.search.model.SearchModel;
+import com.carelynk.storage.SharedPreferenceUtil;
 import com.carelynk.utilz.Constants;
 import com.carelynk.utilz.DialogUtils;
+import com.carelynk.utilz.PrefUtils;
 import com.google.android.gms.common.ConnectionResult;
 import com.google.android.gms.common.api.GoogleApiClient;
+import com.google.android.gms.common.api.PendingResult;
+import com.google.android.gms.common.api.ResultCallback;
+import com.google.android.gms.common.api.Status;
 import com.google.android.gms.location.LocationRequest;
 import com.google.android.gms.location.LocationServices;
+import com.google.android.gms.location.LocationSettingsRequest;
+import com.google.android.gms.location.LocationSettingsResult;
+import com.google.android.gms.location.LocationSettingsStates;
+import com.google.android.gms.location.LocationSettingsStatusCodes;
 import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.OnMapReadyCallback;
 import com.google.android.gms.maps.SupportMapFragment;
-import com.google.android.gms.maps.model.BitmapDescriptorFactory;
 import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.Marker;
 import com.google.android.gms.maps.model.MarkerOptions;
 import com.google.gson.Gson;
 
-import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -59,6 +68,8 @@ public class MySearchActivity extends BaseActivity implements OnMapReadyCallback
     private GoogleApiClient mGoogleApiClient;
     private Location mLastLocation;
     private LocationRequest mLocationRequest;
+	private String mTypeSearch = "hospital";//gym, hair_care, health
+    private static final String TAG = "MySearchActivity";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -91,9 +102,17 @@ public class MySearchActivity extends BaseActivity implements OnMapReadyCallback
             public void afterTextChanged(Editable s) {
                 if(binding.edtSearch.getText().length() > 0){
                     googleSearch();
+                }else{
+                    binding.recyclerView.setVisibility(View.GONE);
                 }
             }
         });
+    }
+
+    public void onCurruntLocClick(View view){
+        if(googleMap != null && mLastLocation != null){
+            moveCameraCurrantLocation(mLastLocation.getLatitude(), mLastLocation.getLongitude());
+        }
     }
 
     private void googleSearch() {
@@ -101,12 +120,14 @@ public class MySearchActivity extends BaseActivity implements OnMapReadyCallback
             @Override
             public void onTaskComplete(String result) {
                 SearchModel searchModel = new Gson().fromJson(result, SearchModel.class);
-                if(searchModel.getStatus().equalsIgnoreCase("ok")){
+                if(searchModel != null && searchModel.getStatus().equalsIgnoreCase("ok")){
                     setSearchRecyclerAdapter(searchModel.getResults());
                 }
             }
         });
-        asyncTaskGetCommon.execute("https://maps.googleapis.com/maps/api/place/textsearch/json?query="+binding.edtSearch.getText().toString()+"&key="+getString(R.string.google_api_key));
+        asyncTaskGetCommon.execute("https://maps.googleapis.com/maps/api/place/textsearch/json?query="+
+                binding.edtSearch.getText().toString().trim()+"&location="+ SharedPreferenceUtil.getString(PrefUtils.PREF_LAT, "0")+","+SharedPreferenceUtil.getString(PrefUtils.PREF_LNG, "0")+
+                "&radius=5000&type="+ mTypeSearch+"&key="+getString(R.string.google_api_key));
     }
 
     private void setSearchRecyclerAdapter(List<SearchModel.Result> results) {
@@ -142,7 +163,7 @@ public class MySearchActivity extends BaseActivity implements OnMapReadyCallback
 
     void init() {
         setSupportActionBar(binding.includeToolbar.toolbar);
-        binding.includeToolbar.toolbarTitle.setText(getString(R.string.my_search));
+        binding.includeToolbar.toolbarTitle.setText(getString(R.string.discover));
         setTitle("");
         binding.includeToolbar.toolbar.setNavigationIcon(R.drawable.ic_back);
         binding.includeToolbar.toolbar.setNavigationOnClickListener(new View.OnClickListener() {
@@ -197,17 +218,20 @@ public class MySearchActivity extends BaseActivity implements OnMapReadyCallback
         }
     }
 
-    private void moveMapMarker(double latitude, double longitude) {
+    private void moveMapMarker(double latitude, double longitude, String title, String desc) {
         closeKeyBoard(this);
         googleMap.clear();
         googleMap.animateCamera(CameraUpdateFactory.newLatLngZoom(new LatLng(latitude, longitude), 15.5f), 4000, null);
-        googleMap.addMarker(new MarkerOptions().position(new LatLng(latitude, longitude)).icon(BitmapDescriptorFactory.fromResource(R.drawable.ic_launcher)).snippet("-1"));
+        googleMap.addMarker(new MarkerOptions().position(new LatLng(latitude, longitude)).title(title).snippet(desc)).showInfoWindow();
     }
 
-    private void moveMapMarkerForCurrantLocation(double latitude, double longitude) {
+    private void moveCameraCurrantLocation(double latitude, double longitude) {
         googleMap.clear();
         googleMap.animateCamera(CameraUpdateFactory.newLatLngZoom(new LatLng(latitude, longitude), 15.5f), 4000, null);
-        googleMap.addMarker(new MarkerOptions().position(new LatLng(latitude, longitude)).title("Your Location").snippet("Home")).showInfoWindow();
+        SharedPreferenceUtil.putValue(PrefUtils.PREF_LAT, ""+latitude);
+        SharedPreferenceUtil.putValue(PrefUtils.PREF_LNG, ""+longitude);
+        SharedPreferenceUtil.save();
+        googleMap.addMarker(new MarkerOptions().position(new LatLng(latitude, longitude)).title("Your Location")).showInfoWindow();
     }
 
     @Override
@@ -240,37 +264,73 @@ public class MySearchActivity extends BaseActivity implements OnMapReadyCallback
     }
 
     private void permissionGrantedAndGetLatLng() {
-        mLastLocation = LocationServices.FusedLocationApi.getLastLocation(
-                mGoogleApiClient);
-        if (googleMap != null)
-            if (mLastLocation != null) {
-                moveMapMarkerForCurrantLocation(mLastLocation.getLatitude(), mLastLocation.getLongitude());
-            } else {
-                showSnackbar(binding.getRoot(), "Check location permission");
-                showAlertDialog(new OnDialogClick() {
-                    @Override
-                    public void onPositiveBtnClick() {
-                        Intent viewIntent = new Intent(Settings.ACTION_LOCATION_SOURCE_SETTINGS);
-                        startActivityForResult(viewIntent, Constants.REQUEST_LOCATION);
-                    }
-
-                    @Override
-                    public void onNegativeBtnClick() {
-
-                    }
-                }, "Location", "Check location permission, Press Yes to ON", true);
+        LocationManager location = (LocationManager) getSystemService(Context.LOCATION_SERVICE);
+        if (location.isProviderEnabled(LocationManager.GPS_PROVIDER)) {
+            this.googleMap.setMyLocationEnabled(true);
+            mLastLocation = LocationServices.FusedLocationApi.getLastLocation(mGoogleApiClient);
+            if (googleMap != null) {
+                if (mLastLocation != null) {
+                    moveCameraCurrantLocation(mLastLocation.getLatitude(), mLastLocation.getLongitude());
+                } else
+                    openLocationDialog(mGoogleApiClient, this);
             }
+        } else {
+            openLocationDialog(mGoogleApiClient, this);
+        }
+    }
+
+    private void openLocationDialog(final GoogleApiClient mGoogleApiClient, final Activity activity) {
+        LocationRequest locationRequest = LocationRequest.create();
+        locationRequest.setPriority(LocationRequest.PRIORITY_HIGH_ACCURACY);
+        locationRequest.setInterval(30 * 1000);
+        locationRequest.setFastestInterval(5 * 1000);
+        LocationSettingsRequest.Builder builder = new LocationSettingsRequest.Builder()
+                .addLocationRequest(locationRequest);
+        builder.setAlwaysShow(true);
+        PendingResult<LocationSettingsResult> result =
+                LocationServices.SettingsApi.checkLocationSettings(this.mGoogleApiClient, builder.build());
+        result.setResultCallback(new ResultCallback<LocationSettingsResult>() {
+            @Override
+            public void onResult(LocationSettingsResult result) {
+                final Status status = result.getStatus();
+                final LocationSettingsStates state = result.getLocationSettingsStates();
+                switch (status.getStatusCode()) {
+                    case LocationSettingsStatusCodes.SUCCESS:
+                        break;
+                    case LocationSettingsStatusCodes.RESOLUTION_REQUIRED:
+                        try {
+                            status.startResolutionForResult(
+                                    activity, Constants.REQUEST_LOCATION);
+                        } catch (IntentSender.SendIntentException e) {
+                        }
+                        break;
+                    case LocationSettingsStatusCodes.SETTINGS_CHANGE_UNAVAILABLE:
+                        break;
+                }
+            }
+        });
+
     }
 
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
-        if(resultCode == Activity.RESULT_OK){
-            if(requestCode == Constants.REQUEST_LOCATION){
-                if (checkPermission(Manifest.permission.ACCESS_FINE_LOCATION, this) &&
-                        checkPermission(Manifest.permission.ACCESS_COARSE_LOCATION, this)) {
-                    permissionGrantedAndGetLatLng();
-                }
+        Log.e(TAG, "onActivityResult: ");
+        if (resultCode == Activity.RESULT_OK) {
+            if (requestCode == Constants.REQUEST_LOCATION) {
+                this.googleMap.setMyLocationEnabled(true);
+                mLastLocation = LocationServices.FusedLocationApi.getLastLocation(mGoogleApiClient);
+                if (googleMap != null)
+                    if (mLastLocation != null) {
+                        moveCameraCurrantLocation(mLastLocation.getLatitude(), mLastLocation.getLongitude());
+                    }else{
+                        new Handler().postDelayed(new Runnable() {
+                            @Override
+                            public void run() {
+                                onActivityResult(Constants.REQUEST_LOCATION, Activity.RESULT_OK, null);
+                            }
+                        }, 1000);
+                    }
             }
         }
     }
@@ -303,4 +363,12 @@ public class MySearchActivity extends BaseActivity implements OnMapReadyCallback
     }
 
 
+    public void onSearchItemClick(SearchModel.Result result) {
+        if(result.getGeometry() != null && result.getGeometry().getLocation() != null){
+            binding.recyclerView.setVisibility(View.GONE);
+            closeKeyBoard(this);
+            moveMapMarker(result.getGeometry().getLocation().getLat(), result.getGeometry().getLocation().getLng(),
+                    result.getName(), result.getFormattedAddress());
+        }
+    }
 }

@@ -34,7 +34,7 @@ public class TimePickerDialogFragment extends DialogFragment implements TimePick
     }
 
     public void setDatePickerDate(int hour, int min) {
-       this.hour = hour;
+        this.hour = hour;
         this.min = min;
     }
 
@@ -48,7 +48,7 @@ public class TimePickerDialogFragment extends DialogFragment implements TimePick
     public void onDismiss(DialogInterface dialog) {
         super.onDismiss(dialog);
         if (!cancelDialog) {
-            onTimeSelection.onTimeSelect(""+hour+" : "+min);
+            onTimeSelection.onTimeSelect(""+hour+":"+min);
         }
     }
 

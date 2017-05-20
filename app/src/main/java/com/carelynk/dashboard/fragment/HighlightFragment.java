@@ -21,7 +21,9 @@ import com.carelynk.dashboard.HomeActivity;
 import com.carelynk.dashboard.adapter.HighlightRecyclerAdapter;
 import com.carelynk.rest.ApiFactory;
 import com.carelynk.rest.ApiInterface;
+import com.carelynk.utilz.AppUtils;
 import com.google.gson.JsonArray;
+import com.google.gson.JsonObject;
 
 import org.json.JSONArray;
 import org.json.JSONObject;
@@ -63,10 +65,10 @@ public class HighlightFragment extends BaseFragment {
         if (isOnline(getContext())) {
             binding.progressBar.setVisibility(View.VISIBLE);
             ApiInterface apiInterface = ApiFactory.provideInterface();
-            Call<JsonArray> call = apiInterface.getHealthFeed();
-            call.enqueue(new Callback<JsonArray>() {
+            Call<JsonObject> call = apiInterface.getHealthFeed();
+            call.enqueue(new Callback<JsonObject>() {
                 @Override
-                public void onResponse(Call<JsonArray>call, Response<JsonArray> response) {
+                public void onResponse(Call<JsonObject>call, Response<JsonObject> response) {
                     if (response.isSuccessful()) {
                         try{
                               JSONObject jsonObject = new JSONObject(response.body().toString());
@@ -98,7 +100,7 @@ public class HighlightFragment extends BaseFragment {
                 }
 
                 @Override
-                public void onFailure(Call<JsonArray>call, Throwable t) {
+                public void onFailure(Call<JsonObject>call, Throwable t) {
                     binding.progressBar.setVisibility(View.VISIBLE);
                     binding.txtNoData.setVisibility(View.VISIBLE);
                     Log.e(TAG, t.toString());
@@ -132,7 +134,7 @@ public class HighlightFragment extends BaseFragment {
 
     public void onItemClick(int position) {
         Intent intent = new Intent(getActivity(), FeedDetailActivity.class);
-        //intent.putExtra(AppUtils.Extra_Goal_Id, mHealthFeedList.get(position).GoalId);
+        intent.putExtra(AppUtils.Extra_Goal_Detail, mTimelineList.get(position));
         moveActivity(intent, getActivity(), false);
     }
 }

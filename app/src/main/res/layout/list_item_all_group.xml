@@ -45,13 +45,25 @@
                     android:textColor="@color/color_text_dark"
                     android:text="Creted By" />
 
+                <TextView
+                    android:id="@+id/txtDesc"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_toRightOf="@+id/imgGroup"
+                    android:paddingLeft="@dimen/activity_horizontal_margin"
+                    android:paddingRight="@dimen/activity_horizontal_margin"
+                    android:layout_below="@+id/txtCreatedName"
+                    android:textAppearance="?android:textAppearanceMedium"
+                    android:textColor="@android:color/black"
+                    tools:text="Desc" />
+
                 <ImageView
                     android:id="@+id/imgGroup"
                     android:layout_width="60dp"
                     android:layout_height="60dp"
                     android:scaleType="centerCrop"
                     android:visibility="visible"
-                    android:src="@drawable/dummy_bg_img" />
+                    android:src="@drawable/ic_placeholder" />
 
 
             </RelativeLayout>

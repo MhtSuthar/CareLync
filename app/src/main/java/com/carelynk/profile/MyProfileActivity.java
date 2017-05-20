@@ -66,7 +66,10 @@ public class MyProfileActivity extends BaseActivity {
                     Log.e(TAG, "onTaskComplete: "+result);
                     binding.progressBar.setVisibility(View.GONE);
                     try{
-                        JSONObject jsonObject = new JSONObject(result);
+                        JSONObject jsonObject1 = new JSONObject(result);
+                        JSONObject object = jsonObject1.getJSONObject("result");
+                        JSONArray jsonArray = object.getJSONArray("Table");
+                        JSONObject jsonObject = jsonArray.getJSONObject(0);
                         binding.txtUserName.setText(jsonObject.getString("FirstName")+""+jsonObject.getString("LastName"));
 
                         binding.txtFirstName.setText(jsonObject.getString("FirstName"));

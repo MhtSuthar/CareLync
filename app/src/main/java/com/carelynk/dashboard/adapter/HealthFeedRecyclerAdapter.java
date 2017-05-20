@@ -3,7 +3,9 @@ package com.carelynk.dashboard.adapter;
 import android.content.Context;
 import android.support.v7.widget.CardView;
 import android.support.v7.widget.RecyclerView;
+import android.text.Html;
 import android.text.TextUtils;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -16,6 +18,7 @@ import com.carelynk.dashboard.fragment.HealthFeedsFragment;
 import com.carelynk.dashboard.model.HealthFeedModel;
 import com.carelynk.dashboard.model.HighlightModel;
 import com.carelynk.utilz.AppUtils;
+import com.carelynk.utilz.CircleTransform;
 
 import java.util.List;
 
@@ -40,7 +43,7 @@ public class HealthFeedRecyclerAdapter extends RecyclerView.Adapter<HealthFeedRe
         public CardView cardView;
         public TextView txtGoalName, txtDesc;
         public TextView txtCreatedName, txtAnswer, txtSupport;
-        public ImageView imgGroup;
+        public ImageView imgGroup, imgUser;
 
         public ViewHolder(View rowView) {
             super(rowView);
@@ -51,6 +54,7 @@ public class HealthFeedRecyclerAdapter extends RecyclerView.Adapter<HealthFeedRe
             txtCreatedName = (TextView) rowView.findViewById(R.id.txtCreatedName);
             txtDesc = (TextView) rowView.findViewById(R.id.txtDesc);
             imgGroup = (ImageView) rowView.findViewById(R.id.imgGroup);
+            imgUser = (ImageView) rowView.findViewById(R.id.imgUser);
         }
     }
 
@@ -87,13 +91,15 @@ public class HealthFeedRecyclerAdapter extends RecyclerView.Adapter<HealthFeedRe
         }
         final HighlightModel feedModel = mListPatient.get(position-1);
         holder.txtGoalName.setText(feedModel.GoalName);
-
-        holder.txtCreatedName.setText("Created by "+feedModel.UserName+" at "+ AppUtils.formattedDate("yyyy-MM-dd", "dd-MMM-yyyy", feedModel.CreatedDate.split("T")[0]));
+        Glide.with(mContext).load(R.drawable.ic_placeholder).
+                transform(new CircleTransform(mContext)).into(holder.imgUser);
+        holder.txtCreatedName.setText("Health Feed Created by \n"+feedModel.UserName+" at "+ AppUtils.formattedDate("dd/MM/yyyy", "dd-MMM-yyyy", feedModel.CreatedDate));
         holder.txtSupport.setText(""+feedModel.SupportCount+" Supports");
         holder.txtAnswer.setText(""+feedModel.AnswerCount+" Answers");
-        if(!TextUtils.isEmpty(feedModel.Desc))
-            holder.txtDesc.setText(feedModel.Desc);
-        else
+        if(!TextUtils.isEmpty(feedModel.Desc)) {
+            holder.txtDesc.setVisibility(View.VISIBLE);
+            holder.txtDesc.setText(Html.fromHtml(feedModel.Desc));
+        } else
             holder.txtDesc.setVisibility(View.GONE);
 
         /*if(feedModel.PhotoURL != null && !feedModel.PhotoURL.equals("") && !feedModel.PhotoURL.equals("null")) {
@@ -103,7 +109,7 @@ public class HealthFeedRecyclerAdapter extends RecyclerView.Adapter<HealthFeedRe
         }else*/
             holder.imgGroup.setVisibility(View.GONE);
 
-        holder.itemView.setOnClickListener(new View.OnClickListener() {
+        holder.txtGoalName.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 myForumFragment.onItemClick(position-1);

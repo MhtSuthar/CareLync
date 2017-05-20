@@ -1,10 +1,12 @@
 package com.carelynk.dashboard.model;
 
+import java.io.Serializable;
+
 /**
  * Created by Admin on 06-Mar-17.
  */
 
-public class HighlightModel {
+public class HighlightModel implements Serializable{
     public int GoalId;
     public String GoalName;
     public String Desc;

@@ -109,7 +109,7 @@ public class LoginFragment extends BaseFragment {
                             JSONObject jsonObject = new JSONObject(response.body().toString());
                             if (jsonObject.getBoolean("IsSuccess")) {
                                 SharedPreferenceUtil.putValue(PrefUtils.PREF_IS_LOGIN, true);
-                                SharedPreferenceUtil.putValue(PrefUtils.PREF_PASSWORD, jsonObject.getString("PasswordHash"));
+                                SharedPreferenceUtil.putValue(PrefUtils.PREF_PASSWORD, binding.edtPass.getText().toString());
                                 SharedPreferenceUtil.putValue(PrefUtils.PREF_PROFILE_PIC,  jsonObject.getString("ProfilePicUrl"));
                                 SharedPreferenceUtil.putValue(PrefUtils.PREF_USER_PROFILE_ID, jsonObject.getInt("UserProfileId"));
                                 SharedPreferenceUtil.putValue(PrefUtils.PREF_EMAIL, jsonObject.getString("Email"));
@@ -121,9 +121,11 @@ public class LoginFragment extends BaseFragment {
                                 SharedPreferenceUtil.putValue(PrefUtils.PREF_INTEREST_AREA,  jsonObject.getString("InterestArea"));
                                 SharedPreferenceUtil.putValue(PrefUtils.PREF_USER_ID, jsonObject.getString("UserId"));
                                 Log.e(TAG, "User id: "+jsonObject.getString("UserId"));
-                                if(binding.chkRemember.isChecked())
+                                if(binding.chkRemember.isChecked()) {
                                     SharedPreferenceUtil.putValue(PrefUtils.PREF_REMEMBER_ME, true);
+                                }
                                 SharedPreferenceUtil.save();
+                                Log.e(TAG, "User id: after "+SharedPreferenceUtil.getString(PrefUtils.PREF_USER_ID, ""));
                                 Intent intent = new Intent(getActivity(), HomeActivity.class);
                                 //intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_CLEAR_TOP);
                                 moveActivity(intent, getActivity(), true);

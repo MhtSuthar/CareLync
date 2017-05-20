@@ -34,9 +34,6 @@ public class MenuActivity extends BaseActivityWithSidebar {
         inflater = LayoutInflater.from(this);
         binding = DataBindingUtil.inflate(inflater, R.layout.activity_home, getMiddleContent(), true);
         init();
-
-        SharedPreferenceUtil.putValue(PrefUtils.PREF_USER_ID, "e0210b09-03ff-45a6-b07b-1af532b22bdf");
-        SharedPreferenceUtil.save();
     }
 
     void init(){

@@ -24,12 +24,12 @@ import android.widget.ImageView;
 import com.bumptech.glide.Glide;
 import com.carelynk.R;
 import com.carelynk.base.BaseActivity;
+import com.carelynk.dashboard.model.GroupModelGson;
 import com.carelynk.databinding.ActivityGroupCreateBinding;
 import com.carelynk.rest.ApiFactory;
 import com.carelynk.rest.ApiInterface;
-import com.carelynk.rest.AsyncTaskPostCommon;
-import com.carelynk.rest.Urls;
 import com.carelynk.storage.SharedPreferenceUtil;
+import com.carelynk.utilz.AppUtils;
 import com.carelynk.utilz.CircleTransform;
 import com.carelynk.utilz.Constants;
 import com.carelynk.utilz.DialogUtils;
@@ -38,7 +38,7 @@ import com.carelynk.utilz.camera.BitmapHelper;
 import com.carelynk.utilz.camera.CameraIntentHelper;
 import com.carelynk.utilz.camera.CameraIntentHelperCallback;
 import com.carelynk.utilz.camera.ImageFilePath;
-import com.google.gson.JsonArray;
+import com.google.gson.JsonObject;
 
 import org.json.JSONArray;
 import org.json.JSONObject;
@@ -68,6 +68,8 @@ public class GroupCreateActivity extends BaseActivity {
     private String mMainGroupID = "MainGroupID";
     private String mMainGroupName = "MainGroupName";
     private List<HashMap<String, String>> mGroupCatList = new ArrayList<>();
+    private boolean mIsEditGroup;
+    private GroupModelGson.Result mGroupDetail;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -78,9 +80,21 @@ public class GroupCreateActivity extends BaseActivity {
 
         checkPermission();
 
+        if(getIntent().hasExtra(Constants.EXTRA_IS_EDIT_GROUP)){
+            mIsEditGroup = getIntent().getExtras().getBoolean(Constants.EXTRA_IS_EDIT_GROUP);
+            binding.txtCreate.setText("Update");
+        }
+        if(mIsEditGroup){
+            binding.txtToolbar.setText(getString(R.string.edit_group));
+            mGroupDetail = (GroupModelGson.Result) getIntent().getExtras().getSerializable(Constants.EXTRA_GROUP_DETAIL);
+            binding.edtDescription.setText(mGroupDetail.getDescription());
+            binding.edtGroupName.setText(mGroupDetail.getGroupName());
+            binding.checkPrivate.setChecked(mGroupDetail.getPublicPrivate().equalsIgnoreCase("false") ? false : true);
+        }
+
         setupCameraIntentHelper();
 
-        getCountryCodeJs();
+        getGroupCategory();
 
         binding.toolbar.setNavigationIcon(R.drawable.ic_cancel_grey);
         binding.toolbar.setNavigationOnClickListener(new View.OnClickListener() {
@@ -118,19 +132,87 @@ public class GroupCreateActivity extends BaseActivity {
     void attemptCreateGroup(){
         if(isOnline(this)){
             if(isValid()) {
-                AsyncTaskPostCommon asyncTaskCommon = new AsyncTaskPostCommon(getApplicationContext(), new AsyncTaskPostCommon.AsyncTaskCompleteListener() {
-                    @Override
-                    public void onTaskComplete(String result) {
-                        if (result.length() > 0) {
-
-                        } else
-                            showSnackbar(binding.getRoot(), getString(R.string.error_server));
-                    }
-                });
-                asyncTaskCommon.execute(Urls.INSERT_CREATE_GROUP, getAllValues());
+               createGroup();
             }
         }else
             showSnackbar(binding.getRoot(), getString(R.string.no_internet));
+    }
+
+    private void createGroup() {
+        DialogUtils.showProgressDialog(this);
+        ApiInterface apiInterface = ApiFactory.provideInterface();
+        JsonObject payerReg = new JsonObject();
+
+        payerReg.addProperty("GroupName", binding.edtGroupName.getText().toString());
+        payerReg.addProperty("Description", binding.edtDescription.getText().toString());
+        payerReg.addProperty("UserId", SharedPreferenceUtil.getString(PrefUtils.PREF_USER_ID, ""));
+        payerReg.addProperty("PublicPrivate", binding.checkPrivate.isChecked() ? 1 : 0);
+        payerReg.addProperty("PhotoURL", "");
+
+        if(mIsEditGroup){
+            payerReg.addProperty("MainGroupId", Integer.parseInt(getSelectedGroupCatId()));
+            payerReg.addProperty("GroupId", Integer.parseInt(mGroupDetail.getGroupId()));
+            Log.e(TAG, "edit group: "+payerReg.toString());
+            Call<JsonObject> call = apiInterface.updateGroup(payerReg);
+            call.enqueue(new Callback<JsonObject>() {
+                @Override
+                public void onResponse(Call<JsonObject> call, Response<JsonObject> response) {
+                    DialogUtils.stopProgressDialog();
+                    if (response.isSuccessful()) {
+                        try {
+                            Log.e(TAG, "onResponse: " + response.body().toString());
+                            JSONObject jsonObject = new JSONObject(response.body().toString());
+                            if (jsonObject.getBoolean("IsSuccess")) {
+                                AppUtils.closeKeyBoard(GroupCreateActivity.this);
+                                showSnackbar(binding.getRoot(), "Group Update Successfully");
+                                setResult(RESULT_OK);
+                                finish();
+                            } else {
+                                showSnackbar(binding.getRoot(), jsonObject.getString("ErrorMessage"));
+                            }
+                        } catch (Exception e) {
+                            e.printStackTrace();
+                        }
+                    }
+                }
+
+                @Override
+                public void onFailure(Call<JsonObject> call, Throwable t) {
+                    Log.e(TAG, t.toString());
+                }
+            });
+        }else {
+            payerReg.addProperty("MainGroupId", Integer.parseInt(getSelectedGroupCatId()));
+            Log.e(TAG, "create group: "+payerReg.toString());
+            Call<JsonObject> call = apiInterface.createGroup(payerReg);
+            call.enqueue(new Callback<JsonObject>() {
+                @Override
+                public void onResponse(Call<JsonObject> call, Response<JsonObject> response) {
+                    DialogUtils.stopProgressDialog();
+                    if (response.isSuccessful()) {
+                        try {
+                            Log.e(TAG, "onResponse: " + response.body().toString());
+                            JSONObject jsonObject = new JSONObject(response.body().toString());
+                            if (jsonObject.getBoolean("IsSuccess")) {
+                                AppUtils.closeKeyBoard(GroupCreateActivity.this);
+                                showSnackbar(binding.getRoot(), "Group Create Successfully");
+                                setResult(RESULT_OK);
+                                finish();
+                            } else {
+                                showSnackbar(binding.getRoot(), jsonObject.getString("ErrorMessage"));
+                            }
+                        } catch (Exception e) {
+                            e.printStackTrace();
+                        }
+                    }
+                }
+
+                @Override
+                public void onFailure(Call<JsonObject> call, Throwable t) {
+                    Log.e(TAG, t.toString());
+                }
+            });
+        }
     }
 
     private boolean isValid() {
@@ -142,38 +224,25 @@ public class GroupCreateActivity extends BaseActivity {
         return true;
     }
 
-    private String getAllValues() {
-        JSONObject jsonObject = new JSONObject();
-        try{
-            jsonObject.put("GroupName", binding.edtGroupName.getText().toString());
-            jsonObject.put("Isprivate", false);
-            jsonObject.put("Desc", binding.edtDescription.getText().toString());
-            jsonObject.put("MainGroupId", ""+getSelectedGroupCatId());
-            jsonObject.put("Photourl", "");
-            jsonObject.put("user_id", SharedPreferenceUtil.getString(PrefUtils.PREF_USER_ID, ""));
-        }catch (Exception e){
-            e.printStackTrace();
-        }
-        return jsonObject.toString();
-    }
-
     private String getSelectedGroupCatId() {
         return mGroupCatList.get(binding.spnrGroupCategory.getSelectedItemPosition()).get(mMainGroupID);
     }
 
 
-    private void getCountryCodeJs() {
+    private void getGroupCategory() {
         if(isOnline(this)){
             ApiInterface apiInterface = ApiFactory.provideInterface();
-            Call<JsonArray> call = apiInterface.getMainGroupJs();
-            call.enqueue(new Callback<JsonArray>() {
+            Call<JsonObject> call = apiInterface.getGroupCategory();
+            call.enqueue(new Callback<JsonObject>() {
                 @Override
-                public void onResponse(Call<JsonArray>call, Response<JsonArray> response) {
+                public void onResponse(Call<JsonObject>call, Response<JsonObject> response) {
                     if (response.isSuccessful()) {
                         try{
-                            JSONArray jsonArray = new JSONArray(response.body().toString());
+                            binding.progressBar.setVisibility(View.GONE);
+                            Log.e(TAG, "onResponse: "+response.body().toString());
+                            JSONObject jsonObject = new JSONObject(response.body().toString());
+                            JSONArray jsonArray = jsonObject.getJSONArray("result");
                             for (int i = 0; i < jsonArray.length(); i++) {
-                                //[{"mMainGroupID":1,"MainGroupName":"Heath"},
                                 JSONObject object = jsonArray.getJSONObject(i);
                                 HashMap<String, String> map = new HashMap<String, String>();
                                 map.put(mMainGroupID, ""+object.getInt("MainGroupID"));
@@ -188,11 +257,12 @@ public class GroupCreateActivity extends BaseActivity {
                 }
 
                 @Override
-                public void onFailure(Call<JsonArray>call, Throwable t) {
+                public void onFailure(Call<JsonObject>call, Throwable t) {
                     Log.e(TAG, t.toString());
                 }
             });
         }else{
+            binding.progressBar.setVisibility(View.GONE);
             showSnackbar(binding.getRoot(), "Error");
         }
     }
@@ -211,6 +281,19 @@ public class GroupCreateActivity extends BaseActivity {
             spinnerArrayAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
             binding.spnrGroupCategory.setAdapter(spinnerArrayAdapter);
         }
+
+        if(mIsEditGroup){
+            binding.spnrGroupCategory.setSelection(getSelectedGroupPos());
+        }
+    }
+
+    private int getSelectedGroupPos() {
+        for (int i = 0; i < mGroupCatList.size(); i++) {
+            Log.e(TAG, "getSelectedGroupPos: "+mGroupCatList.get(i).get(mMainGroupID)+"  ==  "+mGroupDetail.getMainGroupId());
+            if(mGroupCatList.get(i).get(mMainGroupID).equals(mGroupDetail.getMainGroupId()))
+                return i;
+        }
+        return 0;
     }
 
     void openGalleryDialog(){

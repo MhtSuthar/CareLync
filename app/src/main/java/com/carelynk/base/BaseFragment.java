@@ -42,6 +42,15 @@ public abstract class BaseFragment extends Fragment {
             }, 400);
     }
 
+    protected void moveActivityResult(Intent intent, Activity context, int code){
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
+            startActivityForResult(intent, code,
+                    ActivityOptions.makeSceneTransitionAnimation(context).toBundle());
+        } else {
+            startActivityForResult(intent, code);
+        }
+    }
+
     public void addFragment(Fragment fragment){
         getActivity().getSupportFragmentManager().beginTransaction().setTransition(FragmentTransaction.TRANSIT_FRAGMENT_OPEN).
                 add(R.id.container, fragment, fragment.getTag()).addToBackStack(fragment.getTag()).commit();

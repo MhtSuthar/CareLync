@@ -10,6 +10,8 @@ import android.widget.TextView;
 
 import com.carelynk.R;
 import com.carelynk.dashboard.fragment.MyGroupFragment;
+import com.carelynk.dashboard.model.GroupModelGson;
+import com.carelynk.utilz.AppUtils;
 
 import java.util.List;
 
@@ -18,8 +20,7 @@ import java.util.List;
  */
 public class GroupFollowedRecyclerAdapter extends RecyclerView.Adapter<GroupFollowedRecyclerAdapter.ViewHolder> {
 
-    private static final int ANIM_DURATION = 300;
-    private List<String> mListGroup;
+    private List<GroupModelGson.Result> mListGroup;
     private Context mContext;
     private MyGroupFragment myGroupFragment;
 
@@ -38,7 +39,7 @@ public class GroupFollowedRecyclerAdapter extends RecyclerView.Adapter<GroupFoll
         }
     }
 
-    public GroupFollowedRecyclerAdapter(Context context, List<String> mListPatient, MyGroupFragment myGroupFragment) {
+    public GroupFollowedRecyclerAdapter(Context context, List<GroupModelGson.Result> mListPatient, MyGroupFragment myGroupFragment) {
         this.mListGroup = mListPatient;
         mContext = context;
         this.myGroupFragment = myGroupFragment;
@@ -60,18 +61,16 @@ public class GroupFollowedRecyclerAdapter extends RecyclerView.Adapter<GroupFoll
         holder.itemView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                myGroupFragment.onItemFollowClick(position);
+                myGroupFragment.onItemFollowClick(position, mListGroup.get(position));
             }
         });
 
-        //final GroupModel feedModel= mListGroup.get(position);
-
-       /* holder.txtGroupName.setText(feedModel.GroupName);
-        holder.txtCreatedName.setText("Created by ");
-
+        holder.txtGroupName.setText(mListGroup.get(position).getGroupName());
+        //holder.tx.setText(mListGroup.get(position).getDescription());
+        holder.txtCreatedName.setText("Created on "+ AppUtils.formattedDate("dd/MM/yyyy", "dd-MMM-yyyy", mListGroup.get(position).getCreatedDate()));
 
 
-        if(feedModel.PhotoURL != null && !feedModel.PhotoURL.equals("") && !feedModel.PhotoURL.equals("null")) {
+        /*if(feedModel.PhotoURL != null && !feedModel.PhotoURL.equals("") && !feedModel.PhotoURL.equals("null")) {
             holder.imgGroup.setVisibility(View.VISIBLE);
             Log.e("Image", "onBindVieold http://www.demo.carelynk.com/Content"+feedModel.PhotoURL.
                     split("Content")[1]);
@@ -82,7 +81,7 @@ public class GroupFollowedRecyclerAdapter extends RecyclerView.Adapter<GroupFoll
 
     @Override
     public int getItemCount() {
-        return 3;
+        return mListGroup.size();
     }
 
 

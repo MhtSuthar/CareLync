@@ -20,10 +20,15 @@ import android.widget.ImageView;
 import com.bumptech.glide.Glide;
 import com.carelynk.R;
 import com.carelynk.base.BaseActivity;
+import com.carelynk.dashboard.GroupCreateActivity;
 import com.carelynk.databinding.ActivityEventCreateBinding;
+import com.carelynk.event.model.EventList;
+import com.carelynk.rest.ApiFactory;
+import com.carelynk.rest.ApiInterface;
 import com.carelynk.rest.AsyncTaskPostCommon;
 import com.carelynk.rest.Urls;
 import com.carelynk.storage.SharedPreferenceUtil;
+import com.carelynk.utilz.AppUtils;
 import com.carelynk.utilz.Constants;
 import com.carelynk.utilz.DatePickerDialogFragment;
 import com.carelynk.utilz.DialogUtils;
@@ -33,6 +38,7 @@ import com.carelynk.utilz.camera.BitmapHelper;
 import com.carelynk.utilz.camera.CameraIntentHelper;
 import com.carelynk.utilz.camera.CameraIntentHelperCallback;
 import com.carelynk.utilz.camera.ImageFilePath;
+import com.google.gson.JsonObject;
 
 import org.json.JSONObject;
 
@@ -40,6 +46,10 @@ import java.io.File;
 import java.io.IOException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
+
+import retrofit2.Call;
+import retrofit2.Callback;
+import retrofit2.Response;
 
 /**
  * Created by Admin on 15-Sep-16.
@@ -50,6 +60,8 @@ public class EventCreateActivity extends BaseActivity {
     private CameraIntentHelper mCameraIntentHelper;
     private String imagePath = "";
     private static final String TAG = "EventCreateActivity";
+    private boolean mIsFromEdit;
+    private EventList.Result mEventData;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -84,16 +96,19 @@ public class EventCreateActivity extends BaseActivity {
     }
 
     void init(){
-        /**
-         * For image draw over status bar
-         */
-      /*  if (Build.VERSION.SDK_INT >= 21) {
-            getWindow().setFlags(WindowManager.LayoutParams.FLAG_TRANSLUCENT_STATUS,
-                    WindowManager.LayoutParams.FLAG_TRANSLUCENT_STATUS);
-            binding.imgBack.setPadding(getStatusBarHeight()-10, getStatusBarHeight()+10, getStatusBarHeight(), getStatusBarHeight());
-        }*/
         if(getIntent().hasExtra(Constants.EXTRA_IS_FOR_EDIT_EVENT)){
+            mIsFromEdit = getIntent().getExtras().getBoolean(Constants.EXTRA_IS_FOR_EDIT_EVENT);
             binding.txtToolbar.setText(getString(R.string.edit_event));
+            mEventData = (EventList.Result) getIntent().getSerializableExtra(Constants.EXTRA_EVENT);
+            binding.edtEventAddress.setText(mEventData.getAddress());
+            binding.edtDesc.setText(mEventData.getEventDesc());
+            binding.edtEventName.setText(mEventData.getEventName());
+
+            binding.edtTimeTo.setText(mEventData.getEventTimeTo());
+            binding.edtDateTo.setText(AppUtils.formattedDate("dd/MM/yyyy", "dd MMMM yyyy", mEventData.getEventDateTo()));
+            binding.edtEventDate.setText(AppUtils.formattedDate("dd/MM/yyyy", "dd MMMM yyyy", mEventData.getEventDateFrom()));
+            binding.edtEventTime.setText(mEventData.getEventTimeFrom());
+            binding.checkPrivate.setChecked(mEventData.getIsPrivate().equalsIgnoreCase("true") ? true : false);
         }
         binding.toolbar.setNavigationIcon(R.drawable.ic_cancel_grey);
         binding.toolbar.setNavigationOnClickListener(new View.OnClickListener() {
@@ -124,8 +139,6 @@ public class EventCreateActivity extends BaseActivity {
             }
         });
 
-
-
         binding.edtEventDate.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -145,7 +158,33 @@ public class EventCreateActivity extends BaseActivity {
                 TimePickerDialogFragment datePickerDialogFragment = new TimePickerDialogFragment(new TimePickerDialogFragment.OnTimeSelection() {
                     @Override
                     public void onTimeSelect(String time) {
-                        binding.edtEventTime.setText(time);
+                        binding.edtEventTime.setText(AppUtils.get12HourTime(time));
+                    }
+                });
+                datePickerDialogFragment.show(getSupportFragmentManager(), "timePicker");
+            }
+        });
+
+        binding.edtDateTo.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                DatePickerDialogFragment datePickerDialogFragment = new DatePickerDialogFragment(new DatePickerDialogFragment.OnDateSelection() {
+                    @Override
+                    public void onDateSelect(String date) {
+                        binding.edtDateTo.setText(date);
+                    }
+                });
+                datePickerDialogFragment.show(getSupportFragmentManager(), "datePicker");
+            }
+        });
+
+        binding.edtTimeTo.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                TimePickerDialogFragment datePickerDialogFragment = new TimePickerDialogFragment(new TimePickerDialogFragment.OnTimeSelection() {
+                    @Override
+                    public void onTimeSelect(String time) {
+                        binding.edtTimeTo.setText(AppUtils.get12HourTime(time));
                     }
                 });
                 datePickerDialogFragment.show(getSupportFragmentManager(), "timePicker");
@@ -153,34 +192,74 @@ public class EventCreateActivity extends BaseActivity {
         });
     }
 
-    public void attemptInsertEvent(View view){
-        if(isOnline(this)){
-            if(isValid()) {
-                AsyncTaskPostCommon asyncTaskCommon = new AsyncTaskPostCommon(getApplicationContext(), new AsyncTaskPostCommon.AsyncTaskCompleteListener() {
-                    @Override
-                    public void onTaskComplete(String result) {
-                        if (result.length() > 0) {
-                            showSnackbar(binding.getRoot(), "Success");
-                        } else
-                            showSnackbar(binding.getRoot(), getString(R.string.error_server));
+
+    public void attemptInsertEvent(View view) {
+        DialogUtils.showProgressDialog(this);
+        ApiInterface apiInterface = ApiFactory.provideInterface();
+        Call<JsonObject> call;
+        JsonObject payerReg = new JsonObject();
+
+        payerReg.addProperty("Event_ID", mIsFromEdit ? Integer.parseInt(mEventData.getEventID()) : 0);
+        payerReg.addProperty("EventDesc", binding.edtDesc.getText().toString());
+        payerReg.addProperty("User_ID", SharedPreferenceUtil.getString(PrefUtils.PREF_USER_ID, ""));
+        payerReg.addProperty("IsPrivate", binding.checkPrivate.isChecked() ? 1 : 0);
+        payerReg.addProperty("EventName", binding.edtEventName.getText().toString());
+        payerReg.addProperty("EventDateFrom", getDateFrom());
+        payerReg.addProperty("EventDateTo", getDateTo());
+        payerReg.addProperty("EventTimeTo", getDateTo());
+        payerReg.addProperty("Location", binding.edtEventAddress.getText().toString());
+        payerReg.addProperty("EventTimeFrom", getDateFrom());
+
+        Log.e(TAG, "create: " + payerReg.toString());
+        if(mIsFromEdit) {
+            call = apiInterface.updateEvent(payerReg);
+        }else{
+            call = apiInterface.createEvent(payerReg);
+        }
+        call.enqueue(new Callback<JsonObject>() {
+                @Override
+                public void onResponse(Call<JsonObject> call, Response<JsonObject> response) {
+                    DialogUtils.stopProgressDialog();
+                    if (response.isSuccessful()) {
+                        try {
+                            Log.e(TAG, "onResponse: " + response.body().toString());
+                            JSONObject jsonObject = new JSONObject(response.body().toString());
+                            JSONObject object = jsonObject.getJSONObject("result");
+                            if (object.getBoolean("IsSuccess")) {
+                                AppUtils.closeKeyBoard(EventCreateActivity.this);
+                                showSnackbar(binding.getRoot(), "Event Done Successfully");
+                                setResult(RESULT_OK);
+                                finish();
+                            } else {
+                                showSnackbar(binding.getRoot(), jsonObject.getString("ErrorMessage"));
+                            }
+                        } catch (Exception e) {
+                            e.printStackTrace();
+                        }
                     }
-                });
-                asyncTaskCommon.execute(Urls.INSERT_EVENT, getAllValues());
-            }
-        }else
-            showSnackbar(binding.getRoot(), getString(R.string.no_internet));
+                }
+
+                @Override
+                public void onFailure(Call<JsonObject> call, Throwable t) {
+                    Log.e(TAG, t.toString());
+                }
+            });
+
     }
 
-    private String getAllValues() {
-        JSONObject jsonObject = new JSONObject();
-        try{
-            jsonObject.put("EventName", binding.edtEventName.getText().toString());
-            jsonObject.put("EventDesc", binding.edtDesc.getText().toString());
+    private String getDateFrom() {
+        String date = AppUtils.formattedDate("dd MMM yyyy", "MM-dd-yyyy", binding.edtEventDate.getText().toString());
+        String time = binding.edtEventTime.getText().toString()+":00";
+        return date+" "+time;
+    }
 
-        }catch (Exception e){
-            e.printStackTrace();
+    private String getDateTo() {
+        String date = "", time="";
+        if(!TextUtils.isEmpty(binding.edtDateTo.getText().toString())) {
+            date = AppUtils.formattedDate("dd MMM yyyy", "MM-dd-yyyy", binding.edtDateTo.getText().toString());
+            time = binding.edtTimeTo.getText().toString() + ":00";
         }
-        return jsonObject.toString();
+        return date+" "+time;
     }
 
     private boolean isValid() {

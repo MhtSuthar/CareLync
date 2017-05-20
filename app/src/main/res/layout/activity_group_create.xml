@@ -38,17 +38,28 @@
                         android:layout_height="wrap_content"
                         android:layout_centerHorizontal="true"
                         android:layout_alignParentLeft="true"
+                        android:layout_centerVertical="true"
                         android:padding="10dp"
                         android:text="@string/create_group"
                         android:textAppearance="?android:textAppearanceLarge"
                         android:textColor="@color/colorAccent"
                         app:font="@{`medium`}" />
 
+                    <ProgressBar
+                        android:id="@+id/progressBar"
+                        style="?android:attr/progressBarStyleSmall"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_centerVertical="true"
+                        android:layout_toLeftOf="@+id/txtCreate"
+                         />
+
                     <TextView
                         android:id="@+id/txtCreate"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_alignParentRight="true"
+                        android:layout_centerVertical="true"
                         android:layout_centerHorizontal="true"
                         android:onClick="onClickDone"
                         android:padding="10dp"
@@ -184,6 +195,7 @@
                                 app:font="@{`light`}" />
 
                             <CheckBox
+                                android:id="@+id/checkPrivate"
                                 android:layout_width="match_parent"
                                 android:layout_height="wrap_content"
                                 android:layout_marginTop="@dimen/common_margin"

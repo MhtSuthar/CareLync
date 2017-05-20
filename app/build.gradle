@@ -9,7 +9,7 @@ android {
     }
 
     defaultConfig {
-        applicationId "com.careolala"
+        applicationId "com.carelynk"
         minSdkVersion 14
         targetSdkVersion 23
         versionCode 1
@@ -43,4 +43,5 @@ dependencies {
 
     compile 'com.google.android.gms:play-services-maps:10.2.0'
     compile 'com.google.android.gms:play-services-location:10.2.0'
+    compile 'jp.wasabeef:richeditor-android:1.2.2'
 }

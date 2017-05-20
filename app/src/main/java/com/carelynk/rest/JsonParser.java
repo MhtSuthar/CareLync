@@ -122,6 +122,7 @@ public class JsonParser {
 			urlConnection = (HttpURLConnection) url
 					.openConnection();
 
+
 			BufferedReader in = new BufferedReader(
 					new InputStreamReader(urlConnection.getInputStream()));
 			String inputLine;
@@ -143,4 +144,37 @@ public class JsonParser {
 		return response.toString();
 	}
 
+	public String deleteResponse(String mUrl) {
+
+		URL url;
+		StringBuffer response = null;
+		HttpURLConnection urlConnection = null;
+		try {
+			Log.e("Url",""+mUrl);
+			url = new URL(mUrl);
+
+			urlConnection = (HttpURLConnection) url
+					.openConnection();
+			urlConnection.setRequestMethod("DELETE");
+
+			BufferedReader in = new BufferedReader(
+					new InputStreamReader(urlConnection.getInputStream()));
+			String inputLine;
+			response = new StringBuffer();
+
+			while ((inputLine = in.readLine()) != null) {
+				response.append(inputLine);
+			}
+			Log.e("response", "" + response);
+			in.close();
+
+		} catch (Exception e) {
+			e.printStackTrace();
+		} finally {
+			if (urlConnection != null) {
+				urlConnection.disconnect();
+			}
+		}
+		return response.toString();
+	}
 }

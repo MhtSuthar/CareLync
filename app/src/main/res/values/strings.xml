@@ -95,6 +95,15 @@
     <string name="state">State</string>
     <string name="country">Country</string>
     <string name="zipcode">Zipcode</string>
+    <string name="edit_group">Edit Group</string>
+    <string name="discover">Discover</string>
+    <string name="dashboard">Dashboard</string>
+    <string name="invite_people">Invite People</string>
+    <string name="sign_out">Sign Out</string>
+    <string name="article">Article</string>
+    <string name="question">Question</string>
+    <string name="answer">Answer</string>
+    <string name="make_this_event_is_private">Make This Event Private</string>
 
     <string-array name="gender">
         <item>Gender</item>

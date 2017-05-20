@@ -19,6 +19,7 @@ import android.view.inputmethod.InputMethodManager;
 
 import com.carelynk.R;
 
+import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.Date;
@@ -29,12 +30,14 @@ import java.util.Date;
 public class AppUtils {
 
 
+
     /**
      * Intent Extra and Bundles
      */
     public static String Extra_Goal_Id = "goal_id";
     public static String Extra_Group_Id = "group_id";
     public static String Extra_Is_From_Which_Group = "is_from_which_group";
+    public static String Extra_Goal_Detail = "Goal_Detail";
 
     public static void closeKeyBoard(Activity context) {
         View view =  context.getCurrentFocus();
@@ -127,6 +130,18 @@ public class AppUtils {
         SimpleDateFormat df = new SimpleDateFormat("yyyy-MM-dd");
         String formattedDate = df.format(c.getTime());
         return formattedDate;
+    }
+
+    public static String get12HourTime(String time24ime){
+        String time="";
+        final SimpleDateFormat sdf = new SimpleDateFormat("HH:mm");
+        try {
+            final Date dateObj = sdf.parse(time24ime);
+            time = new SimpleDateFormat("hh:mm").format(dateObj);
+        } catch (ParseException e) {
+            e.printStackTrace();
+        }
+        return time;
     }
 
 

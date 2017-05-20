@@ -3,6 +3,7 @@ package com.carelynk.event.adapter;
 import android.content.Context;
 import android.support.v7.widget.CardView;
 import android.support.v7.widget.RecyclerView;
+import android.text.TextUtils;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -15,6 +16,7 @@ import com.carelynk.R;
 import com.carelynk.dashboard.fragment.MyGroupFragment;
 import com.carelynk.dashboard.model.GroupModel;
 import com.carelynk.event.EventListActivity;
+import com.carelynk.event.model.EventList;
 
 import java.util.List;
 
@@ -24,26 +26,30 @@ import java.util.List;
 public class EventListAdapter extends RecyclerView.Adapter<EventListAdapter.ViewHolder> {
 
     private static final int ANIM_DURATION = 300;
-    private List<String> mListGroup;
+    private List<EventList.Result> mListGroup;
     private Context mContext;
     private EventListActivity eventListActivity;
 
     public static class ViewHolder extends RecyclerView.ViewHolder {
 
-        public CardView cardView;
-        public TextView txt_event_name;
-        public ImageView img_edit, img_delete;
+        public TextView txtGroupName, txt_edit, txt_delete;
+        public TextView txtCreatedName;
+        public ImageView imgGroup;
+        public TextView txtDesc, txtTime;
 
         public ViewHolder(View rowView) {
             super(rowView);
-            cardView = (CardView) rowView.findViewById(R.id.cardView);
-            txt_event_name = (TextView) rowView.findViewById(R.id.txt_event_name);
-            img_edit = (ImageView) rowView.findViewById(R.id.img_edit);
-            img_delete = (ImageView) rowView.findViewById(R.id.img_delete);
+            txtGroupName = (TextView) rowView.findViewById(R.id.txtGroupName);
+            txt_edit = (TextView) rowView.findViewById(R.id.txt_edit);
+            txt_delete = (TextView) rowView.findViewById(R.id.txt_delete);
+            txtCreatedName = (TextView) rowView.findViewById(R.id.txtCreatedName);
+            txtDesc = (TextView) rowView.findViewById(R.id.txtDesc);
+            imgGroup = (ImageView) rowView.findViewById(R.id.imgGroup);
+            txtTime = (TextView) rowView.findViewById(R.id.txtTime);
         }
     }
 
-    public EventListAdapter(Context context, List<String> mListPatient, EventListActivity eventListActivity) {
+    public EventListAdapter(Context context, List<EventList.Result> mListPatient, EventListActivity eventListActivity) {
         this.mListGroup = mListPatient;
         mContext = context;
         this.eventListActivity = eventListActivity;
@@ -61,7 +67,14 @@ public class EventListAdapter extends RecyclerView.Adapter<EventListAdapter.View
 
     @Override
     public void onBindViewHolder(final ViewHolder holder, final int position) {
-        //holder.txt_event_name.setText(mListGroup.get(position));
+        holder.txtGroupName.setText(mListGroup.get(position).getEventName());
+        if(!TextUtils.isEmpty(mListGroup.get(position).getEventDesc()))
+            holder.txtDesc.setText(mListGroup.get(position).getEventDesc());
+        else
+            holder.txtDesc.setVisibility(View.GONE);
+        holder.txtCreatedName.setText(mListGroup.get(position).getAddress());
+        holder.txtTime.setText(mListGroup.get(position).getEventDateFrom()+" "+mListGroup.get(position).getEventTimeFrom()+" To "+
+                mListGroup.get(position).getEventDateTo()+" "+mListGroup.get(position).getEventTimeTo());
 
         holder.itemView.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -70,14 +83,14 @@ public class EventListAdapter extends RecyclerView.Adapter<EventListAdapter.View
             }
         });
 
-        holder.img_edit.setOnClickListener(new View.OnClickListener() {
+        holder.txt_edit.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 eventListActivity.onEditClick(position);
             }
         });
 
-        holder.img_delete.setOnClickListener(new View.OnClickListener() {
+        holder.txt_delete.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 eventListActivity.onDeleteClick(position);

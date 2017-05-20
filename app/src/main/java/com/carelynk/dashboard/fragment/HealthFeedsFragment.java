@@ -21,6 +21,7 @@ import android.widget.ProgressBar;
 
 import com.carelynk.R;
 import com.carelynk.base.BaseFragment;
+import com.carelynk.dashboard.DashboardActivity;
 import com.carelynk.dashboard.FeedDetailActivity;
 import com.carelynk.dashboard.adapter.HealthFeedRecyclerAdapter;
 import com.carelynk.dashboard.model.HealthFeedModel;
@@ -101,10 +102,10 @@ public class HealthFeedsFragment extends BaseFragment {
         if (isOnline(getContext())) {
                 mProgressBarHeader.setVisibility(View.VISIBLE);
                 ApiInterface apiInterface = ApiFactory.provideInterface();
-                Call<JsonArray> call = apiInterface.getHealthFeed();
-                call.enqueue(new Callback<JsonArray>() {
+                Call<JsonObject> call = apiInterface.getHealthFeed();
+                call.enqueue(new Callback<JsonObject>() {
                     @Override
-                    public void onResponse(Call<JsonArray>call, Response<JsonArray> response) {
+                    public void onResponse(Call<JsonObject>call, Response<JsonObject> response) {
                         if (response.isSuccessful()) {
                             try{
                                 mHealthFeedList.clear();
@@ -141,7 +142,7 @@ public class HealthFeedsFragment extends BaseFragment {
                     }
 
                     @Override
-                    public void onFailure(Call<JsonArray>call, Throwable t) {
+                    public void onFailure(Call<JsonObject>call, Throwable t) {
                         Log.e(TAG, t.toString());
                         mProgressBarHeader.setVisibility(View.GONE);
                     }
@@ -208,6 +209,12 @@ public class HealthFeedsFragment extends BaseFragment {
             }
         });
 
+        header.findViewById(R.id.txtDashboard).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                moveActivity(new Intent(getActivity(), DashboardActivity.class), getActivity(), false);
+            }
+        });
         writeArticle.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -262,7 +269,7 @@ public class HealthFeedsFragment extends BaseFragment {
 
     public void onItemClick(int position) {
         Intent intent = new Intent(getActivity(), FeedDetailActivity.class);
-        intent.putExtra(AppUtils.Extra_Goal_Id, mHealthFeedList.get(position).GoalId);
+        intent.putExtra(AppUtils.Extra_Goal_Detail, mHealthFeedList.get(position));
         moveActivity(intent, getActivity(), false);
     }
 

@@ -7,94 +7,117 @@
 
     </data>
 
-    <RelativeLayout
+    <android.support.v4.widget.NestedScrollView
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:background="@color/color_app_bg"
-        android:orientation="vertical">
+        android:fillViewport="true">
 
-        <LinearLayout
-            android:id="@+id/lin_header"
-            android:layout_width="match_parent"
-            android:orientation="horizontal"
-            android:background="@color/colorLightWhite"
-            android:layout_margin="@dimen/activity_horizontal_margin"
-            android:layout_height="wrap_content">
-
-            <View
-                android:layout_width="1dp"
-                android:layout_height="match_parent"
-                android:background="@color/colorLightWhite"
-                />
-
-            <TextView
-                android:id="@+id/txt_owned"
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:layout_weight="1"
-                android:padding="@dimen/activity_horizontal_margin"
-                android:background="@android:color/white"
-                android:textColor="@android:color/black"
-                android:text="Owned"
-                android:tag="1"
-                app:font="@{`bold`}"
-                android:textAppearance="?android:textAppearanceSmall"
-                android:gravity="center"
-                />
-
-            <TextView
-                android:id="@+id/txt_followed"
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:gravity="center"
-                android:layout_weight="1"
-                android:tag="0"
-                app:font="@{`bold`}"
-                android:textAppearance="?android:textAppearanceSmall"
-                android:textColor="@color/colorAccent"
-                android:padding="@dimen/activity_horizontal_margin"
-                android:text="Followed"
-                />
-
-            <TextView
-                android:id="@+id/txt_all_grp"
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:layout_weight="1"
-                android:gravity="center"
-                android:tag="0"
-                app:font="@{`bold`}"
-                android:textAppearance="?android:textAppearanceSmall"
-                android:textColor="@color/colorAccent"
-                android:padding="@dimen/activity_horizontal_margin"
-                android:text="AllGroups"
-                />
-
-            <View
-                android:layout_width="1dp"
-                android:layout_height="match_parent"
-                android:background="@color/colorLightWhite"
-                />
-
-        </LinearLayout>
-
-
-        <android.support.v7.widget.RecyclerView
-            android:id="@+id/recyclerView"
-            android:layout_below="@+id/lin_header"
+        <RelativeLayout
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:clipToPadding="false"
-            android:paddingTop="@dimen/common_margin" />
+            android:background="@color/color_app_bg"
+            android:orientation="vertical">
 
-        <ProgressBar
-            android:id="@+id/progressBar"
-            style="?android:attr/progressBarStyleLarge"
-            android:layout_width="50dp"
-            android:visibility="gone"
-            android:layout_height="50dp"
-            android:layout_centerHorizontal="true"
-            android:layout_marginTop="@dimen/activity_horizontal_margin" />
+            <TextView
+                android:id="@+id/txtRequest"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="No Requests Available!"
+                android:gravity="center"
+                android:padding="@dimen/activity_horizontal_margin"
+                android:textColor="@color/colorAccent"
+                android:textAppearance="?android:textAppearanceMedium"
+                />
 
-    </RelativeLayout>
+            <android.support.v7.widget.RecyclerView
+                android:id="@+id/recyclerViewRequest"
+                android:layout_width="match_parent"
+                android:visibility="gone"
+                android:layout_below="@+id/txtRequest"
+                android:layout_height="wrap_content"
+                android:paddingTop="@dimen/common_margin" />
+
+            <LinearLayout
+                android:id="@+id/lin_header"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/recyclerViewRequest"
+                android:layout_margin="@dimen/activity_horizontal_margin"
+                android:background="@color/colorLightWhite"
+                android:orientation="horizontal">
+
+                <View
+                    android:layout_width="1dp"
+                    android:layout_height="match_parent"
+                    android:background="@color/colorLightWhite" />
+
+                <TextView
+                    android:id="@+id/txt_owned"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:background="@android:color/white"
+                    android:gravity="center"
+                    android:padding="@dimen/activity_horizontal_margin"
+                    android:tag="1"
+                    android:text="Owned"
+                    android:textAppearance="?android:textAppearanceSmall"
+                    android:textColor="@android:color/black"
+                    app:font="@{`bold`}" />
+
+                <TextView
+                    android:id="@+id/txt_followed"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:gravity="center"
+                    android:padding="@dimen/activity_horizontal_margin"
+                    android:tag="0"
+                    android:text="Followed"
+                    android:textAppearance="?android:textAppearanceSmall"
+                    android:textColor="@color/colorAccent"
+                    app:font="@{`bold`}" />
+
+                <TextView
+                    android:id="@+id/txt_all_grp"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:gravity="center"
+                    android:padding="@dimen/activity_horizontal_margin"
+                    android:tag="0"
+                    android:text="AllGroups"
+                    android:textAppearance="?android:textAppearanceSmall"
+                    android:textColor="@color/colorAccent"
+                    app:font="@{`bold`}" />
+
+                <View
+                    android:layout_width="1dp"
+                    android:layout_height="match_parent"
+                    android:background="@color/colorLightWhite" />
+
+            </LinearLayout>
+
+
+            <android.support.v7.widget.RecyclerView
+                android:id="@+id/recyclerView"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_below="@+id/lin_header"
+                android:clipToPadding="false"
+                android:paddingBottom="@dimen/activity_horizontal_margin"
+                android:paddingTop="@dimen/common_margin" />
+
+            <ProgressBar
+                android:id="@+id/progressBar"
+                style="?android:attr/progressBarStyleLarge"
+                android:layout_width="50dp"
+                android:layout_height="50dp"
+                android:layout_below="@+id/lin_header"
+                android:layout_centerHorizontal="true"
+                android:layout_marginTop="@dimen/activity_horizontal_margin"
+                android:visibility="gone" />
+
+        </RelativeLayout>
+    </android.support.v4.widget.NestedScrollView>
 </layout>

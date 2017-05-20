@@ -20,4 +20,6 @@ public class PrefUtils {
     public static final String PREF_CONTACT = "contact";
     public static final String PREF_INTEREST_AREA = "interest_area";
     public static final String PREF_REMEMBER_ME = "remember_me";
+    public static String PREF_LAT = "lat";
+    public static String PREF_LNG = "lng";
 }

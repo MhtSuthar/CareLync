@@ -17,20 +17,23 @@
 
     <group android:id="@+id/menu_group"
         >
-        <item android:id="@+id/menu_event"
+       <!-- <item android:id="@+id/menu_event"
             android:title="@string/my_event" />
 
         <item android:id="@+id/menu_search_google"
-            android:title="@string/my_search" />
-
-        <item android:id="@+id/menu_invite"
-            android:title="@string/invite" />
+            android:title="@string/my_search" />-->
 
         <item android:id="@+id/menu_profile"
             android:title="@string/my_profile" />
 
+        <item android:id="@+id/menu_invite"
+            android:title="@string/invite_people" />
+
+        <item android:id="@+id/menu_dashboard"
+            android:title="@string/dashboard" />
+
         <item android:id="@+id/menu_logout"
-            android:title="@string/logout" />
+            android:title="@string/sign_out" />
 
     </group>
 

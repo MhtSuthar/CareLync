@@ -14,6 +14,8 @@ import com.bumptech.glide.Glide;
 import com.carelynk.R;
 import com.carelynk.dashboard.fragment.MyGroupFragment;
 import com.carelynk.dashboard.model.GroupModel;
+import com.carelynk.dashboard.model.GroupModelGson;
+import com.carelynk.utilz.AppUtils;
 
 import java.util.List;
 
@@ -22,7 +24,7 @@ import java.util.List;
  */
 public class AllGroupRecyclerAdapter extends RecyclerView.Adapter<AllGroupRecyclerAdapter.ViewHolder> {
 
-    private List<String> mListGroup;
+    private List<GroupModelGson.Result> mListGroup;
     private Context mContext;
     private MyGroupFragment myGroupFragment;
 
@@ -30,7 +32,7 @@ public class AllGroupRecyclerAdapter extends RecyclerView.Adapter<AllGroupRecycl
 
         public CardView cardView;
         public TextView txtGroupName;
-        public TextView txtCreatedName;
+        public TextView txtCreatedName, txtDesc;
         public ImageView imgGroup;
 
 
@@ -40,10 +42,11 @@ public class AllGroupRecyclerAdapter extends RecyclerView.Adapter<AllGroupRecycl
             txtGroupName = (TextView) rowView.findViewById(R.id.txtGroupName);
             txtCreatedName = (TextView) rowView.findViewById(R.id.txtCreatedName);
             imgGroup = (ImageView) rowView.findViewById(R.id.imgGroup);
+            txtDesc = (TextView) rowView.findViewById(R.id.txtDesc);
         }
     }
 
-    public AllGroupRecyclerAdapter(Context context, List<String> mListPatient, MyGroupFragment myGroupFragment) {
+    public AllGroupRecyclerAdapter(Context context, List<GroupModelGson.Result> mListPatient, MyGroupFragment myGroupFragment) {
         this.mListGroup = mListPatient;
         mContext = context;
         this.myGroupFragment = myGroupFragment;
@@ -63,13 +66,14 @@ public class AllGroupRecyclerAdapter extends RecyclerView.Adapter<AllGroupRecycl
     public void onBindViewHolder(final ViewHolder holder, final int position) {
         //final GroupModel feedModel= mListGroup.get(position);
 
-        //holder.txtGroupName.setText(feedModel.GroupName);
-        //holder.txtCreatedName.setText("Created by ");
+        holder.txtGroupName.setText(mListGroup.get(position).getGroupName());
+        holder.txtDesc.setText(mListGroup.get(position).getDescription());
+        holder.txtCreatedName.setText("Created on "+ AppUtils.formattedDate("dd/MM/yyyy", "dd-MMM-yyyy", mListGroup.get(position).getCreatedDate()));
 
         holder.itemView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                myGroupFragment.onItemAllGroupClick(position);
+                myGroupFragment.onItemAllGroupClick(position, mListGroup.get(position));
             }
         });
 
@@ -84,7 +88,7 @@ public class AllGroupRecyclerAdapter extends RecyclerView.Adapter<AllGroupRecycl
 
     @Override
     public int getItemCount() {
-        return 5;
+        return mListGroup.size();
     }
 
 

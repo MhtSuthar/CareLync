@@ -1,13 +1,19 @@
 package com.carelynk.dashboard.adapter;
 
 import android.content.Context;
+import android.support.v7.widget.AppCompatButton;
 import android.support.v7.widget.CardView;
 import android.support.v7.widget.RecyclerView;
+import android.text.Editable;
+import android.text.TextWatcher;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.CheckBox;
+import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.bumptech.glide.Glide;
 import com.carelynk.R;
@@ -38,6 +44,9 @@ public class FeedDetailRecyclerAdapter extends RecyclerView.Adapter<FeedDetailRe
         public TextView txtName, txtDesc, txt_comment;
         public TextView txtPostTime;
         public ImageView imgCover;
+        public EditText edtComment;
+        public CheckBox chkSupport;
+        public AppCompatButton btnSend;
 
         public ViewHolder(View rowView) {
             super(rowView);
@@ -47,6 +56,9 @@ public class FeedDetailRecyclerAdapter extends RecyclerView.Adapter<FeedDetailRe
             txtDesc = (TextView) rowView.findViewById(R.id.txtDesc);
             imgCover = (ImageView) rowView.findViewById(R.id.imgCover);
             txt_comment = (TextView) rowView.findViewById(R.id.txt_comment);
+            edtComment = (EditText) rowView.findViewById(R.id.edtComment);
+            chkSupport = (CheckBox) rowView.findViewById(R.id.chkSupport);
+            btnSend = (AppCompatButton) rowView.findViewById(R.id.btnSend);
         }
     }
 
@@ -84,6 +96,25 @@ public class FeedDetailRecyclerAdapter extends RecyclerView.Adapter<FeedDetailRe
         final HealthFeedModel feedModel = mListPatient.get(position-1);
         holder.txtName.setText(feedModel.GoalName);
 
+        //holder.edtComment.setText(feedModel.comment);
+        holder.edtComment.addTextChangedListener(new TextWatcher() {
+            @Override
+            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+
+            }
+
+            @Override
+            public void onTextChanged(CharSequence s, int start, int before, int count) {
+                //feedModel.comment = s.toString();
+                //Log.e(TAG, "onTextChanged: "+s.toString()+"    "+feedModel.comment);
+            }
+
+            @Override
+            public void afterTextChanged(Editable s) {
+
+            }
+        });
+
         holder.txtPostTime.setText("Created by "+feedModel.UserName);
         holder.txtDesc.setText(feedModel.Desc);
 
@@ -97,7 +128,39 @@ public class FeedDetailRecyclerAdapter extends RecyclerView.Adapter<FeedDetailRe
         holder.txt_comment.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                feedDetailActivity.showCommnetDialog();
+                feedDetailActivity.showCommnetDialog("update id");
+            }
+        });
+
+       // holder.chkSupport.setChecked(feedModel.getSelfSupport().equalsIgnoreCase("1") ? true : false);
+        holder.chkSupport.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                CheckBox checkBox = (CheckBox) v;
+                /*if(checkBox.isChecked()){
+                    feedModel.isSupport = false;
+                    feedDetailActivity.supportGroupDiscuss(feedModel.getGroupUpdateId(), feedModel.getGroupUserId());
+                }else{
+                    feedModel.isSupport = true;
+                    feedDetailActivity.unSupportGroupDiscuss(feedModel.getGroupUpdateId(), feedModel.getGroupUserId());
+                }*/
+                //notifyDataSetChanged();
+            }
+        });
+
+        holder.btnSend.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                try {
+                    //TODO change comment and updated id
+                    if (!feedModel.PhotoURL.equals(""))
+                        feedDetailActivity.addCommentToGoalDiscuss(feedModel.PhotoURL, feedModel.PhotoURL);
+                    else
+                        Toast.makeText(mContext, "Please Enter", Toast.LENGTH_LONG).show();
+                }catch (Exception e){
+                    e.printStackTrace();
+                    Toast.makeText(mContext, "Please Enter", Toast.LENGTH_LONG).show();
+                }
             }
         });
 

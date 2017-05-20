@@ -8,6 +8,7 @@ import android.view.ViewGroup;
 import android.widget.TextView;
 
 import com.carelynk.R;
+import com.carelynk.dashboard.model.CommentModel;
 
 import java.util.List;
 
@@ -16,25 +17,24 @@ import java.util.List;
  */
 public class CommentRecyclerAdapter extends RecyclerView.Adapter<CommentRecyclerAdapter.ViewHolder> {
 
-    private static final int ANIM_DURATION = 300;
-    private List<String> mListPatient;
+    private List<CommentModel.Result> mList;
     private Context mContext;
-    private int lastPos = 0;
 
     public static class ViewHolder extends RecyclerView.ViewHolder {
 
-        public TextView txtName;
+        public TextView txtName, txtDesc;
 
 
         public ViewHolder(View rowView) {
             super(rowView);
             txtName= (TextView) rowView.findViewById(R.id.txtName);
+            txtDesc = (TextView) rowView.findViewById(R.id.txtDesc);
         }
 
     }
 
-    public CommentRecyclerAdapter(Context context, List<String> mListPatient) {
-        this.mListPatient = mListPatient;
+    public CommentRecyclerAdapter(Context context, List<CommentModel.Result> mListPatient) {
+        this.mList = mListPatient;
         mContext = context;
     }
 
@@ -49,31 +49,13 @@ public class CommentRecyclerAdapter extends RecyclerView.Adapter<CommentRecycler
 
     @Override
     public void onBindViewHolder(final ViewHolder holder, final int position) {
-
-        holder.txtName.setText(mListPatient.get(position));
-
-        animateStackByStack(holder.itemView, position);
+        holder.txtName.setText(mList.get(position).getUserName());
+        holder.txtDesc.setText(mList.get(position).getCommentText());
     }
 
     @Override
     public int getItemCount() {
-        return mListPatient.size();
-    }
-
-    @Override
-    public void onViewDetachedFromWindow(ViewHolder holder) {
-        super.onViewDetachedFromWindow(holder);
-        holder.itemView.clearAnimation();
-    }
-
-    private void animateStackByStack(View view, final int pos) {
-        if(pos > lastPos) {
-            view.animate().cancel();
-            view.setTranslationY(50);
-            view.setAlpha(0);
-            view.animate().alpha(1.0f).translationY(0).setDuration(ANIM_DURATION).setStartDelay(100);
-            lastPos = pos;
-        }
+        return mList.size();
     }
 
 }

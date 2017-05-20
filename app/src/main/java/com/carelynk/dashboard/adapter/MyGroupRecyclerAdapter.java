@@ -14,6 +14,8 @@ import com.bumptech.glide.Glide;
 import com.carelynk.R;
 import com.carelynk.dashboard.fragment.MyGroupFragment;
 import com.carelynk.dashboard.model.GroupModel;
+import com.carelynk.dashboard.model.GroupModelGson;
+import com.carelynk.utilz.AppUtils;
 
 import java.util.List;
 
@@ -23,7 +25,7 @@ import java.util.List;
 public class MyGroupRecyclerAdapter extends RecyclerView.Adapter<MyGroupRecyclerAdapter.ViewHolder> {
 
     private static final int ANIM_DURATION = 300;
-    private List<GroupModel> mListGroup;
+    private List<GroupModelGson.Result> mListGroup;
     private Context mContext;
     private MyGroupFragment myGroupFragment;
 
@@ -46,7 +48,7 @@ public class MyGroupRecyclerAdapter extends RecyclerView.Adapter<MyGroupRecycler
         }
     }
 
-    public MyGroupRecyclerAdapter(Context context, List<GroupModel> mListPatient, MyGroupFragment myGroupFragment) {
+    public MyGroupRecyclerAdapter(Context context, List<GroupModelGson.Result> mListPatient, MyGroupFragment myGroupFragment) {
         this.mListGroup = mListPatient;
         mContext = context;
         this.myGroupFragment = myGroupFragment;
@@ -64,38 +66,36 @@ public class MyGroupRecyclerAdapter extends RecyclerView.Adapter<MyGroupRecycler
 
     @Override
     public void onBindViewHolder(final ViewHolder holder, final int position) {
-        final GroupModel feedModel= mListGroup.get(position);
+        final GroupModelGson.Result feedModel= mListGroup.get(position);
 
-        holder.txtGroupName.setText(feedModel.GroupName);
-        holder.txtCreatedName.setText("Created by ");
-        holder.txtDesc.setText(""+feedModel.Description);
+        holder.txtGroupName.setText(feedModel.getGroupName());
+        holder.txtCreatedName.setText("Created on "+AppUtils.formattedDate("dd/MM/yyyy", "dd-MMM-yyyy", feedModel.getCreatedDate()));
+        holder.txtDesc.setText(""+feedModel.getDescription());
 
         holder.itemView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                myGroupFragment.onItemClick(position);
+                myGroupFragment.onItemClick(position, feedModel);
             }
         });
 
         holder.txt_edit.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                myGroupFragment.onEditItemClick(position);
+                myGroupFragment.onEditItemClick(feedModel);
             }
         });
 
         holder.txt_delete.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                myGroupFragment.onDeleteItemClick(position);
+                myGroupFragment.onDeleteItemClick(feedModel.getGroupId());
             }
         });
 
-        if(feedModel.PhotoURL != null && !feedModel.PhotoURL.equals("") && !feedModel.PhotoURL.equals("null")) {
+        if(feedModel.getPhotoURL() != null && !feedModel.getPhotoURL().equals("") && !feedModel.getPhotoURL().equals("null")) {
             holder.imgGroup.setVisibility(View.VISIBLE);
-            Log.e("Image", "onBindVieold http://www.demo.carelynk.com/Content"+feedModel.PhotoURL.
-                    split("Content")[1]);
-            Glide.with(mContext).load("http://www.demo.carelynk.com/Content"+feedModel.PhotoURL.split("Content")[1]).into(holder.imgGroup);
+            //Glide.with(mContext).load("http://www.demo.carelynk.com/Content"+feedModel.PhotoURL.split("Content")[1]).into(holder.imgGroup);
         }else
             holder.imgGroup.setVisibility(View.GONE);
     }

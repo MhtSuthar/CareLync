@@ -1,16 +1,13 @@
 package com.carelynk.search.adapter;
 
 import android.content.Context;
-import android.support.v7.widget.CardView;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.carelynk.R;
-import com.carelynk.dashboard.fragment.MyGroupFragment;
 import com.carelynk.search.MySearchActivity;
 import com.carelynk.search.model.SearchModel;
 
@@ -23,7 +20,7 @@ public class SearchListAdapter extends RecyclerView.Adapter<SearchListAdapter.Vi
 
     private List<SearchModel.Result> mListGroup;
     private Context mContext;
-    private MySearchActivity myGroupFragment;
+    private MySearchActivity searchActivity;
 
     public static class ViewHolder extends RecyclerView.ViewHolder {
         public TextView txtSearch;
@@ -36,7 +33,7 @@ public class SearchListAdapter extends RecyclerView.Adapter<SearchListAdapter.Vi
     public SearchListAdapter(Context context, List<SearchModel.Result> mListPatient, MySearchActivity myGroupFragment) {
         this.mListGroup = mListPatient;
         mContext = context;
-        this.myGroupFragment = myGroupFragment;
+        this.searchActivity = myGroupFragment;
     }
 
 
@@ -59,7 +56,7 @@ public class SearchListAdapter extends RecyclerView.Adapter<SearchListAdapter.Vi
         holder.itemView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                //myGroupFragment.onItemClick(position);
+                searchActivity.onSearchItemClick(mListGroup.get(position));
             }
         });
     }

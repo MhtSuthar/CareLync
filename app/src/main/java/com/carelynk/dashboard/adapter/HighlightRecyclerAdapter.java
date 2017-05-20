@@ -2,6 +2,7 @@ package com.carelynk.dashboard.adapter;
 
 import android.content.Context;
 import android.support.v7.widget.RecyclerView;
+import android.text.Html;
 import android.text.TextUtils;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -14,6 +15,7 @@ import com.bumptech.glide.Glide;
 import com.carelynk.R;
 import com.carelynk.dashboard.fragment.HighlightFragment;
 import com.carelynk.dashboard.model.HighlightModel;
+import com.carelynk.utilz.AppUtils;
 import com.carelynk.utilz.CircleTransform;
 
 import java.util.List;
@@ -55,12 +57,6 @@ public class HighlightRecyclerAdapter extends RecyclerView.Adapter<HighlightRecy
         this.highlightFragment = highlightFragment;
     }
 
-    public void setPatientList(List<HighlightModel> patientList){
-        mListPatient.clear();
-        mListPatient.addAll(patientList);
-        notifyDataSetChanged();
-    }
-
     @Override
     public ViewHolder onCreateViewHolder(ViewGroup parent,
                                                                 int viewType) {
@@ -73,13 +69,15 @@ public class HighlightRecyclerAdapter extends RecyclerView.Adapter<HighlightRecy
     @Override
     public void onBindViewHolder(final ViewHolder holder, final int position) {
         final HighlightModel feedModel= mListPatient.get(position);
-        Glide.with(mContext).load(R.drawable.dummy_img).
+        Glide.with(mContext).load(R.drawable.ic_placeholder).
                 transform(new CircleTransform(mContext)).into(holder.imgUser);
-        holder.txtName.setText(feedModel.UserName);
+        holder.txtName.setText("Posted by "+feedModel.UserName);
+        holder.txtPostTime.setText("Health Feed "+AppUtils.formattedDate("dd/MM/yyyy", "dd-MMM-yyyy", feedModel.CreatedDate));
         holder.txtTitle.setText(feedModel.GoalName);
-        if(!TextUtils.isEmpty(feedModel.Desc))
-            holder.txtDesc.setText(feedModel.Desc);
-        else
+        if(!TextUtils.isEmpty(feedModel.Desc)) {
+            holder.txtDesc.setText(Html.fromHtml(feedModel.Desc));
+            holder.txtDesc.setVisibility(View.VISIBLE);
+        } else
             holder.txtDesc.setVisibility(View.GONE);
 
         if(position / 2 == 0)

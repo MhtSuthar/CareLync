@@ -44,4 +44,10 @@ public class Constants {
     public static final int REQUEST_LOCATION = 506;
     public static final String EXTRA_PROFILE = "profile_data";
     public static final int REQUEST_PROFILE_UPDATE = 105;
+    public static final String EXTRA_IS_EDIT_GROUP = "is_edit_group";
+    public static final int REQUEST_ADD_GROUP = 106;
+    public static final String EXTRA_GROUP_DETAIL = "group_detail";
+    public static final int REQUEST_CODE_ADD_EVENT = 107;
+    public static final String EXTRA_EVENT = "events";
+    public static final int REQUEST_GROUP_DETAIL = 108;
 }

@@ -36,6 +36,7 @@ import com.carelynk.profile.MyProfileActivity;
 import com.carelynk.search.MySearchActivity;
 import com.carelynk.storage.SharedPreferenceUtil;
 import com.carelynk.utilz.AnimationUtils;
+import com.carelynk.utilz.AppUtils;
 import com.carelynk.utilz.Constants;
 
 public class HomeActivity extends BaseActivity {
@@ -46,6 +47,7 @@ public class HomeActivity extends BaseActivity {
     private HealthFeedsFragment helthFeedsFragment;
     private FollowFragment followFragment;
     private SearchView.OnQueryTextListener queryTextListener;
+    private static final String TAG = "HomeActivity";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -74,7 +76,7 @@ public class HomeActivity extends BaseActivity {
         binding.fabAdd.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                moveActivity(new Intent(HomeActivity.this, GroupCreateActivity.class), HomeActivity.this);
+                moveActivityResult(new Intent(HomeActivity.this, GroupCreateActivity.class), HomeActivity.this, Constants.REQUEST_ADD_GROUP);
             }
         });
     }
@@ -123,11 +125,8 @@ public class HomeActivity extends BaseActivity {
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         switch (item.getItemId()){
-            case R.id.menu_event:
-                moveActivity(new Intent(HomeActivity.this, EventListActivity.class), HomeActivity.this);
-                break;
-            case R.id.menu_search_google:
-                moveActivity(new Intent(HomeActivity.this, MySearchActivity.class), HomeActivity.this);
+            case R.id.menu_dashboard:
+                moveActivity(new Intent(HomeActivity.this, DashboardActivity.class), HomeActivity.this);
                 break;
             case R.id.menu_profile:
                 moveActivity(new Intent(HomeActivity.this, MyProfileActivity.class), HomeActivity.this);
@@ -224,5 +223,17 @@ public class HomeActivity extends BaseActivity {
     public void showFab(){
         if(!binding.fabAdd.isShown())
             AnimationUtils.animateScaleOut(binding.fabAdd);
+    }
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        if(resultCode == RESULT_OK){
+            if(requestCode == Constants.REQUEST_ADD_GROUP){
+                if(myGroupFragment != null){
+                    myGroupFragment.refresh();
+                }
+            }
+        }
     }
 }

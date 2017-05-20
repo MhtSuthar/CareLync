@@ -56,28 +56,28 @@
                         android:src="@drawable/dummy_img" />
 
                     <TextView
+                        android:id="@+id/txtPostTime"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginLeft="@dimen/common_margin"
+                        android:layout_toRightOf="@+id/imgUser"
+                        android:fontFamily="sans-serif-condensed"
+                        tools:text="Posted on 2 hours ago"
+                        android:textColor="@color/color_text_dark"
+                         />
+
+                    <TextView
                         android:id="@+id/txtName"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
+                        android:layout_marginTop="5dp"
+                        android:layout_below="@+id/txtPostTime"
                         android:layout_marginLeft="@dimen/common_margin"
                         android:layout_toRightOf="@+id/imgUser"
                         android:fontFamily="sans-serif-condensed"
                         android:textAppearance="?android:textAppearanceMedium"
                         android:textColor="@android:color/black"
                         tools:text="Helloo" />
-
-                    <TextView
-                        android:id="@+id/txtPostTime"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_below="@+id/txtName"
-                        android:layout_marginLeft="@dimen/common_margin"
-                        android:layout_marginTop="5dp"
-                        android:layout_toRightOf="@+id/imgUser"
-                        android:fontFamily="sans-serif-condensed"
-                        android:text="Posted on 2 hours ago"
-                        android:textColor="@color/color_text_dark"
-                         />
 
                     <TextView
                         android:id="@+id/txtFollow"

@@ -10,40 +10,111 @@
     android:paddingTop="1dp">
 
 
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_margin="5dp"
+        android:background="@android:color/white"
+        android:orientation="vertical">
+
         <RelativeLayout
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_margin="5dp"
-            android:background="@android:color/white"
-            android:orientation="vertical"
-            android:padding="@dimen/activity_horizontal_margin">
+            android:padding="@dimen/activity_horizontal_margin"
+            android:layout_height="wrap_content">
 
             <TextView
-                android:id="@+id/txt_event_name"
+                android:id="@+id/txtGroupName"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text="My Event"
-                android:layout_centerVertical="true"
+                android:layout_toRightOf="@+id/imgGroup"
+                android:paddingRight="@dimen/activity_horizontal_margin"
+                android:paddingLeft="@dimen/activity_horizontal_margin"
                 android:textAppearance="?android:textAppearanceMedium"
-                android:textColor="@android:color/black" />
+                android:textColor="@color/colorAccent"
+                tools:text="gdfgdfg" />
 
-            <ImageView
-                android:id="@+id/img_edit"
+            <TextView
+                android:id="@+id/txtCreatedName"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_centerVertical="true"
-                android:layout_marginRight="@dimen/activity_horizontal_margin"
-                android:layout_toLeftOf="@+id/img_delete"
-                android:src="@drawable/ic_edit_grey" />
+                android:layout_below="@+id/txtGroupName"
+                android:layout_toRightOf="@+id/imgGroup"
+                android:paddingRight="@dimen/activity_horizontal_margin"
+                android:paddingLeft="@dimen/activity_horizontal_margin"
+                android:textAppearance="?android:textAppearanceSmall"
+                android:textColor="@color/color_text_dark"
+                tools:text="gdfgdfg" />
+
+            <TextView
+                android:id="@+id/txtTime"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/txtCreatedName"
+                android:layout_toRightOf="@+id/imgGroup"
+                android:paddingRight="@dimen/activity_horizontal_margin"
+                android:paddingLeft="@dimen/activity_horizontal_margin"
+                android:textAppearance="?android:textAppearanceSmall"
+                android:textColor="@color/color_text_dark"
+                tools:text="gdfgdfg" />
 
             <ImageView
-                android:id="@+id/img_delete"
-                android:layout_width="wrap_content"
-                android:layout_centerVertical="true"
+                android:id="@+id/imgGroup"
+                android:layout_width="60dp"
+                android:layout_height="60dp"
+                android:scaleType="centerCrop"
+                android:visibility="visible"
+                android:src="@drawable/ic_placeholder" />
+
+            <TextView
+                android:id="@+id/txtDesc"
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_alignParentRight="true"
-                android:src="@drawable/ic_delete" />
+                android:layout_toRightOf="@+id/imgGroup"
+                android:paddingLeft="@dimen/activity_horizontal_margin"
+                android:paddingRight="@dimen/activity_horizontal_margin"
+                android:layout_below="@+id/txtTime"
+                android:textAppearance="?android:textAppearanceMedium"
+                android:textColor="@android:color/black"
+                tools:text="gdfgdfg" />
 
         </RelativeLayout>
+
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:padding="@dimen/activity_horizontal_margin"
+            android:layout_height="wrap_content">
+
+            <TextView
+                android:id="@+id/txt_edit"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Edit"
+                android:drawableLeft="@drawable/ic_edit_grey"
+                android:gravity="center"
+                android:drawablePadding="5dp"
+                android:layout_marginRight="10dp"
+                android:layout_toLeftOf="@+id/txt_delete"
+                android:textAppearance="?android:textAppearanceSmall"
+                android:textColor="@android:color/black"
+                />
+
+            <TextView
+                android:id="@+id/txt_delete"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Delete"
+                android:drawablePadding="5dp"
+                android:layout_alignParentRight="true"
+                android:drawableLeft="@drawable/ic_delete"
+                android:gravity="center"
+                android:textAppearance="?android:textAppearanceSmall"
+                android:textColor="@android:color/black"
+                />
+        </RelativeLayout>
+
+
+
+    </LinearLayout>
+
 
 </LinearLayout>

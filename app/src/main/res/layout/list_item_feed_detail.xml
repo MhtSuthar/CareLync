@@ -97,13 +97,24 @@
 
 
                 <CheckBox
-                    android:id="@+id/chkFav"
+                    android:id="@+id/chkSupport"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_marginLeft="@dimen/common_margin"
-                    android:layout_marginRight="@dimen/common_margin"
                     android:button="@drawable/checkbox_selector_fav"
                     android:text=" Support"
+                    android:textAppearance="?android:textAppearanceSmall"
+                    android:textColor="@color/colorAccent" />
+
+                <TextView
+                    android:id="@+id/txt_support"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:drawableLeft="@drawable/ic_heart_inactive"
+                    android:drawablePadding="2dp"
+                    android:layout_marginLeft="@dimen/common_margin"
+                    android:layout_marginRight="@dimen/common_margin"
+                    android:gravity="center"
+                    android:text="12 Support"
                     android:textAppearance="?android:textAppearanceSmall"
                     android:textColor="@color/colorAccent" />
 
@@ -131,6 +142,7 @@
                 android:visibility="visible" />
 
             <EditText
+                android:id="@+id/edtComment"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginLeft="@dimen/activity_horizontal_margin"

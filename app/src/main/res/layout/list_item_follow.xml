@@ -50,7 +50,7 @@
                     android:layout_height="60dp"
                     android:scaleType="centerCrop"
                     android:visibility="visible"
-                    android:src="@drawable/dummy_bg_img" />
+                    android:src="@drawable/ic_placeholder" />
 
 
             </RelativeLayout>
