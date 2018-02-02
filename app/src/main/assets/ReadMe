@@ -1,0 +1,14 @@
+
+G:\Android\sdk\platform-tools adb devices
+adb tcpip 5555
+adb connect <10.86.233.64>
+adb disconnect <ip>
+
+9987597056
+Rajesh@123
+
+
+Keystore Details:
+Other: carelynk
+Pass: com.carelynk
+
