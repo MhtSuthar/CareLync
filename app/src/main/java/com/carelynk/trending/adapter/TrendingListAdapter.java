@@ -13,6 +13,7 @@ import com.carelynk.R;
 import com.carelynk.event.EventListActivity;
 import com.carelynk.trending.TrendingListActivity;
 
+import java.util.HashMap;
 import java.util.List;
 
 /**
@@ -21,14 +22,13 @@ import java.util.List;
 public class TrendingListAdapter extends RecyclerView.Adapter<TrendingListAdapter.ViewHolder> {
 
     private static final int ANIM_DURATION = 300;
-    private List<String> mListGroup;
+    private List<HashMap<String, String>> mListGroup;
     private Context mContext;
     private TrendingListActivity eventListActivity;
 
     public static class ViewHolder extends RecyclerView.ViewHolder {
 
         public TextView txt_trending_name;
-        public ImageView img_edit, img_delete;
 
         public ViewHolder(View rowView) {
             super(rowView);
@@ -36,7 +36,7 @@ public class TrendingListAdapter extends RecyclerView.Adapter<TrendingListAdapte
         }
     }
 
-    public TrendingListAdapter(Context context, List<String> mListPatient, TrendingListActivity eventListActivity) {
+    public TrendingListAdapter(Context context, List<HashMap<String, String>> mListPatient, TrendingListActivity eventListActivity) {
         this.mListGroup = mListPatient;
         mContext = context;
         this.eventListActivity = eventListActivity;
@@ -54,12 +54,12 @@ public class TrendingListAdapter extends RecyclerView.Adapter<TrendingListAdapte
 
     @Override
     public void onBindViewHolder(final ViewHolder holder, final int position) {
-        //holder.txt_event_name.setText(mListGroup.get(position));
+        holder.txt_trending_name.setText("* "+mListGroup.get(position).get("GoalName"));
 
         holder.itemView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                eventListActivity.onClickDetail(position);
+                eventListActivity.onClickDetail(mListGroup.get(position).get("GoalId"));
             }
         });
     }

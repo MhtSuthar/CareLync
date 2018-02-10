@@ -16,15 +16,15 @@
         <RelativeLayout
             android:id="@+id/relProfile"
             android:layout_width="match_parent"
-            android:background="@android:color/white"
-            android:layout_height="wrap_content">
+            android:layout_height="wrap_content"
+            android:background="@android:color/white">
 
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_centerVertical="true"
-                android:gravity="center"
                 android:layout_toLeftOf="@+id/imgUser"
+                android:gravity="center"
                 android:orientation="vertical">
 
                 <TextView
@@ -54,14 +54,14 @@
                 android:layout_height="100dp"
                 android:layout_centerHorizontal="true"
                 android:layout_marginTop="10dp"
-                tools:src="@drawable/dummy_img" />
+                tools:src="@drawable/ic_placeholder" />
 
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_centerVertical="true"
-                android:gravity="center"
                 android:layout_toRightOf="@+id/imgUser"
+                android:gravity="center"
                 android:orientation="vertical">
 
                 <TextView
@@ -90,10 +90,10 @@
             android:id="@+id/txtName"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:gravity="center"
-            android:background="@android:color/white"
             android:layout_below="@+id/relProfile"
             android:layout_centerHorizontal="true"
+            android:background="@android:color/white"
+            android:gravity="center"
             android:text="Anmes"
             android:textAppearance="?android:textAppearanceMedium"
             android:textColor="@color/colorAccent"
@@ -102,12 +102,12 @@
         <TextView
             android:id="@+id/txtAboutMe"
             android:layout_width="match_parent"
-            android:background="@android:color/white"
-            android:gravity="center"
-            android:padding="10dp"
             android:layout_height="wrap_content"
             android:layout_below="@+id/txtName"
             android:layout_centerHorizontal="true"
+            android:background="@android:color/white"
+            android:gravity="center"
+            android:padding="10dp"
             android:text="About me"
             android:textAppearance="?android:textAppearanceSmall"
             android:textColor="@android:color/black"
@@ -116,46 +116,43 @@
         <LinearLayout
             android:id="@+id/lin_header"
             android:layout_width="match_parent"
-            android:orientation="horizontal"
+            android:layout_height="wrap_content"
             android:layout_below="@+id/txtAboutMe"
             android:layout_marginTop="@dimen/activity_horizontal_margin"
             android:background="@color/colorLightWhite"
-            android:layout_height="wrap_content">
+            android:orientation="horizontal">
 
             <View
                 android:layout_width="1dp"
                 android:layout_height="match_parent"
-                android:background="@color/colorLightWhite"
-                />
+                android:background="@color/colorLightWhite" />
 
             <TextView
                 android:id="@+id/txt_article"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
-                android:padding="@dimen/activity_horizontal_margin"
                 android:background="@android:color/white"
-                android:textColor="@android:color/black"
-                android:text="@string/article"
-                android:tag="1"
-                app:font="@{`bold`}"
-                android:textAppearance="?android:textAppearanceSmall"
                 android:gravity="center"
-                />
+                android:padding="@dimen/activity_horizontal_margin"
+                android:tag="1"
+                android:text="@string/article"
+                android:textAppearance="?android:textAppearanceSmall"
+                android:textColor="@android:color/black"
+                app:font="@{`bold`}" />
 
             <TextView
                 android:id="@+id/txt_question"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
-                android:gravity="center"
                 android:layout_weight="1"
+                android:gravity="center"
+                android:padding="@dimen/activity_horizontal_margin"
                 android:tag="0"
-                app:font="@{`bold`}"
+                android:text="@string/question"
                 android:textAppearance="?android:textAppearanceSmall"
                 android:textColor="@color/colorAccent"
-                android:padding="@dimen/activity_horizontal_margin"
-                android:text="@string/question"
-                />
+                app:font="@{`bold`}" />
 
             <TextView
                 android:id="@+id/txt_answer"
@@ -163,33 +160,52 @@
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
                 android:gravity="center"
+                android:padding="@dimen/activity_horizontal_margin"
                 android:tag="0"
-                app:font="@{`bold`}"
+                android:text="@string/answer"
                 android:textAppearance="?android:textAppearanceSmall"
                 android:textColor="@color/colorAccent"
-                android:padding="@dimen/activity_horizontal_margin"
-                android:text="@string/answer"
-                />
+                app:font="@{`bold`}" />
 
             <View
                 android:layout_width="1dp"
                 android:layout_height="match_parent"
-                android:background="@color/colorLightWhite"
-                />
+                android:background="@color/colorLightWhite" />
 
         </LinearLayout>
 
 
-        <android.support.v7.widget.RecyclerView
-            android:id="@+id/recyclerView"
-            android:layout_below="@+id/lin_header"
+        <RelativeLayout
             android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:padding="@dimen/activity_horizontal_margin"
-            android:clipToPadding="false"
-            android:paddingTop="@dimen/common_margin" />
+            android:layout_below="@+id/lin_header"
+            android:layout_height="match_parent">
 
+            <android.support.v7.widget.RecyclerView
+                android:id="@+id/recyclerView"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:clipToPadding="false"
+                android:padding="@dimen/activity_horizontal_margin"
+                android:paddingTop="@dimen/common_margin" />
 
+            <TextView
+                android:id="@+id/txt_empty"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_centerInParent="true"
+                android:visibility="gone"
+                android:text="@string/no_data_avail"
+                />
+
+            <ProgressBar
+                android:id="@+id/progressBar"
+                style="?android:attr/progressBarStyleLarge"
+                android:layout_width="40dp"
+                android:layout_marginTop="@dimen/activity_horizontal_margin"
+                android:layout_height="40dp"
+                android:layout_centerHorizontal="true" />
+
+        </RelativeLayout>
     </RelativeLayout>
 
 </layout>

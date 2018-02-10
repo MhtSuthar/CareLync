@@ -22,6 +22,7 @@ import android.widget.ArrayAdapter;
 import android.widget.ImageView;
 
 import com.bumptech.glide.Glide;
+import com.bumptech.glide.request.RequestOptions;
 import com.carelynk.R;
 import com.carelynk.base.BaseActivity;
 import com.carelynk.dashboard.model.GroupModelGson;
@@ -51,6 +52,9 @@ import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 
+import okhttp3.MediaType;
+import okhttp3.MultipartBody;
+import okhttp3.RequestBody;
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
@@ -69,7 +73,7 @@ public class GroupCreateActivity extends BaseActivity {
     private String mMainGroupName = "MainGroupName";
     private List<HashMap<String, String>> mGroupCatList = new ArrayList<>();
     private boolean mIsEditGroup;
-    private GroupModelGson.Result mGroupDetail;
+    private GroupModelGson.OwnGroupDet mGroupDetail;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -86,17 +90,22 @@ public class GroupCreateActivity extends BaseActivity {
         }
         if(mIsEditGroup){
             binding.txtToolbar.setText(getString(R.string.edit_group));
-            mGroupDetail = (GroupModelGson.Result) getIntent().getExtras().getSerializable(Constants.EXTRA_GROUP_DETAIL);
+            mGroupDetail = (GroupModelGson.OwnGroupDet) getIntent().getExtras().getSerializable(Constants.EXTRA_GROUP_DETAIL);
             binding.edtDescription.setText(mGroupDetail.getDescription());
             binding.edtGroupName.setText(mGroupDetail.getGroupName());
             binding.checkPrivate.setChecked(mGroupDetail.getPublicPrivate().equalsIgnoreCase("false") ? false : true);
+            Glide.with(this).load(AppUtils.getImagePath(mGroupDetail.getPhotoURL())).apply(RequestOptions.circleCropTransform()).into(binding.imgPreview);
+            if(!TextUtils.isEmpty(mGroupDetail.getPhotoURL())){
+                binding.imgSelect.setVisibility(View.GONE);
+                binding.imgPreview.setVisibility(View.VISIBLE);
+            }
         }
 
         setupCameraIntentHelper();
 
         getGroupCategory();
 
-        binding.toolbar.setNavigationIcon(R.drawable.ic_cancel_grey);
+        binding.toolbar.setNavigationIcon(R.drawable.ic_close);
         binding.toolbar.setNavigationOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -148,12 +157,32 @@ public class GroupCreateActivity extends BaseActivity {
         payerReg.addProperty("UserId", SharedPreferenceUtil.getString(PrefUtils.PREF_USER_ID, ""));
         payerReg.addProperty("PublicPrivate", binding.checkPrivate.isChecked() ? 1 : 0);
         payerReg.addProperty("PhotoURL", "");
+        payerReg.addProperty("MainGroupId", Integer.parseInt(getSelectedGroupCatId()));
+
+        MultipartBody.Part bodyImage = null;
+        RequestBody PhotoUrl = null;
+        if(!TextUtils.isEmpty(imagePath)) {
+            File imageProfileFile = new File(imagePath);
+            RequestBody requestFile = RequestBody.create(MediaType.parse("image/*"), imageProfileFile);
+            bodyImage = MultipartBody.Part.createFormData("fileUpload", imageProfileFile.getName(), requestFile);
+        }
+
+        if(mIsEditGroup)
+            PhotoUrl = RequestBody.create(MediaType.parse("text/plain"), mGroupDetail.getPhotoURL());
+
+        RequestBody User_ID = RequestBody.create(MediaType.parse("text/plain"), SharedPreferenceUtil.getString(PrefUtils.PREF_USER_ID, ""));
+        RequestBody GroupName = RequestBody.create(MediaType.parse("text/plain"), binding.edtGroupName.getText().toString());
+        RequestBody Description = RequestBody.create(MediaType.parse("text/plain"), binding.edtDescription.getText().toString());
+        RequestBody PublicPrivate = RequestBody.create(MediaType.parse("text/plain"), binding.checkPrivate.isChecked() ? "true" : "false");
+        RequestBody MainGroupId = RequestBody.create(MediaType.parse("text/plain"), getSelectedGroupCatId());
+
 
         if(mIsEditGroup){
-            payerReg.addProperty("MainGroupId", Integer.parseInt(getSelectedGroupCatId()));
             payerReg.addProperty("GroupId", Integer.parseInt(mGroupDetail.getGroupId()));
+            RequestBody GroupId = RequestBody.create(MediaType.parse("text/plain"), mGroupDetail.getGroupId());
             Log.e(TAG, "edit group: "+payerReg.toString());
-            Call<JsonObject> call = apiInterface.updateGroup(payerReg);
+            Call<JsonObject> call = apiInterface.updateGroup(User_ID, GroupId, GroupName, Description, PublicPrivate, MainGroupId,
+                    PhotoUrl, bodyImage);
             call.enqueue(new Callback<JsonObject>() {
                 @Override
                 public void onResponse(Call<JsonObject> call, Response<JsonObject> response) {
@@ -182,9 +211,8 @@ public class GroupCreateActivity extends BaseActivity {
                 }
             });
         }else {
-            payerReg.addProperty("MainGroupId", Integer.parseInt(getSelectedGroupCatId()));
             Log.e(TAG, "create group: "+payerReg.toString());
-            Call<JsonObject> call = apiInterface.createGroup(payerReg);
+            Call<JsonObject> call = apiInterface.createGroup(User_ID, GroupName, Description, PublicPrivate, MainGroupId, bodyImage);
             call.enqueue(new Callback<JsonObject>() {
                 @Override
                 public void onResponse(Call<JsonObject> call, Response<JsonObject> response) {
@@ -487,6 +515,7 @@ public class GroupCreateActivity extends BaseActivity {
     private void displayImage(Uri photoUri) {
         binding.imgSelect.setVisibility(View.GONE);
         binding.imgPreview.setVisibility(View.VISIBLE);
-        Glide.with(this).load(photoUri).transform(new CircleTransform(this)).into(binding.imgPreview);
+        Glide.with(this).load(photoUri).apply(RequestOptions.circleCropTransform())
+                .into(binding.imgPreview);
     }
 }

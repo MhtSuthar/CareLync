@@ -3,7 +3,7 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:orientation="vertical"
     android:layout_width="match_parent"
-    app:cardBackgroundColor="@color/colorLightWhite"
+    app:cardBackgroundColor="@color/white"
     android:layout_height="wrap_content">
 
     <LinearLayout
@@ -20,51 +20,76 @@
             android:text="@string/select_category"
             />
 
-        <CheckBox
-            android:layout_width="wrap_content"
+        <RadioGroup
+            android:id="@+id/rd_group"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="Hospitals"
-            android:textAppearance="?android:textAppearanceMedium"
-            android:textColor="@android:color/black"
-            android:layout_marginTop="10dp"
-            />
+            android:orientation="vertical">
 
-        <CheckBox
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="Diagnostic centers "
-            android:textAppearance="?android:textAppearanceMedium"
-            android:textColor="@android:color/black"
-            android:layout_marginTop="10dp"
-            />
+            <RadioButton
+                android:id="@+id/diagnostic_center"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="Diagnostic Centre"
+                android:textColor="@android:color/black"
+                />
 
-        <CheckBox
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="Wellness centers "
-            android:textAppearance="?android:textAppearanceMedium"
-            android:textColor="@android:color/black"
-            android:layout_marginTop="10dp"
-            />
+            <RadioButton
+                android:id="@+id/clinic"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:textColor="@android:color/black"
+                android:text="Clinics" />
 
-        <CheckBox
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="Yoga centers"
-            android:textAppearance="?android:textAppearanceMedium"
-            android:textColor="@android:color/black"
-            android:layout_marginTop="10dp"
-            />
+            <RadioButton
+                android:id="@+id/doctor"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:textColor="@android:color/black"
+                android:text="Doctors" />
 
-        <CheckBox
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="Ambulance Centers"
-            android:textAppearance="?android:textAppearanceMedium"
-            android:textColor="@android:color/black"
-            android:layout_marginTop="10dp"
-            />
+            <RadioButton
+                android:id="@+id/medicine_shop"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:textColor="@android:color/black"
+                android:text="Medicine Shops" />
 
+            <RadioButton
+                android:id="@+id/therapist"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:textColor="@android:color/black"
+                android:text="Therapist" />
+
+            <RadioButton
+                android:id="@+id/blood_bank"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:textColor="@android:color/black"
+                android:text="Blood Bank" />
+
+            <RadioButton
+                android:id="@+id/ambulance"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:textColor="@android:color/black"
+                android:text="Ambulance" />
+
+            <RadioButton
+                android:id="@+id/wellness"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:textColor="@android:color/black"
+                android:text="Wellness Centres" />
+
+            <RadioButton
+                android:id="@+id/yoga"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:textColor="@android:color/black"
+                android:text="Yoga Centre" />
+        </RadioGroup>
 
     </LinearLayout>
 

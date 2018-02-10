@@ -1,76 +1,147 @@
 package com.carelynk.dashboard.model;
 
 
-import java.util.List;
-
 import com.google.gson.annotations.Expose;
 import com.google.gson.annotations.SerializedName;
+
+import java.util.List;
+
+
 
 public class GroupDiscussModel {
 
     @SerializedName("result")
     @Expose
-    private List<Result> result = null;
+    private Result result;
 
-    public List<Result> getResult() {
+    public Result getResult() {
         return result;
     }
 
-    public void setResult(List<Result> result) {
+    public void setResult(Result result) {
         this.result = result;
     }
 
-    public class Result {
+    public class Detail {
 
-        @SerializedName("GroupUpdateId")
+        @SerializedName("SelfSupport")
         @Expose
-        private String groupUpdateId;
-        @SerializedName("Updatemsg")
+        private String selfSupport;
+        @SerializedName("RequestPending")
         @Expose
-        private String updatemsg;
-        @SerializedName("status")
+        private String requestPending;
+
+        public String getRequestCount() {
+            return requestCount;
+        }
+
+        public void setRequestCount(String requestCount) {
+            this.requestCount = requestCount;
+        }
+
+        @SerializedName("RequestCount")
         @Expose
-        private String status;
-        @SerializedName("GroupGoalId")
+        private String requestCount;
+        @SerializedName("GroupName")
         @Expose
-        private String groupGoalId;
-        @SerializedName("UpdateDate")
+        private String groupName;
+        @SerializedName("Description")
         @Expose
-        private String updateDate;
-        @SerializedName("PhotoURL")
+        private String description;
+        @SerializedName("CreatedDate")
         @Expose
-        private String photoURL;
+        private String createdDate;
+        @SerializedName("GroupUser")
+        @Expose
+        private String groupUser;
+        @SerializedName("GroupPhotoURL")
+        @Expose
+        private String groupPhotoURL;
+        @SerializedName("Admin")
+        @Expose
+        private String admin;
         @SerializedName("GroupId")
         @Expose
         private String groupId;
-        @SerializedName("Comments")
+
+        public String getOwnerUserId() {
+            return OwnerUserId;
+        }
+
+        public void setOwnerUserId(String ownerUserId) {
+            OwnerUserId = ownerUserId;
+        }
+
+        @SerializedName("OwnerUserId")
         @Expose
-        private String comments = "";
-        @SerializedName("Supports")
+        private String OwnerUserId;
+        @SerializedName("OwnerProfilePic")
         @Expose
-        private String supports;
-        @SerializedName("UserId")
+        private String ownerProfilePic;
+
+        public String getOwnerProfilePic() {
+            return ownerProfilePic;
+        }
+
+        public void setOwnerProfilePic(String ownerProfilePic) {
+            this.ownerProfilePic = ownerProfilePic;
+        }
+
+        public String getGroupGoalId() {
+            return GroupGoalId;
+        }
+
+        public void setGroupGoalId(String groupGoalId) {
+            GroupGoalId = groupGoalId;
+        }
+
+        @SerializedName("GroupGoalId")
         @Expose
-        private String userId;
+        private String GroupGoalId;
+
 
         public String getGroupUserId() {
-            return groupUserId;
+            return GroupUserId;
         }
 
         public void setGroupUserId(String groupUserId) {
-            this.groupUserId = groupUserId;
+            GroupUserId = groupUserId;
         }
 
         @SerializedName("GroupUserId")
         @Expose
-        private String groupUserId;
+        private String GroupUserId;
 
-        public String getUserName() {
-            return userName;
+        public String getSelfSupport() {
+            return selfSupport;
         }
 
-        public void setUserName(String userName) {
-            this.userName = userName;
+        public void setSelfSupport(String selfSupport) {
+            this.selfSupport = selfSupport;
+        }
+
+        public String getRequestPending() {
+            return requestPending;
+        }
+
+        public void setRequestPending(String requestPending) {
+            this.requestPending = requestPending;
+        }
+
+        public String getGroupName() {
+            return groupName;
+        }
+
+        public void setGroupName(String groupName) {
+            this.groupName = groupName;
+        }
+
+        public String getDescription() {
+            return description;
+        }
+
+        public void setDescription(String description) {
+            this.description = description;
         }
 
         public String getCreatedDate() {
@@ -81,27 +152,202 @@ public class GroupDiscussModel {
             this.createdDate = createdDate;
         }
 
-        @SerializedName("UserName")
+        public String getGroupUser() {
+            return groupUser;
+        }
+
+        public void setGroupUser(String groupUser) {
+            this.groupUser = groupUser;
+        }
+
+        public String getGroupPhotoURL() {
+            return groupPhotoURL;
+        }
+
+        public void setGroupPhotoURL(String groupPhotoURL) {
+            this.groupPhotoURL = groupPhotoURL;
+        }
+
+        public String getAdmin() {
+            return admin;
+        }
+
+        public void setAdmin(String admin) {
+            this.admin = admin;
+        }
+
+        public String getGroupId() {
+            return groupId;
+        }
+
+        public void setGroupId(String groupId) {
+            this.groupId = groupId;
+        }
+
+    }
+
+    public class GroupDatum {
+
+        @SerializedName("GroupName")
         @Expose
-        private String userName;
+        private String groupName;
+        @SerializedName("Description")
+        @Expose
+        private String description;
+        @SerializedName("MainGroupName")
+        @Expose
+        private String mainGroupName;
         @SerializedName("CreatedDate")
         @Expose
         private String createdDate;
-
-        public String getSelfSupport() {
-            return selfSupport;
-        }
-
-        public void setSelfSupport(String selfSupport) {
-            this.selfSupport = selfSupport;
-        }
-
+        @SerializedName("GroupUser")
+        @Expose
+        private String groupUser;
+        @SerializedName("GroupPhotoURL")
+        @Expose
+        private String groupPhotoURL;
+        @SerializedName("Admin")
+        @Expose
+        private String admin;
+        @SerializedName("GroupUpdateId")
+        @Expose
+        private String groupUpdateId;
+        @SerializedName("Updatemsg")
+        @Expose
+        private String updatemsg;
+        @SerializedName("UpdateDate")
+        @Expose
+        private String updateDate;
+        @SerializedName("UpdatePhotoURL")
+        @Expose
+        private String updatePhotoURL;
+        @SerializedName("GroupId")
+        @Expose
+        private String groupId;
+        @SerializedName("Comments")
+        @Expose
+        private String comments;
+        @SerializedName("Supports")
+        @Expose
+        private String supports;
+        @SerializedName("UserId")
+        @Expose
+        private String userId;
+        @SerializedName("UserName")
+        @Expose
+        private String userName;
+        @SerializedName("GroupUserId")
+        @Expose
+        private String groupUserId;
         @SerializedName("SelfSupport")
         @Expose
         private String selfSupport;
+        @SerializedName("RequestPending")
+        @Expose
+        private String requestPending;
 
-        public boolean isSupport;
-        public String comment = "";
+        public String getOwnerProfilePic() {
+            return ownerProfilePic;
+        }
+
+        public void setOwnerProfilePic(String ownerProfilePic) {
+            this.ownerProfilePic = ownerProfilePic;
+        }
+
+        public String getOwnerUserId() {
+            return ownerUserId;
+        }
+
+        public void setOwnerUserId(String ownerUserId) {
+            this.ownerUserId = ownerUserId;
+        }
+
+        @SerializedName("OwnerProfilePic")
+        @Expose
+        private String ownerProfilePic;
+        @SerializedName("GroupUserProfilePic")
+        @Expose
+        private String groupUserProfilePic;
+
+        public String getGroupUserProfilePic() {
+            return groupUserProfilePic;
+        }
+
+        public void setGroupUserProfilePic(String groupUserProfilePic) {
+            this.groupUserProfilePic = groupUserProfilePic;
+        }
+
+        public String getGroupUsersId() {
+            return groupUsersId;
+        }
+
+        public void setGroupUsersId(String groupUsersId) {
+            this.groupUsersId = groupUsersId;
+        }
+
+        @SerializedName("GroupUsersId")
+        @Expose
+        private String groupUsersId;
+        @SerializedName("OwnerUserId")
+        @Expose
+        private String ownerUserId;
+        public String comment="";
+
+        public String getGroupName() {
+            return groupName;
+        }
+
+        public void setGroupName(String groupName) {
+            this.groupName = groupName;
+        }
+
+        public String getDescription() {
+            return description;
+        }
+
+        public void setDescription(String description) {
+            this.description = description;
+        }
+
+        public String getMainGroupName() {
+            return mainGroupName;
+        }
+
+        public void setMainGroupName(String mainGroupName) {
+            this.mainGroupName = mainGroupName;
+        }
+
+        public String getCreatedDate() {
+            return createdDate;
+        }
+
+        public void setCreatedDate(String createdDate) {
+            this.createdDate = createdDate;
+        }
+
+        public String getGroupUser() {
+            return groupUser;
+        }
+
+        public void setGroupUser(String groupUser) {
+            this.groupUser = groupUser;
+        }
+
+        public String getGroupPhotoURL() {
+            return groupPhotoURL;
+        }
+
+        public void setGroupPhotoURL(String groupPhotoURL) {
+            this.groupPhotoURL = groupPhotoURL;
+        }
+
+        public String getAdmin() {
+            return admin;
+        }
+
+        public void setAdmin(String admin) {
+            this.admin = admin;
+        }
 
         public String getGroupUpdateId() {
             return groupUpdateId;
@@ -119,22 +365,6 @@ public class GroupDiscussModel {
             this.updatemsg = updatemsg;
         }
 
-        public String getStatus() {
-            return status;
-        }
-
-        public void setStatus(String status) {
-            this.status = status;
-        }
-
-        public String getGroupGoalId() {
-            return groupGoalId;
-        }
-
-        public void setGroupGoalId(String groupGoalId) {
-            this.groupGoalId = groupGoalId;
-        }
-
         public String getUpdateDate() {
             return updateDate;
         }
@@ -143,12 +373,12 @@ public class GroupDiscussModel {
             this.updateDate = updateDate;
         }
 
-        public String getPhotoURL() {
-            return photoURL;
+        public String getUpdatePhotoURL() {
+            return updatePhotoURL;
         }
 
-        public void setPhotoURL(String photoURL) {
-            this.photoURL = photoURL;
+        public void setUpdatePhotoURL(String updatePhotoURL) {
+            this.updatePhotoURL = updatePhotoURL;
         }
 
         public String getGroupId() {
@@ -183,7 +413,67 @@ public class GroupDiscussModel {
             this.userId = userId;
         }
 
+        public String getUserName() {
+            return userName;
+        }
+
+        public void setUserName(String userName) {
+            this.userName = userName;
+        }
+
+        public String getGroupUserId() {
+            return groupUserId;
+        }
+
+        public void setGroupUserId(String groupUserId) {
+            this.groupUserId = groupUserId;
+        }
+
+        public String getSelfSupport() {
+            return selfSupport;
+        }
+
+        public void setSelfSupport(String selfSupport) {
+            this.selfSupport = selfSupport;
+        }
+
+        public String getRequestPending() {
+            return requestPending;
+        }
+
+        public void setRequestPending(String requestPending) {
+            this.requestPending = requestPending;
+        }
+
     }
 
+    public class Result {
+
+        @SerializedName("GroupData")
+        @Expose
+        private List<GroupDatum> groupData = null;
+        @SerializedName("Detail")
+        @Expose
+        private Detail detail;
+
+        public List<GroupDatum> getGroupData() {
+            return groupData;
+        }
+
+        public void setGroupData(List<GroupDatum> groupData) {
+            this.groupData = groupData;
+        }
+
+        public Detail getDetail() {
+            return detail;
+        }
+
+        public void setDetail(Detail detail) {
+            this.detail = detail;
+        }
+
+    }
 }
+
+
 

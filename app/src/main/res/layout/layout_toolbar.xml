@@ -21,15 +21,14 @@
                 android:gravity="center"
                 android:orientation="vertical">
 
-                <TextView
+                <com.carelynk.utilz.fonts.TimeNewRomanTextView
                     android:id="@+id/toolbar_title"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="Home"
                     android:lines="1"
-                    android:textAllCaps="true"
                     android:textAppearance="?android:textAppearanceMedium"
-                    android:textColor="@color/colorAccent" />
+                    android:textColor="@android:color/white" />
 
             </LinearLayout>
 

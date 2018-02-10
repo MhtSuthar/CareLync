@@ -5,7 +5,7 @@
 <RelativeLayout
     android:orientation="vertical"
     android:layout_width="match_parent"
-    android:background="@color/colorPrimary"
+    android:background="@color/color_app_bg"
     android:layout_height="match_parent">
 
     <android.support.v7.widget.Toolbar
@@ -31,7 +31,7 @@
                 android:lines="1"
                 android:textAllCaps="true"
                 android:textAppearance="?android:textAppearanceMedium"
-                android:textColor="@color/colorAccent" />
+                android:textColor="@android:color/white" />
 
         </LinearLayout>
 

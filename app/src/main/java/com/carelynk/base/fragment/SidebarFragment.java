@@ -12,6 +12,7 @@ import android.view.View;
 import android.view.ViewGroup;
 
 import com.bumptech.glide.Glide;
+import com.bumptech.glide.request.RequestOptions;
 import com.carelynk.R;
 import com.carelynk.base.BaseActivity;
 import com.carelynk.base.BaseActivityWithSidebar;
@@ -22,7 +23,7 @@ import com.carelynk.databinding.FragmentSidebarBinding;
 import com.carelynk.prelogin.PreLoginActivity;
 import com.carelynk.dashboard.HomeActivity;
 import com.carelynk.profile.MyProfileActivity;
-import com.carelynk.search.MySearchActivity;
+import com.carelynk.search.DiscoverActivity;
 import com.carelynk.storage.SharedPreferenceUtil;
 import com.carelynk.utilz.CircleTransform;
 import com.carelynk.utilz.Constants;
@@ -44,8 +45,8 @@ public class SidebarFragment extends BaseFragment {
     @Override
     public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
-        Glide.with(getActivity()).load(R.drawable.dummy_img).
-                transform(new CircleTransform(getActivity())).into(binding.imgUser);
+        Glide.with(getActivity()).load(R.drawable.ic_default_avatar)
+               .apply(RequestOptions.circleCropTransform()).into(binding.imgUser);
         setRecyclerAdapter();
         binding.imgLogout.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -112,7 +113,7 @@ public class SidebarFragment extends BaseFragment {
                 new Handler().postDelayed(new Runnable() {
                     @Override
                     public void run() {
-                        moveActivity(new Intent(getActivity(), MySearchActivity.class), getActivity(), false);
+                        moveActivity(new Intent(getActivity(), DiscoverActivity.class), getActivity(), false);
                     }
                 }, 400);
 
@@ -132,7 +133,7 @@ public class SidebarFragment extends BaseFragment {
                 new Handler().postDelayed(new Runnable() {
                     @Override
                     public void run() {
-                       // moveActivity(new Intent(getActivity(), MySearchActivity.class), getActivity(), false);
+                       // moveActivity(new Intent(getActivity(), DiscoverActivity.class), getActivity(), false);
                     }
                 }, 400);
 

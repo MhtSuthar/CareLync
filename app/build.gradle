@@ -1,8 +1,8 @@
 apply plugin: 'com.android.application'
 
 android {
-    compileSdkVersion 23
-    buildToolsVersion "23.0.3"
+    compileSdkVersion 25
+    buildToolsVersion '26.0.2'
 
     dataBinding {
         enabled = true
@@ -12,8 +12,8 @@ android {
         applicationId "com.carelynk"
         minSdkVersion 14
         targetSdkVersion 23
-        versionCode 1
-        versionName "1.0"
+        versionCode 4
+        versionName "1.03"
     }
     buildTypes {
         release {
@@ -21,9 +21,14 @@ android {
             proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
         }
     }
+
+    lintOptions {
+        checkReleaseBuilds false
+        abortOnError false
+    }
 }
 
-def glideVersion = "3.6.1"
+def glideVersion = "4.0.0"
 def okHttpVersion = "3.3.1"
 def retrofitVersion = "2.1.0"
 def gsonVersion = "2.6.2"
@@ -31,9 +36,9 @@ def gsonVersion = "2.6.2"
 dependencies {
     compile fileTree(dir: 'libs', include: ['*.jar'])
     testCompile 'junit:junit:4.12'
-    compile 'com.android.support:appcompat-v7:23.4.0'
-    compile 'com.android.support:design:23.4.0'
-    compile 'com.android.support:cardview-v7:23.0.+'
+    compile 'com.android.support:appcompat-v7:25.3.0'
+    compile 'com.android.support:design:25.3.0'
+    compile 'com.android.support:cardview-v7:25.3.0'
     compile "com.github.bumptech.glide:glide:$glideVersion"
 
     //retrofit & OkHttp

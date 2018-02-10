@@ -7,6 +7,7 @@ import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.database.Cursor;
 import android.databinding.DataBindingUtil;
+import android.graphics.Color;
 import android.net.Uri;
 import android.os.Bundle;
 import android.os.Environment;
@@ -17,21 +18,26 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.AdapterView;
 import android.widget.ImageView;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.bumptech.glide.Glide;
+import com.bumptech.glide.request.RequestOptions;
 import com.carelynk.R;
 import com.carelynk.base.BaseFragment;
 import com.carelynk.databinding.FragmentRegistrationBinding;
 import com.carelynk.prelogin.model.RegisterStepOne;
 import com.carelynk.rest.ApiFactory;
 import com.carelynk.rest.ApiInterface;
+import com.carelynk.storage.SharedPreferenceUtil;
 import com.carelynk.utilz.AppUtils;
 import com.carelynk.utilz.CircleTransform;
 import com.carelynk.utilz.Constants;
 import com.carelynk.utilz.DatePickerDialogFragment;
 import com.carelynk.utilz.DialogUtils;
+import com.carelynk.utilz.PrefUtils;
 import com.carelynk.utilz.camera.BitmapHelper;
 import com.carelynk.utilz.camera.CameraIntentHelper;
 import com.carelynk.utilz.camera.CameraIntentHelperCallback;
@@ -47,6 +53,9 @@ import java.util.Arrays;
 import java.util.Date;
 import java.util.List;
 
+import okhttp3.MediaType;
+import okhttp3.MultipartBody;
+import okhttp3.RequestBody;
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
@@ -89,10 +98,46 @@ public class RegistrationFragment extends BaseFragment {
             }
         });*/
 
+
+        binding.spnrAboutMe.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+            @Override
+            public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
+                ((TextView) parent.getChildAt(0)).setTextColor(Color.WHITE);
+                if(binding.spnrAboutMe.getSelectedItem().toString().equalsIgnoreCase("Individual")){
+                    binding.edtLastName.setVisibility(View.VISIBLE);
+                    binding.textInput.setHint("First Name");
+                    binding.edtDateOfBirth.setVisibility(View.VISIBLE);
+                    binding.spnrGender.setVisibility(View.VISIBLE);
+                }else if(binding.spnrAboutMe.getSelectedItem().toString().equalsIgnoreCase("Entity")){
+                    binding.edtLastName.setVisibility(View.GONE);
+                    binding.textInput.setHint("Entity Name");
+                    binding.edtDateOfBirth.setVisibility(View.GONE);
+                    binding.spnrGender.setVisibility(View.GONE);
+                }
+            }
+
+            @Override
+            public void onNothingSelected(AdapterView<?> parent) {
+
+            }
+        });
+
+        binding.spnrGender.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+            @Override
+            public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
+                ((TextView) parent.getChildAt(0)).setTextColor(Color.WHITE);
+            }
+
+            @Override
+            public void onNothingSelected(AdapterView<?> parent) {
+
+            }
+        });
+
         binding.imgSave.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                if(isValid())
+                if (isValid())
                     attemptRegistration();
             }
         });
@@ -126,47 +171,49 @@ public class RegistrationFragment extends BaseFragment {
     }
 
     private boolean isValid() {
-        if(!isOnline(getContext())){
+        if (!isOnline(getContext())) {
             showSnackbar(binding.getRoot(), getString(R.string.no_internet));
             return false;
-        } else if(TextUtils.isEmpty(binding.edtName.getText().toString())){
+        }else if (binding.spnrAboutMe.getSelectedItem().toString().equalsIgnoreCase("Register As")) {
+            showSnackbar(binding.getRoot(), "Select Register as first");
+            return false;
+        }  else if (TextUtils.isEmpty(binding.edtName.getText().toString())) {
             showSnackbar(binding.getRoot(), getString(R.string.enter_name));
             return false;
-        }else if(TextUtils.isEmpty(binding.edtDateOfBirth.getText().toString())){
+        } /*else if (TextUtils.isEmpty(binding.edtDateOfBirth.getText().toString()) &&
+                !binding.spnrAboutMe.getSelectedItem().toString().equalsIgnoreCase("Entity")) {
             showSnackbar(binding.getRoot(), getString(R.string.enter_date_of_birth));
             return false;
-        }else if(binding.spnrAboutMe.getSelectedItem().toString().equalsIgnoreCase("Who am i")){
-            showSnackbar(binding.getRoot(), getString(R.string.select_who_am_i));
-            return false;
-        }else if(binding.spnrGender.getSelectedItem().toString().equalsIgnoreCase("Gender")){
+        }*/ else if (binding.spnrGender.getSelectedItem().toString().equalsIgnoreCase("Gender") &&
+                !binding.spnrAboutMe.getSelectedItem().toString().equalsIgnoreCase("Entity")) {
             showSnackbar(binding.getRoot(), getString(R.string.select_gender));
             return false;
-        }else if(TextUtils.isEmpty(binding.edtEmail.getText().toString())){
+        } else if (TextUtils.isEmpty(binding.edtEmail.getText().toString())) {
             showSnackbar(binding.getRoot(), getString(R.string.enter_email));
             return false;
-        }else if(!AppUtils.isValidEmail(binding.edtEmail.getText().toString())){
+        } else if (!AppUtils.isValidEmail(binding.edtEmail.getText().toString())) {
             showSnackbar(binding.getRoot(), getString(R.string.enter_correcr_email));
             return false;
-        }else if(TextUtils.isEmpty(binding.edtPassword.getText().toString())){
+        } else if (TextUtils.isEmpty(binding.edtPassword.getText().toString())) {
             showSnackbar(binding.getRoot(), getString(R.string.enter_password));
             return false;
-        }else if(TextUtils.isEmpty(binding.edtConfPassword.getText().toString())){
+        } else if (TextUtils.isEmpty(binding.edtConfPassword.getText().toString())) {
             showSnackbar(binding.getRoot(), getString(R.string.enter_confirm_pass));
             return false;
-        }else if(!binding.edtPassword.getText().toString().equals(binding.edtConfPassword.getText().toString())){
+        } else if (!binding.edtPassword.getText().toString().equals(binding.edtConfPassword.getText().toString())) {
             showSnackbar(binding.getRoot(), getString(R.string.pass_not_match));
             return false;
-        }else if(TextUtils.isEmpty(binding.edtContactNo.getText().toString())){
+        } else if (TextUtils.isEmpty(binding.edtContactNo.getText().toString())) {
             showSnackbar(binding.getRoot(), getString(R.string.enter_contact_no));
             return false;
-        }else if(binding.edtContactNo.getText().toString().length() < 9){
+        } else if (binding.edtContactNo.getText().toString().length() < 9) {
             showSnackbar(binding.getRoot(), getString(R.string.enter_correct_contact_no));
             return false;
         }
         return true;
     }
 
-    void openGalleryDialog(){
+    void openGalleryDialog() {
         final Dialog dialog = new DialogUtils(getContext()).setupCustomeDialogFromBottom(R.layout.dialog_gallery);
         ImageView imgCamera = (ImageView) dialog.findViewById(R.id.imgCamera);
         ImageView imgGallery = (ImageView) dialog.findViewById(R.id.imgGallery);
@@ -187,8 +234,8 @@ public class RegistrationFragment extends BaseFragment {
         dialog.show();
     }
 
-    void openInterestDialog(){
-        List<String> list =  Arrays.asList(getResources().getStringArray(R.array.about_me));
+    void openInterestDialog() {
+        List<String> list = Arrays.asList(getResources().getStringArray(R.array.about_me));
         final CharSequence[] dialogList = list.toArray(new CharSequence[list.size()]);
         final android.app.AlertDialog.Builder builderDialog = new android.app.AlertDialog.Builder(getActivity());
         builderDialog.setTitle("Select Your Interest");
@@ -200,7 +247,7 @@ public class RegistrationFragment extends BaseFragment {
                 new DialogInterface.OnMultiChoiceClickListener() {
                     public void onClick(DialogInterface dialog,
                                         int whichButton, boolean isChecked) {
-                        Toast.makeText(getContext(), ""+whichButton+", "+is_checked, Toast.LENGTH_SHORT).show();
+                        Toast.makeText(getContext(), "" + whichButton + ", " + is_checked, Toast.LENGTH_SHORT).show();
                     }
                 });
 
@@ -233,9 +280,9 @@ public class RegistrationFragment extends BaseFragment {
     }
 
     @Override
-    public void onRequestPermissionsResult(int requestCode,  String[] permissions,  int[] grantResults) {
+    public void onRequestPermissionsResult(int requestCode, String[] permissions, int[] grantResults) {
         super.onRequestPermissionsResult(requestCode, permissions, grantResults);
-        if(requestCode == Constants.REQUEST_PERMISSION_WRITE_STORAGE){
+        if (requestCode == Constants.REQUEST_PERMISSION_WRITE_STORAGE) {
             if (grantResults.length > 0
                     && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
             }
@@ -247,7 +294,7 @@ public class RegistrationFragment extends BaseFragment {
         startActivityForResult(intent, Constants.REQUEST_OPEN_GALLERY);
     }
 
-    void openCamera(){
+    void openCamera() {
         if (checkPermission(Manifest.permission.WRITE_EXTERNAL_STORAGE, getActivity()) &&
                 checkPermission(Manifest.permission.READ_EXTERNAL_STORAGE, getActivity()) && checkPermission(Manifest.permission.CAMERA, getActivity())) {
 
@@ -263,7 +310,7 @@ public class RegistrationFragment extends BaseFragment {
             if (mCameraIntentHelper != null) {
                 mCameraIntentHelper.startCameraIntent();
             }
-        }else{
+        } else {
             requestPermissions(new String[]{Manifest.permission.WRITE_EXTERNAL_STORAGE,
                     Manifest.permission.READ_EXTERNAL_STORAGE, Manifest.permission.CAMERA}, Constants.REQUEST_PERMISSION_WRITE_STORAGE);
         }
@@ -272,8 +319,8 @@ public class RegistrationFragment extends BaseFragment {
     private File createImageFile() {
         String timeStamp = new SimpleDateFormat("yyyyMMdd_HHmmss").format(new Date());
         String imageFileName = "Carelync_" + timeStamp + "_";
-        File sdCard = new File(Environment.getExternalStorageDirectory()+"/Carelync/Images");
-        if(!sdCard.exists())
+        File sdCard = new File(Environment.getExternalStorageDirectory() + "/Carelync/Images");
+        if (!sdCard.exists())
             sdCard.mkdirs();
         File image = null;
         try {
@@ -289,7 +336,6 @@ public class RegistrationFragment extends BaseFragment {
     }
 
     /**
-     *
      * @param savedInstanceState Start Camera Intent handler
      */
 
@@ -350,7 +396,6 @@ public class RegistrationFragment extends BaseFragment {
     }
 
     /**
-     *
      * End  Camera Intent handler
      */
 
@@ -377,7 +422,7 @@ public class RegistrationFragment extends BaseFragment {
             cursor.moveToFirst();
             String selectedImagePath = cursor.getString(column_index);
             imagePath = selectedImagePath;
-            uri= Uri.fromFile(new File(imagePath));
+            uri = Uri.fromFile(new File(imagePath));
             Log.e(TAG, "Image Gallery" + imagePath);
             //bitmap = galleryCameraDialog.decodeUri(imageUri);
             displayImage(uri);
@@ -390,51 +435,65 @@ public class RegistrationFragment extends BaseFragment {
     private void displayImage(Uri photoUri) {
         binding.imgPhotoSelection.setVisibility(View.GONE);
         binding.imgPhoto.setVisibility(View.VISIBLE);
-        Glide.with(getActivity()).load(photoUri).transform(new CircleTransform(getActivity())).into(binding.imgPhoto);
+        Glide.with(getActivity()).load(photoUri).apply(RequestOptions.circleCropTransform()).into(binding.imgPhoto);
     }
 
     private void attemptRegistration() {
         DialogUtils.showProgressDialog(getActivity());
         ApiInterface apiInterface = ApiFactory.provideInterface();
-            RegisterStepOne registerStepOne = new RegisterStepOne(Float.parseFloat(binding.edtContactNo.getText().toString()),
-                    binding.edtEmail.getText().toString(),
-                    binding.edtPassword.getText().toString(),
-                    0,
-                    binding.spnrAboutMe.getSelectedItem().toString(),
-                    "",
-                    binding.spnrGender.getSelectedItem().toString(),
-                    AppUtils.formattedDate("dd MMMM yyyy", "dd/MM/yyyy", binding.edtDateOfBirth.getText().toString()),
-                    getGender());
-            Call<JsonObject> call = apiInterface.registrationOne(registerStepOne);
-            call.enqueue(new Callback<JsonObject>() {
-                @Override
-                public void onResponse(Call<JsonObject>call, Response<JsonObject> response) {
-                    DialogUtils.stopProgressDialog();
-                    if (response.isSuccessful()) {
-                        try{
-                            JSONObject jsonObject = new JSONObject(response.body().toString());
-                            if(jsonObject.getBoolean("IsSuccess")){
-                                openInterestFragment(jsonObject.getString("KeyID"));
-                            }
-                            //{"KeyID":8,"IsSuccess":true,"ErrorMessage":"","Message":""}
-                            Log.e(TAG, "onResponse: "+response.body().toString());
-                        }catch (Exception e){
-                            e.printStackTrace();
+
+        MultipartBody.Part bodyImage = null;
+        if (!TextUtils.isEmpty(imagePath)) {
+            File imageProfileFile = new File(imagePath);
+            RequestBody requestFile = RequestBody.create(MediaType.parse("image/*"), imageProfileFile);
+            bodyImage = MultipartBody.Part.createFormData("fileUpload", imageProfileFile.getName(), requestFile);
+        }
+
+        RequestBody Email = RequestBody.create(MediaType.parse("text/plain"), binding.edtEmail.getText().toString());
+        RequestBody PasswordHash = RequestBody.create(MediaType.parse("text/plain"), binding.edtPassword.getText().toString());
+        RequestBody UserProfileId = RequestBody.create(MediaType.parse("text/plain"), "0");
+        RequestBody AboutMe = RequestBody.create(MediaType.parse("text/plain"), binding.spnrAboutMe.getSelectedItem().toString());
+        RequestBody FirstName = RequestBody.create(MediaType.parse("text/plain"),  binding.edtName.getText().toString());
+        RequestBody LastName = RequestBody.create(MediaType.parse("text/plain"), binding.edtLastName.getText().toString());
+        RequestBody DateOfBirth = RequestBody.create(MediaType.parse("text/plain"), binding.edtDateOfBirth.getText().toString().equals("") ? "01/01/2001" : AppUtils.formattedDate("dd MMMM yyyy", "MM/dd/yyyy", binding.edtDateOfBirth.getText().toString()));
+        RequestBody Gender = RequestBody.create(MediaType.parse("text/plain"), ""+getGender());
+        RequestBody ContactNo = RequestBody.create(MediaType.parse("text/plain"), binding.edtContactNo.getText().toString());
+
+
+        Call<JsonObject> call = apiInterface.registrationOne(Email, PasswordHash, UserProfileId, AboutMe, FirstName, LastName, DateOfBirth, Gender, ContactNo, bodyImage);
+        call.enqueue(new Callback<JsonObject>() {
+            @Override
+            public void onResponse(Call<JsonObject> call, Response<JsonObject> response) {
+                DialogUtils.stopProgressDialog();
+                if (response.isSuccessful()) {
+                    try {
+                        JSONObject jsonObject = new JSONObject(response.body().toString());
+                        if (jsonObject.getBoolean("IsSuccess")) {
+                            openInterestFragment(jsonObject.getString("KeyID"));
+                        }else{
+                            showSnackbar(binding.getRoot(), jsonObject.getString("Message"));
                         }
+                        //{"KeyID":8,"IsSuccess":true,"ErrorMessage":"","Message":""}
+                        Log.e(TAG, "onResponse: " + response.body().toString());
+                    } catch (Exception e) {
+                        e.printStackTrace();
                     }
                 }
+            }
 
-                @Override
-                public void onFailure(Call<JsonObject>call, Throwable t) {
-                    Log.e(TAG, t.toString());
-                }
-            });
+            @Override
+            public void onFailure(Call<JsonObject> call, Throwable t) {
+                Log.e(TAG, t.toString());
+            }
+        });
     }
 
-    private int getGender() {
-        if(binding.spnrGender.getSelectedItem().toString().equalsIgnoreCase("men"))
-            return 0;
-        return 1;
+    private String getGender() {
+        if (binding.spnrGender.getSelectedItem().toString().equalsIgnoreCase("Male"))
+            return "False";
+        else if (binding.spnrGender.getSelectedItem().toString().equalsIgnoreCase("Female"))
+            return "True";
+        return "";
     }
 
 

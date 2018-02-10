@@ -111,6 +111,35 @@ public class JsonParser {
 		return result.toString();
 	}
 
+	public String postToResponse(String mUrl, JSONObject object) throws IOException, JSONException {
+		URL url = new URL(mUrl);
+		HttpURLConnection conn = (HttpURLConnection) url.openConnection();
+		conn.setConnectTimeout(5000);
+		conn.setRequestProperty("Content-Type", "application/json; charset=UTF-8");
+		conn.setDoOutput(true);
+		conn.setDoInput(true);
+		conn.setRequestMethod("POST");
+
+		OutputStream os = conn.getOutputStream();
+		os.write(object.toString().getBytes("UTF-8"));
+		os.close();
+
+		// read the response
+		InputStream in = new BufferedInputStream(conn.getInputStream());
+		Log.e("url", ""+mUrl);
+		Log.e("req code", ""+conn.getResponseCode());
+		BufferedReader reader = new BufferedReader(new InputStreamReader(in));
+		StringBuilder result = new StringBuilder();
+		String line;
+		while((line = reader.readLine()) != null) {
+			result.append(line);
+		}
+		Log.e("response", result.toString());
+		in.close();
+		conn.disconnect();
+		return result.toString();
+	}
+
 	public String getResponse(String mUrl){
 		URL url;
 		StringBuffer response = null;

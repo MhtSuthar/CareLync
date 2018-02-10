@@ -11,6 +11,7 @@
     <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
+        android:background="@color/color_app_bg"
         tools:context=".dashboard.HomeActivity">
 
         <android.support.v7.widget.Toolbar
@@ -36,7 +37,7 @@
                     android:padding="10dp"
                     android:text="@string/create_event"
                     android:textAppearance="?android:textAppearanceLarge"
-                    android:textColor="@color/colorAccent"
+                    android:textColor="@android:color/white"
                     app:font="@{`medium`}" />
 
                 <TextView
@@ -49,7 +50,7 @@
                     android:padding="10dp"
                     android:text="@string/create"
                     android:textAppearance="?android:textAppearanceLarge"
-                    android:textColor="@color/colorAccent"
+                    android:textColor="@android:color/white"
                     app:font="@{`medium`}" />
 
             </RelativeLayout>

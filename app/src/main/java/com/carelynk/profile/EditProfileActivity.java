@@ -1,6 +1,7 @@
 package com.carelynk.profile;
 
 import android.Manifest;
+import android.app.Dialog;
 import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.database.Cursor;
@@ -14,8 +15,11 @@ import android.text.TextUtils;
 import android.util.Log;
 import android.view.Gravity;
 import android.view.View;
+import android.widget.AdapterView;
+import android.widget.ImageView;
 
 import com.bumptech.glide.Glide;
+import com.bumptech.glide.request.RequestOptions;
 import com.carelynk.R;
 import com.carelynk.base.BaseActivity;
 import com.carelynk.dashboard.HomeActivity;
@@ -42,6 +46,9 @@ import java.io.IOException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 
+import okhttp3.MediaType;
+import okhttp3.MultipartBody;
+import okhttp3.RequestBody;
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
@@ -56,6 +63,7 @@ public class EditProfileActivity extends BaseActivity {
     private CameraIntentHelper mCameraIntentHelper;
     private String imagePath = "";
     private ProfileModel profileModel;
+    private boolean isEntity;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -77,6 +85,8 @@ public class EditProfileActivity extends BaseActivity {
     private void setData() {
         if(profileModel != null){
             binding.edtName.setText(profileModel.FirstName);
+            binding.edtLastName.setText(profileModel.LastName);
+            binding.edtAboutMe.setText(profileModel.AboutMeText);
             binding.edtEmail.setText(profileModel.Email);
             binding.edtAboutMe.setText(profileModel.AboutMeText);
             if(!TextUtils.isEmpty(profileModel.Address))
@@ -85,19 +95,43 @@ public class EditProfileActivity extends BaseActivity {
                 binding.edtCity.setText(profileModel.City);
             binding.edtContactNo.setText(profileModel.ContactNo);
             binding.edtCountry.setText(profileModel.Country);
-            binding.edtDateOfBirth.setText(AppUtils.formattedDate("dd/MM/yyyy", "dd MMMM yyyy", profileModel.DateOfBirth));
+            binding.edtDateOfBirth.setText(AppUtils.formattedDate("MM/dd/yyyy", "dd MMMM yyyy", profileModel.DateOfBirth));
             binding.edtMarital.setText(profileModel.Marital_Status);
             binding.edtState.setText(profileModel.State);
             binding.edtZipcode.setText(profileModel.ZipCode);
-            if(profileModel.AboutMe.equalsIgnoreCase("individual")){
+            if(profileModel.AboutMe.equalsIgnoreCase("Individual")){
                 binding.spnrAboutMe.setSelection(1);
+                isEntity=false;
             }else{
+                isEntity=true;
+                binding.edtLastName.setVisibility(View.GONE);
+                binding.spnrGender.setVisibility(View.GONE);
+                binding.edtDateOfBirth.setVisibility(View.GONE);
+                binding.edtMarital.setVisibility(View.GONE);
+                binding.edtOccupation.setVisibility(View.GONE);
+                binding.edtFoodHabit.setVisibility(View.GONE);
+                binding.edtEducation.setVisibility(View.GONE);
                 binding.spnrAboutMe.setSelection(2);
             }
-            if(profileModel.Gender)
+            if(!profileModel.Gender)
                 binding.spnrGender.setSelection(1);
             else
                 binding.spnrGender.setSelection(2);
+            binding.switchAutoFollow.setChecked(profileModel.AutoFollow);
+            binding.switchEmailFriendRequest.setChecked(profileModel.EmailFriendRequest);
+            binding.switchNotificationEmail.setChecked(profileModel.NotificationEmail);
+            binding.switchProfilePublic.setChecked(profileModel.ProfilePublic);
+            binding.switchSendEmail.setChecked(profileModel.SendEmail);
+            binding.edtEducation.setText(profileModel.Education);
+            binding.edtCertification.setText(profileModel.Certification);
+            binding.edtExpertise.setText(profileModel.Expertise);
+            if(!TextUtils.isEmpty(profileModel.ProfilePicUrl)){
+                binding.imgPhotoSelection.setVisibility(View.GONE);
+                binding.imgPhoto.setVisibility(View.VISIBLE);
+                Glide.with(this).load(AppUtils.getImagePath(profileModel.ProfilePicUrl)).
+                        apply(RequestOptions.circleCropTransform().placeholder(R.drawable.ic_user_dummy))
+                        .into(binding.imgPhoto);
+            }
         }
     }
 
@@ -108,13 +142,13 @@ public class EditProfileActivity extends BaseActivity {
         } else if(TextUtils.isEmpty(binding.edtName.getText().toString())){
             showSnackbar(binding.getRoot(), getString(R.string.enter_name));
             return false;
-        }else if(TextUtils.isEmpty(binding.edtDateOfBirth.getText().toString())){
+        }else if(TextUtils.isEmpty(binding.edtDateOfBirth.getText().toString()) && !isEntity){
             showSnackbar(binding.getRoot(), getString(R.string.enter_date_of_birth));
             return false;
         }else if(binding.spnrAboutMe.getSelectedItem().toString().equalsIgnoreCase("Who am i")){
             showSnackbar(binding.getRoot(), getString(R.string.select_who_am_i));
             return false;
-        }else if(binding.spnrGender.getSelectedItem().toString().equalsIgnoreCase("Gender")){
+        }else if(binding.spnrGender.getSelectedItem().toString().equalsIgnoreCase("Gender") && !isEntity){
             showSnackbar(binding.getRoot(), getString(R.string.select_gender));
             return false;
         }else if(TextUtils.isEmpty(binding.edtEmail.getText().toString())){
@@ -165,36 +199,121 @@ public class EditProfileActivity extends BaseActivity {
                 datePickerDialogFragment.show(getSupportFragmentManager(), "datePicker");
             }
         });
+
+        binding.imgPhoto.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                openGalleryDialog();
+            }
+        });
+
+        binding.imgPhotoSelection.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                openGalleryDialog();
+            }
+        });
+
+        binding.spnrAboutMe.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+            @Override
+            public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
+                if(binding.spnrAboutMe.getSelectedItem().toString().equalsIgnoreCase("Individual")){
+                    isEntity=false;
+                    binding.edtLastName.setVisibility(View.VISIBLE);
+                    binding.textInput.setHint("First Name");
+                    binding.edtDateOfBirth.setVisibility(View.VISIBLE);
+                    binding.spnrGender.setVisibility(View.VISIBLE);
+                    binding.edtMarital.setVisibility(View.VISIBLE);
+                    binding.edtOccupation.setVisibility(View.VISIBLE);
+                    binding.edtFoodHabit.setVisibility(View.VISIBLE);
+                    binding.edtEducation.setVisibility(View.VISIBLE);
+                }else if(binding.spnrAboutMe.getSelectedItem().toString().equalsIgnoreCase("Entity")){
+                    isEntity=true;
+                    binding.textInput.setHint("Entity Name");
+                    binding.edtLastName.setVisibility(View.GONE);
+                    binding.spnrGender.setVisibility(View.GONE);
+                    binding.edtDateOfBirth.setVisibility(View.GONE);
+                    binding.edtMarital.setVisibility(View.GONE);
+                    binding.edtOccupation.setVisibility(View.GONE);
+                    binding.edtFoodHabit.setVisibility(View.GONE);
+                    binding.edtEducation.setVisibility(View.GONE);
+                }
+            }
+
+            @Override
+            public void onNothingSelected(AdapterView<?> parent) {
+
+            }
+        });
     }
+
+    void openGalleryDialog(){
+        final Dialog dialog = new DialogUtils(this).setupCustomeDialogFromBottom(R.layout.dialog_gallery);
+        ImageView imgCamera = (ImageView) dialog.findViewById(R.id.imgCamera);
+        ImageView imgGallery = (ImageView) dialog.findViewById(R.id.imgGallery);
+        imgCamera.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                dialog.dismiss();
+                openCamera();
+            }
+        });
+        imgGallery.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                dialog.dismiss();
+                openGallery();
+            }
+        });
+        dialog.show();
+    }
+
 
     private void attemptUpdateProfile() {
         DialogUtils.showProgressDialog(this);
         ApiInterface apiInterface = ApiFactory.provideInterface();
-        JsonObject payerReg = new JsonObject();
-        payerReg.addProperty("UserProfileId", profileModel.UserProfileId);
-        payerReg.addProperty("AboutMe", ""+binding.spnrAboutMe.getSelectedItem().toString());
-        payerReg.addProperty("AboutMeText", binding.edtAboutMe.getText().toString());
-        payerReg.addProperty("Email", binding.edtEmail.getText().toString());
-        payerReg.addProperty("FirstName", binding.edtName.getText().toString());
-        payerReg.addProperty("LastName", "");
-        payerReg.addProperty("DateOfBirth",  AppUtils.formattedDate("dd MMMM yyyy", "dd/MM/yyyy", binding.edtDateOfBirth.getText().toString()));
-        payerReg.addProperty("Gender", binding.spnrGender.getSelectedItem().toString());
-        payerReg.addProperty("ContactNo", Float.parseFloat(binding.edtContactNo.getText().toString()));
-        payerReg.addProperty("Marital_Status", binding.edtMarital.getText().toString());
-        payerReg.addProperty("Occupation", "");
-        payerReg.addProperty("Food_Habits", "");
-        payerReg.addProperty("Address", binding.edtAddress.getText().toString());
-        payerReg.addProperty("City", binding.edtCity.getText().toString());
-        payerReg.addProperty("State", binding.edtState.getText().toString());
-        payerReg.addProperty("Country", binding.edtCountry.getText().toString());
-        payerReg.addProperty("ZipCode", Float.parseFloat(binding.edtZipcode.getText().toString()));
-        payerReg.addProperty("Someone_Message_Email",1);
-        payerReg.addProperty("Friend_Request_Email", 1);
-        payerReg.addProperty("News_Updates_Protal_Email",1);
-        payerReg.addProperty("Recd_notif_Email",1);
-        payerReg.addProperty("IsPrivate_Profile",1);
-        Log.e(TAG, "attemptLogin: "+payerReg.toString());
-        Call<JsonObject> call = apiInterface.profileUpdate(payerReg);
+
+        MultipartBody.Part bodyImage = null;
+        if (!TextUtils.isEmpty(imagePath)) {
+            File imageProfileFile = new File(imagePath);
+            RequestBody requestFile = RequestBody.create(MediaType.parse("image/*"), imageProfileFile);
+            bodyImage = MultipartBody.Part.createFormData("fileUpload", imageProfileFile.getName(), requestFile);
+        }
+
+        RequestBody UserProfileId = RequestBody.create(MediaType.parse("text/plain"), ""+profileModel.UserProfileId);
+        RequestBody Email = RequestBody.create(MediaType.parse("text/plain"), binding.edtEmail.getText().toString());
+        RequestBody FirstName = RequestBody.create(MediaType.parse("text/plain"), binding.edtName.getText().toString());
+        RequestBody LastName = RequestBody.create(MediaType.parse("text/plain"), binding.edtLastName.getText().toString());
+        RequestBody DateOfBirth = RequestBody.create(MediaType.parse("text/plain"), isEntity ? "" : AppUtils.formattedDate("dd MMMM yyyy", "MM/dd/yyyy", binding.edtDateOfBirth.getText().toString()));
+        RequestBody Gender = RequestBody.create(MediaType.parse("text/plain"), isEntity ? "" : binding.spnrGender.getSelectedItem().toString().equalsIgnoreCase("Male") ? "False" : "True");
+        RequestBody AboutMe = RequestBody.create(MediaType.parse("text/plain"), binding.spnrAboutMe.getSelectedItem().toString());
+        RequestBody Address = RequestBody.create(MediaType.parse("text/plain"), binding.edtAddress.getText().toString());
+        RequestBody City = RequestBody.create(MediaType.parse("text/plain"), binding.edtCity.getText().toString());
+        RequestBody State = RequestBody.create(MediaType.parse("text/plain"), binding.edtState.getText().toString());
+        RequestBody Country = RequestBody.create(MediaType.parse("text/plain"), binding.edtCountry.getText().toString());
+        RequestBody ZipCode = RequestBody.create(MediaType.parse("text/plain"), binding.edtZipcode.getText().toString());
+        RequestBody ContactNo = RequestBody.create(MediaType.parse("text/plain"), binding.edtContactNo.getText().toString());
+        RequestBody DisplayName = RequestBody.create(MediaType.parse("text/plain"), binding.edtName.getText().toString());
+        RequestBody Alternate_EmailID = RequestBody.create(MediaType.parse("text/plain"), binding.edtAlternateId.getText().toString());
+        RequestBody Marital_Status = RequestBody.create(MediaType.parse("text/plain"), binding.edtMarital.getText().toString());
+        RequestBody Occupation = RequestBody.create(MediaType.parse("text/plain"), binding.edtOccupation.getText().toString());
+        RequestBody Food_Habits = RequestBody.create(MediaType.parse("text/plain"), binding.edtFoodHabit.getText().toString());
+        RequestBody Someone_Message_Email = RequestBody.create(MediaType.parse("text/plain"), ""+!binding.switchAutoFollow.isChecked());
+        RequestBody Friend_Request_Email = RequestBody.create(MediaType.parse("text/plain"), ""+!binding.switchEmailFriendRequest.isChecked());
+        RequestBody News_Updates_Portal_Email = RequestBody.create(MediaType.parse("text/plain"), ""+!binding.switchSendEmail.isChecked());
+        RequestBody Recd_notif_Email = RequestBody.create(MediaType.parse("text/plain"), ""+!binding.switchNotificationEmail.isChecked());
+        RequestBody IsPrivate_Profile = RequestBody.create(MediaType.parse("text/plain"), ""+!binding.switchProfilePublic.isChecked());
+        RequestBody ProfilePicUrl = RequestBody.create(MediaType.parse("text/plain"), profileModel.ProfilePicUrl);
+        RequestBody Expertise = RequestBody.create(MediaType.parse("text/plain"), binding.edtExpertise.getText().toString());
+        RequestBody Certification = RequestBody.create(MediaType.parse("text/plain"), binding.edtCertification.getText().toString());
+        RequestBody Education = RequestBody.create(MediaType.parse("text/plain"), binding.edtEducation.getText().toString());
+        RequestBody AboutMeText = RequestBody.create(MediaType.parse("text/plain"), binding.edtAboutMe.getText().toString());
+
+        Call<JsonObject> call = apiInterface.profileUpdate(UserProfileId, Email, FirstName, LastName, DateOfBirth,
+                Gender,Address, City, State, Country, ZipCode, ContactNo, DisplayName, AboutMe, Alternate_EmailID, Marital_Status,
+                Occupation, Food_Habits, Someone_Message_Email,Friend_Request_Email, News_Updates_Portal_Email,Recd_notif_Email,
+                IsPrivate_Profile,ProfilePicUrl, Expertise, Certification, Education, AboutMeText, bodyImage);
+
         call.enqueue(new Callback<JsonObject>() {
             @Override
             public void onResponse(Call<JsonObject>call, Response<JsonObject> response) {
@@ -390,6 +509,10 @@ public class EditProfileActivity extends BaseActivity {
 
     private void displayImage(Uri photoUri) {
         binding.imgPhotoSelection.setVisibility(View.GONE);
-        Glide.with(this).load(photoUri).into(binding.imgPhoto);
+        binding.imgPhoto.setVisibility(View.VISIBLE);
+        //Glide.with(this).load(photoUri).into(binding.imgPhoto);
+        Glide.with(this).load(photoUri).
+                apply(RequestOptions.circleCropTransform().placeholder(R.drawable.ic_user_dummy))
+                .into(binding.imgPhoto);
     }
 }

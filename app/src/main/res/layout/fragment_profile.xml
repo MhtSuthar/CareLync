@@ -1,0 +1,231 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools">
+
+    <data>
+
+
+    </data>
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="@color/color_app_bg"
+        android:orientation="vertical">
+
+        <android.support.v4.widget.NestedScrollView
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:clipToPadding="false"
+            android:padding="16dp">
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:orientation="vertical">
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical">
+
+
+
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:orientation="horizontal"
+                        android:layout_marginTop="10dp"
+                        android:layout_height="wrap_content">
+
+                        <com.carelynk.utilz.fonts.TimeNewRomanTextView
+                            android:id="@+id/txtFirstNameHint"
+                            android:layout_width="0dp"
+                            android:layout_weight="1"
+                            android:layout_height="wrap_content"
+                            android:text="First Name: "
+                            android:textAppearance="?android:textAppearanceMedium" />
+
+                        <com.carelynk.utilz.fonts.TimeNewRomanTextView
+                            android:id="@+id/txtFirstName"
+                            android:layout_width="0dp"
+                            android:layout_weight="1"
+                            android:layout_height="wrap_content"
+                            tools:text="First"
+                            android:textAppearance="?android:textAppearanceMedium" />
+
+                    </LinearLayout>
+
+
+                    <LinearLayout
+                        android:id="@+id/linLastName"
+                        android:layout_width="match_parent"
+                        android:orientation="horizontal"
+                        android:layout_marginTop="10dp"
+                        android:layout_height="wrap_content">
+
+                        <com.carelynk.utilz.fonts.TimeNewRomanTextView
+                            android:layout_width="0dp"
+                            android:layout_weight="1"
+                            android:layout_height="wrap_content"
+                            android:text="Last Name: "
+                            android:textAppearance="?android:textAppearanceMedium" />
+
+                        <com.carelynk.utilz.fonts.TimeNewRomanTextView
+                            android:id="@+id/txtLastName"
+                            android:layout_width="0dp"
+                            android:layout_weight="1"
+                            android:layout_height="wrap_content"
+                            tools:text="Mac"
+                            android:textAppearance="?android:textAppearanceMedium" />
+
+                    </LinearLayout>
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:orientation="horizontal"
+                        android:layout_marginTop="10dp"
+                        android:layout_height="wrap_content">
+
+                        <com.carelynk.utilz.fonts.TimeNewRomanTextView
+                            android:layout_width="0dp"
+                            android:layout_weight="1"
+                            android:layout_height="wrap_content"
+                            android:text="About Me: "
+                            android:textAppearance="?android:textAppearanceMedium" />
+
+                        <com.carelynk.utilz.fonts.TimeNewRomanTextView
+                            android:id="@+id/txtAboutMe"
+                            android:layout_width="0dp"
+                            android:layout_weight="1"
+                            android:layout_height="wrap_content"
+                            tools:text="Hi"
+                            android:textAppearance="?android:textAppearanceMedium" />
+
+                    </LinearLayout>
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:orientation="horizontal"
+                        android:layout_marginTop="10dp"
+                        android:layout_height="wrap_content">
+
+                        <com.carelynk.utilz.fonts.TimeNewRomanTextView
+                            android:layout_width="0dp"
+                            android:layout_weight="1"
+                            android:layout_height="wrap_content"
+                            android:text="City: "
+                            android:textAppearance="?android:textAppearanceMedium" />
+
+                        <com.carelynk.utilz.fonts.TimeNewRomanTextView
+                            android:id="@+id/txtCity"
+                            android:layout_width="0dp"
+                            android:layout_weight="1"
+                            android:layout_height="wrap_content"
+                            tools:text="Mac@gmail.com"
+                            android:textAppearance="?android:textAppearanceMedium" />
+
+                    </LinearLayout>
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:orientation="horizontal"
+                        android:layout_marginTop="10dp"
+                        android:layout_height="wrap_content">
+
+                        <com.carelynk.utilz.fonts.TimeNewRomanTextView
+                            android:layout_width="0dp"
+                            android:layout_weight="1"
+                            android:layout_height="wrap_content"
+                            android:text="State: "
+                            android:textAppearance="?android:textAppearanceMedium" />
+
+                        <com.carelynk.utilz.fonts.TimeNewRomanTextView
+                            android:id="@+id/txtState"
+                            android:layout_width="0dp"
+                            android:layout_weight="1"
+                            android:layout_height="wrap_content"
+                            tools:text="10-10-91"
+                            android:textAppearance="?android:textAppearanceMedium" />
+
+                    </LinearLayout>
+
+                    <LinearLayout
+                        android:id="@+id/linEducation"
+                        android:layout_width="match_parent"
+                        android:orientation="horizontal"
+                        android:layout_marginTop="10dp"
+                        android:layout_height="wrap_content">
+
+                        <com.carelynk.utilz.fonts.TimeNewRomanTextView
+                            android:layout_width="0dp"
+                            android:layout_weight="1"
+                            android:layout_height="wrap_content"
+                            android:text="Education: "
+                            android:textAppearance="?android:textAppearanceMedium" />
+
+                        <com.carelynk.utilz.fonts.TimeNewRomanTextView
+                            android:id="@+id/txtEducation"
+                            android:layout_width="0dp"
+                            android:layout_weight="1"
+                            android:layout_height="wrap_content"
+                            tools:text="Male"
+                            android:textAppearance="?android:textAppearanceMedium" />
+
+                    </LinearLayout>
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:orientation="horizontal"
+                        android:layout_marginTop="10dp"
+                        android:layout_height="wrap_content">
+
+                        <com.carelynk.utilz.fonts.TimeNewRomanTextView
+                            android:layout_width="0dp"
+                            android:layout_weight="1"
+                            android:layout_height="wrap_content"
+                            android:text="Certification: "
+                            android:textAppearance="?android:textAppearanceMedium" />
+
+                        <com.carelynk.utilz.fonts.TimeNewRomanTextView
+                            android:id="@+id/txtCertification"
+                            android:layout_width="0dp"
+                            android:layout_weight="1"
+                            android:layout_height="wrap_content"
+                            tools:text="Married"
+                            android:textAppearance="?android:textAppearanceMedium" />
+
+                    </LinearLayout>
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:orientation="horizontal"
+                        android:layout_marginTop="10dp"
+                        android:layout_height="wrap_content">
+
+                        <com.carelynk.utilz.fonts.TimeNewRomanTextView
+                            android:layout_width="0dp"
+                            android:layout_weight="1"
+                            android:layout_height="wrap_content"
+                            android:text="Expertise: "
+                            android:textAppearance="?android:textAppearanceMedium" />
+
+                        <com.carelynk.utilz.fonts.TimeNewRomanTextView
+                            android:id="@+id/txtExpertise"
+                            android:layout_width="0dp"
+                            android:layout_weight="1"
+                            android:layout_height="wrap_content"
+                            tools:text="Married"
+                            android:textAppearance="?android:textAppearanceMedium" />
+
+                    </LinearLayout>
+
+
+                </LinearLayout>
+
+            </LinearLayout>
+
+        </android.support.v4.widget.NestedScrollView>
+
+    </RelativeLayout>
+</layout>

@@ -29,5 +29,13 @@ public class ProfileModel implements Serializable {
     public String Occupation;
     public String Food_Habits;
     public String InterestArea;
-    public String ProfilePicUrl;
+    public String ProfilePicUrl = "";
+    public boolean AutoFollow;
+    public boolean EmailFriendRequest;
+    public boolean NotificationEmail;
+    public boolean ProfilePublic;
+    public boolean SendEmail;
+    public String Education;
+    public String Certification;
+    public String Expertise;
 }

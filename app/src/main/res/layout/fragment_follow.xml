@@ -12,15 +12,13 @@
         android:layout_height="match_parent"
         android:fillViewport="true">
 
-
-
         <RelativeLayout
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:background="@color/color_app_bg"
             android:orientation="vertical">
 
-            <TextView
+            <com.carelynk.utilz.fonts.TimeNewRomanTextView
                 android:id="@+id/txtRequest"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
@@ -62,7 +60,7 @@
                     android:gravity="center"
                     android:padding="@dimen/activity_horizontal_margin"
                     android:tag="1"
-                    android:text="Followed"
+                    android:text="Followers"
                     android:textAppearance="?android:textAppearanceSmall"
                     android:textColor="@android:color/black"
                     app:font="@{`bold`}" />
@@ -115,7 +113,7 @@
             <android.support.v7.widget.RecyclerView
                 android:id="@+id/recyclerView"
                 android:layout_width="match_parent"
-                android:layout_height="match_parent"
+                android:layout_height="wrap_content"
                 android:layout_below="@+id/lin_header"
                 android:clipToPadding="false"
                 android:paddingTop="5dp" />
@@ -125,6 +123,7 @@
                 style="?android:attr/progressBarStyleLarge"
                 android:layout_width="50dp"
                 android:layout_height="50dp"
+                android:layout_below="@+id/lin_header"
                 android:layout_centerHorizontal="true"
                 android:layout_marginTop="@dimen/activity_horizontal_margin"
                 android:visibility="gone" />

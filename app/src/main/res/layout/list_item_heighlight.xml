@@ -19,140 +19,158 @@
         app:contentPaddingLeft="-5dp"
         app:contentPaddingRight="-5dp">-->
 
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_margin="5dp"
+        android:background="@android:color/white"
+        android:orientation="vertical">
+
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_margin="5dp"
-            android:background="@android:color/white"
-            android:orientation="vertical">
+            android:orientation="vertical"
+            android:padding="@dimen/activity_horizontal_margin">
 
-            <LinearLayout
+            <com.carelynk.utilz.fonts.TimeNewRomanBoldTextView
+                android:id="@+id/txtTitle"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textColor="@color/colorAccent"
+                android:textSize="22sp"
+                android:textStyle="bold"
+                tools:text="Helloo" />
+
+            <RelativeLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:orientation="vertical"
-                android:padding="@dimen/activity_horizontal_margin">
-
-                <TextView
-                    android:id="@+id/txtTitle"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginLeft="@dimen/common_margin"
-                    android:layout_toRightOf="@+id/imgUser"
-                    android:fontFamily="sans-serif-condensed"
-                    android:textAppearance="?android:textAppearanceMedium"
-                    android:textColor="@color/colorAccent"
-                    tools:text="Helloo" />
-
-
-                <RelativeLayout
-                    android:layout_width="match_parent"
-                    android:layout_marginTop="@dimen/activity_horizontal_margin"
-                    android:layout_height="wrap_content">
-
-                    <ImageView
-                        android:id="@+id/imgUser"
-                        android:layout_width="40dp"
-                        android:layout_height="40dp"
-                        android:src="@drawable/dummy_img" />
-
-                    <TextView
-                        android:id="@+id/txtPostTime"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_marginLeft="@dimen/common_margin"
-                        android:layout_toRightOf="@+id/imgUser"
-                        android:fontFamily="sans-serif-condensed"
-                        tools:text="Posted on 2 hours ago"
-                        android:textColor="@color/color_text_dark"
-                         />
-
-                    <TextView
-                        android:id="@+id/txtName"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_marginTop="5dp"
-                        android:layout_below="@+id/txtPostTime"
-                        android:layout_marginLeft="@dimen/common_margin"
-                        android:layout_toRightOf="@+id/imgUser"
-                        android:fontFamily="sans-serif-condensed"
-                        android:textAppearance="?android:textAppearanceMedium"
-                        android:textColor="@android:color/black"
-                        tools:text="Helloo" />
-
-                    <TextView
-                        android:id="@+id/txtFollow"
-                        android:layout_width="wrap_content"
-                        android:visibility="gone"
-                        android:layout_height="wrap_content"
-                        android:layout_alignParentRight="true"
-                        android:padding="@dimen/common_margin"
-                         />
-
-
-                </RelativeLayout>
-
-                <TextView
-                    android:id="@+id/txtDesc"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_marginLeft="@dimen/common_margin"
-                    android:layout_marginTop="@dimen/common_margin"
-                    android:layout_toRightOf="@+id/imgUser"
-                    android:text="@string/dummy_text"
-                    android:textAppearance="?android:textAppearanceMedium"
-                    android:textColor="@android:color/black"
-                    android:visibility="visible"
-                   />
-            </LinearLayout>
-
-            <ImageView
-                android:id="@+id/imgCover"
-                android:layout_width="match_parent"
-                android:layout_height="200dp"
-                android:scaleType="fitXY"
-                android:src="@drawable/dummy_bg_img" />
-
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:gravity="right|center"
-                android:visibility="gone"
-                android:orientation="horizontal"
-                android:padding="@dimen/activity_horizontal_margin">
-
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:drawableLeft="@drawable/ic_comment"
-                    android:drawablePadding="2dp"
-                    android:gravity="center"
-                    android:text="12 Comments"
-                    android:textAppearance="?android:textAppearanceSmall"
-                    android:textColor="@color/colorPrimary"
-                     />
-
-                <CheckBox
-                    android:id="@+id/chkFav"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginLeft="@dimen/common_margin"
-                    android:layout_marginRight="@dimen/common_margin"
-                    android:button="@drawable/checkbox_selector_fav"
-                    android:text=" Support"
-                    android:textAppearance="?android:textAppearanceSmall"
-                    android:textColor="@color/colorPrimary"
-                    />
+                android:layout_marginTop="8dp">
 
                 <ImageView
-                    android:id="@+id/imgShare"
+                    android:id="@+id/imgUser"
+                    android:layout_width="40dp"
+                    android:layout_height="40dp"
+                    android:src="@drawable/ic_user_dummy"
+                    android:visibility="visible" />
+
+                <com.carelynk.utilz.fonts.TimeNewRomanTextView
+                    android:id="@+id/txtPostTime"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:src="@drawable/ic_share" />
+                    android:layout_marginLeft="@dimen/common_margin"
+                    android:layout_toRightOf="@+id/imgUser"
+                    android:textAppearance="?android:textAppearanceSmall"
+                    android:textColor="@android:color/black"
+                    tools:text="Posted on 2 hours ago" />
 
-            </LinearLayout>
+                <com.carelynk.utilz.fonts.TimeNewRomanTextView
+                    android:id="@+id/txtName"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_below="@+id/txtPostTime"
+                    android:layout_marginLeft="@dimen/common_margin"
+                    android:layout_marginTop="5dp"
+                    android:layout_toRightOf="@+id/imgUser"
+                    android:textAppearance="?android:textAppearanceSmall"
+                    android:textColor="@color/color_text_dark"
+                    tools:text="Helloo" />
+
+                <TextView
+                    android:id="@+id/txtFollow"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentRight="true"
+                    android:padding="@dimen/common_margin"
+                    android:visibility="gone" />
+
+
+            </RelativeLayout>
 
 
         </LinearLayout>
+
+        <ImageView
+            android:id="@+id/imgCover"
+            android:layout_width="match_parent"
+            android:layout_height="200dp"
+            android:scaleType="fitXY"
+            android:transitionName="profile"
+            android:src="@drawable/ic_placeholder" />
+
+        <com.carelynk.utilz.fonts.TimeNewRomanTextView
+            android:id="@+id/txtDesc"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="@dimen/common_margin"
+            android:layout_marginTop="@dimen/common_margin"
+            android:layout_toRightOf="@+id/imgUser"
+            android:text="@string/dummy_text"
+            android:textColor="@android:color/black"
+            android:textSize="18sp"
+            android:visibility="gone" />
+
+        <com.carelynk.utilz.fonts.TimeNewRomanTextView
+            android:id="@+id/txtDescTemp"
+            android:maxLines="2"
+            android:ellipsize="end"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="@dimen/common_margin"
+            android:layout_marginTop="@dimen/common_margin"
+            android:layout_toRightOf="@+id/imgUser"
+            android:text="@string/dummy_text"
+            android:textColor="@android:color/black"
+            android:textSize="18sp" />
+
+        <TextView
+            android:id="@+id/txtSeeMore"
+            android:layout_width="match_parent"
+            android:gravity="right"
+            android:layout_margin="@dimen/common_margin"
+            android:paddingRight="16dp"
+            android:layout_height="wrap_content"
+            android:text="See More"
+            android:textColor="@color/colorPrimary" />
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:gravity="right|center"
+            android:orientation="horizontal"
+            android:padding="@dimen/activity_horizontal_margin"
+            android:visibility="gone">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:drawableLeft="@drawable/ic_comment"
+                android:drawablePadding="2dp"
+                android:gravity="center"
+                android:text="12 Comments"
+                android:textAppearance="?android:textAppearanceSmall"
+                android:textColor="@color/colorPrimary" />
+
+            <CheckBox
+                android:id="@+id/chkFav"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="@dimen/common_margin"
+                android:layout_marginRight="@dimen/common_margin"
+                android:button="@drawable/checkbox_selector_fav"
+                android:text=" Support"
+                android:textAppearance="?android:textAppearanceSmall"
+                android:textColor="@color/colorPrimary" />
+
+            <ImageView
+                android:id="@+id/imgShare"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:src="@drawable/ic_share" />
+
+        </LinearLayout>
+
+
+    </LinearLayout>
 
 
     <!--</android.support.v7.widget.CardView>-->

@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <layout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/tools"
-    xmlns:card_view="http://schemas.android.com/apk/res-auto">
+    xmlns:card_view="http://schemas.android.com/apk/res-auto"
+    >
 
     <data>
 
@@ -43,7 +43,7 @@
                 android:textColor="@android:color/white"
                 android:textSize="40sp"
                 android:textStyle="bold"
-                app:font="@{`bold`}" />
+                card_view:font="@{`bold`}" />
 
             <android.support.v4.widget.NestedScrollView
                 android:layout_width="match_parent"
@@ -67,8 +67,9 @@
                         android:textAllCaps="true"
                         android:textColor="@android:color/white"
                         android:textSize="25sp"
+                        android:visibility="gone"
                         android:textStyle="bold"
-                        app:font="@{`bold`}" />
+                        card_view:font="@{`bold`}" />
 
                     <android.support.v7.widget.CardView
                         android:layout_width="match_parent"
@@ -88,11 +89,11 @@
                                 android:background="@android:color/transparent"
                                 android:drawableLeft="@drawable/ic_mail"
                                 android:drawablePadding="@dimen/common_margin"
-                                android:hint="@string/enter_email"
+                                android:hint="Enter Email Id or Mobile No"
                                 android:inputType="textEmailAddress"
                                 android:padding="@dimen/activity_horizontal_margin"
                                 android:textAppearance="?android:textAppearanceMedium"
-                                app:font="@{`light`}" />
+                                card_view:font="@{`light`}" />
 
                             <View
                                 android:layout_width="match_parent"
@@ -110,7 +111,7 @@
                                 android:inputType="textPassword"
                                 android:padding="@dimen/activity_horizontal_margin"
                                 android:textAppearance="?android:textAppearanceMedium"
-                                app:font="@{`light`}" />
+                                card_view:font="@{`light`}" />
 
                         </LinearLayout>
 
@@ -122,17 +123,19 @@
                         android:layout_height="wrap_content"
                         android:layout_marginTop="@dimen/common_margin"
                         android:text="@string/remember_me"
+                        android:visibility="gone"
                         android:textColor="@android:color/white"
-                        app:font="@{`medium`}" />
+                        card_view:font="@{`medium`}" />
 
                     <android.support.v7.widget.AppCompatButton
                         android:id="@+id/btnLogin"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:text="@string/login"
+                        android:layout_marginTop="10dp"
                         android:textAppearance="?android:textAppearanceMedium"
                         android:theme="@style/ButtonStyle"
-                        app:font="@{`medium`}" />
+                        card_view:font="@{`medium`}" />
 
                     <android.support.v7.widget.AppCompatButton
                         android:id="@+id/btnRegister"
@@ -142,32 +145,32 @@
                         android:textAppearance="?android:textAppearanceMedium"
                         android:theme="@style/ButtonStyleDark"
                         android:visibility="gone" />
+
+                    <TextView
+                        android:id="@+id/txtForget"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:gravity="center"
+                        android:layout_above="@+id/txtRegister"
+                        android:layout_marginTop="16dp"
+                        android:text="@string/forget_pass"
+                        android:layout_marginBottom="@dimen/activity_horizontal_margin"
+                        android:textAppearance="?android:textAppearanceMedium"
+                        android:textColor="@android:color/white"
+                        card_view:font="@{`medium`}" />
+
+                    <TextView
+                        android:id="@+id/txtRegister"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_alignParentBottom="true"
+                        android:gravity="center"
+                        android:text="Join Now"
+                        android:textAppearance="?android:textAppearanceMedium"
+                        android:textColor="@android:color/white"
+                        card_view:font="@{`medium`}" />
                 </LinearLayout>
             </android.support.v4.widget.NestedScrollView>
-
-
-            <TextView
-                android:id="@+id/txtForget"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:gravity="center"
-                android:layout_above="@+id/txtRegister"
-                android:text="@string/forget_pass"
-                android:layout_marginBottom="@dimen/activity_horizontal_margin"
-                android:textAppearance="?android:textAppearanceMedium"
-                android:textColor="@android:color/white"
-                app:font="@{`medium`}" />
-
-            <TextView
-                android:id="@+id/txtRegister"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_alignParentBottom="true"
-                android:gravity="center"
-                android:text="@string/register_if_not_member"
-                android:textAppearance="?android:textAppearanceMedium"
-                android:textColor="@android:color/white"
-                app:font="@{`medium`}" />
 
         </RelativeLayout>
     </RelativeLayout>

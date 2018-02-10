@@ -25,18 +25,17 @@
             style="?android:attr/progressBarStyleSmall"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:padding="@dimen/activity_horizontal_margin"
-            android:layout_alignParentRight="true" />
+            android:layout_alignParentRight="true"
+            android:padding="@dimen/activity_horizontal_margin" />
 
         <android.support.v4.widget.NestedScrollView
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:clipToPadding="false"
-            android:paddingTop="200dp"
+            android:paddingBottom="60dp"
             android:paddingLeft="@dimen/activity_horizontal_margin"
-            android:paddingBottom="@dimen/activity_horizontal_margin"
             android:paddingRight="@dimen/activity_horizontal_margin"
-            >
+            android:paddingTop="200dp">
 
             <LinearLayout
                 android:layout_width="match_parent"
@@ -55,206 +54,211 @@
                         android:layout_height="wrap_content"
                         android:orientation="vertical">
 
-                        <TextView
+                        <com.carelynk.utilz.fonts.TimeNewRomanBoldTextView
                             android:id="@+id/txtUserName"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:text="User Name"
                             android:layout_gravity="center"
+                            android:text="User Name"
                             android:textAppearance="?android:textAppearanceLarge"
                             android:textColor="@color/colorAccent" />
 
-                        <TextView
+                        <com.carelynk.utilz.fonts.TimeNewRomanTextView
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:text="Basic Info :"
                             android:layout_marginTop="10dp"
+                            android:text="Basic Info :"
                             android:textAppearance="?android:textAppearanceMedium"
                             android:textColor="@color/colorPrimaryDark" />
 
                         <LinearLayout
                             android:layout_width="match_parent"
-                            android:orientation="horizontal"
+                            android:layout_height="wrap_content"
                             android:layout_marginTop="10dp"
-                            android:layout_height="wrap_content">
+                            android:orientation="horizontal">
 
-                            <TextView
+                            <com.carelynk.utilz.fonts.TimeNewRomanTextView
                                 android:layout_width="0dp"
-                                android:layout_weight="1"
                                 android:layout_height="wrap_content"
-                                android:text="Who am I: "
+                                android:layout_weight="1"
+                                android:text="Register as : "
                                 android:textAppearance="?android:textAppearanceMedium" />
 
-                            <TextView
+                            <com.carelynk.utilz.fonts.TimeNewRomanTextView
                                 android:id="@+id/txtWhoAmI"
                                 android:layout_width="0dp"
-                                android:layout_weight="1"
                                 android:layout_height="wrap_content"
-                                tools:text="Mac"
-                                android:textAppearance="?android:textAppearanceMedium" />
+                                android:layout_weight="1"
+                                android:textAppearance="?android:textAppearanceMedium"
+                                tools:text="Mac" />
 
                         </LinearLayout>
 
                         <LinearLayout
                             android:layout_width="match_parent"
-                            android:orientation="horizontal"
+                            android:layout_height="wrap_content"
                             android:layout_marginTop="10dp"
-                            android:layout_height="wrap_content">
+                            android:orientation="horizontal">
 
-                            <TextView
+                            <com.carelynk.utilz.fonts.TimeNewRomanTextView
                                 android:layout_width="0dp"
-                                android:layout_weight="1"
                                 android:layout_height="wrap_content"
+                                android:layout_weight="1"
                                 android:text="About Me: "
                                 android:textAppearance="?android:textAppearanceMedium" />
 
-                            <TextView
+                            <com.carelynk.utilz.fonts.TimeNewRomanTextView
                                 android:id="@+id/txtAboutMe"
                                 android:layout_width="0dp"
-                                android:layout_weight="1"
                                 android:layout_height="wrap_content"
-                                tools:text="Hi"
-                                android:textAppearance="?android:textAppearanceMedium" />
+                                android:layout_weight="1"
+                                android:textAppearance="?android:textAppearanceMedium"
+                                tools:text="Hi" />
 
                         </LinearLayout>
 
                         <LinearLayout
                             android:layout_width="match_parent"
-                            android:orientation="horizontal"
+                            android:layout_height="wrap_content"
                             android:layout_marginTop="10dp"
-                            android:layout_height="wrap_content">
+                            android:orientation="horizontal">
 
-                            <TextView
+                            <com.carelynk.utilz.fonts.TimeNewRomanTextView
+                                android:id="@+id/txtFirstNameHint"
                                 android:layout_width="0dp"
-                                android:layout_weight="1"
                                 android:layout_height="wrap_content"
+                                android:layout_weight="1"
                                 android:text="First Name: "
                                 android:textAppearance="?android:textAppearanceMedium" />
 
-                            <TextView
+                            <com.carelynk.utilz.fonts.TimeNewRomanTextView
                                 android:id="@+id/txtFirstName"
                                 android:layout_width="0dp"
-                                android:layout_weight="1"
                                 android:layout_height="wrap_content"
-                                tools:text="First"
-                                android:textAppearance="?android:textAppearanceMedium" />
+                                android:layout_weight="1"
+                                android:textAppearance="?android:textAppearanceMedium"
+                                tools:text="First" />
 
                         </LinearLayout>
 
 
                         <LinearLayout
+                            android:id="@+id/linLast"
                             android:layout_width="match_parent"
-                            android:orientation="horizontal"
+                            android:layout_height="wrap_content"
                             android:layout_marginTop="10dp"
-                            android:layout_height="wrap_content">
+                            android:orientation="horizontal">
 
-                            <TextView
+                            <com.carelynk.utilz.fonts.TimeNewRomanTextView
                                 android:layout_width="0dp"
-                                android:layout_weight="1"
                                 android:layout_height="wrap_content"
+                                android:layout_weight="1"
                                 android:text="Last Name: "
                                 android:textAppearance="?android:textAppearanceMedium" />
 
-                            <TextView
+                            <com.carelynk.utilz.fonts.TimeNewRomanTextView
                                 android:id="@+id/txtLastName"
                                 android:layout_width="0dp"
-                                android:layout_weight="1"
                                 android:layout_height="wrap_content"
-                                tools:text="Mac"
-                                android:textAppearance="?android:textAppearanceMedium" />
+                                android:layout_weight="1"
+                                android:textAppearance="?android:textAppearanceMedium"
+                                tools:text="Mac" />
 
                         </LinearLayout>
 
 
                         <LinearLayout
                             android:layout_width="match_parent"
-                            android:orientation="horizontal"
+                            android:layout_height="wrap_content"
                             android:layout_marginTop="10dp"
-                            android:layout_height="wrap_content">
+                            android:orientation="horizontal">
 
-                            <TextView
+                            <com.carelynk.utilz.fonts.TimeNewRomanTextView
                                 android:layout_width="0dp"
-                                android:layout_weight="1"
                                 android:layout_height="wrap_content"
+                                android:layout_weight="1"
                                 android:text="Email Id: "
                                 android:textAppearance="?android:textAppearanceMedium" />
 
-                            <TextView
+                            <com.carelynk.utilz.fonts.TimeNewRomanTextView
                                 android:id="@+id/txtEmail"
                                 android:layout_width="0dp"
-                                android:layout_weight="1"
                                 android:layout_height="wrap_content"
-                                tools:text="Mac@gmail.com"
-                                android:textAppearance="?android:textAppearanceMedium" />
+                                android:layout_weight="1"
+                                android:textAppearance="?android:textAppearanceMedium"
+                                tools:text="Mac@gmail.com" />
 
                         </LinearLayout>
 
                         <LinearLayout
+                            android:id="@+id/linDateofbirth"
                             android:layout_width="match_parent"
-                            android:orientation="horizontal"
+                            android:layout_height="wrap_content"
                             android:layout_marginTop="10dp"
-                            android:layout_height="wrap_content">
+                            android:orientation="horizontal">
 
-                            <TextView
+                            <com.carelynk.utilz.fonts.TimeNewRomanTextView
                                 android:layout_width="0dp"
-                                android:layout_weight="1"
                                 android:layout_height="wrap_content"
+                                android:layout_weight="1"
                                 android:text="Date of Birth: "
                                 android:textAppearance="?android:textAppearanceMedium" />
 
-                            <TextView
+                            <com.carelynk.utilz.fonts.TimeNewRomanTextView
                                 android:id="@+id/txtDateOfBirth"
                                 android:layout_width="0dp"
-                                android:layout_weight="1"
                                 android:layout_height="wrap_content"
-                                tools:text="10-10-91"
-                                android:textAppearance="?android:textAppearanceMedium" />
+                                android:layout_weight="1"
+                                android:textAppearance="?android:textAppearanceMedium"
+                                tools:text="10-10-91" />
 
                         </LinearLayout>
 
                         <LinearLayout
+                            android:id="@+id/linGender"
                             android:layout_width="match_parent"
-                            android:orientation="horizontal"
+                            android:layout_height="wrap_content"
                             android:layout_marginTop="10dp"
-                            android:layout_height="wrap_content">
+                            android:orientation="horizontal">
 
-                            <TextView
+                            <com.carelynk.utilz.fonts.TimeNewRomanTextView
                                 android:layout_width="0dp"
-                                android:layout_weight="1"
                                 android:layout_height="wrap_content"
+                                android:layout_weight="1"
                                 android:text="Gender: "
                                 android:textAppearance="?android:textAppearanceMedium" />
 
-                            <TextView
+                            <com.carelynk.utilz.fonts.TimeNewRomanTextView
                                 android:id="@+id/txtGender"
                                 android:layout_width="0dp"
-                                android:layout_weight="1"
                                 android:layout_height="wrap_content"
-                                tools:text="Male"
-                                android:textAppearance="?android:textAppearanceMedium" />
+                                android:layout_weight="1"
+                                android:textAppearance="?android:textAppearanceMedium"
+                                tools:text="Male" />
 
                         </LinearLayout>
 
                         <LinearLayout
+                            android:id="@+id/linMarital"
                             android:layout_width="match_parent"
-                            android:orientation="horizontal"
+                            android:layout_height="wrap_content"
                             android:layout_marginTop="10dp"
-                            android:layout_height="wrap_content">
+                            android:orientation="horizontal">
 
-                            <TextView
+                            <com.carelynk.utilz.fonts.TimeNewRomanTextView
                                 android:layout_width="0dp"
-                                android:layout_weight="1"
                                 android:layout_height="wrap_content"
+                                android:layout_weight="1"
                                 android:text="Marital Status: "
                                 android:textAppearance="?android:textAppearanceMedium" />
 
-                            <TextView
+                            <com.carelynk.utilz.fonts.TimeNewRomanTextView
                                 android:id="@+id/txtMarital"
                                 android:layout_width="0dp"
-                                android:layout_weight="1"
                                 android:layout_height="wrap_content"
-                                tools:text="Married"
-                                android:textAppearance="?android:textAppearanceMedium" />
+                                android:layout_weight="1"
+                                android:textAppearance="?android:textAppearanceMedium"
+                                tools:text="Married" />
 
                         </LinearLayout>
 
@@ -267,9 +271,9 @@
                 <android.support.v7.widget.CardView
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
+                    android:layout_marginTop="@dimen/activity_horizontal_margin"
                     app:cardBackgroundColor="@android:color/white"
                     app:cardElevation="5dp"
-                    android:layout_marginTop="@dimen/activity_horizontal_margin"
                     app:contentPadding="@dimen/activity_horizontal_margin">
 
                     <LinearLayout
@@ -277,7 +281,7 @@
                         android:layout_height="wrap_content"
                         android:orientation="vertical">
 
-                        <TextView
+                        <com.carelynk.utilz.fonts.TimeNewRomanTextView
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:text="Personal Info :"
@@ -286,139 +290,257 @@
 
                         <LinearLayout
                             android:layout_width="match_parent"
-                            android:orientation="horizontal"
+                            android:layout_height="wrap_content"
                             android:layout_marginTop="10dp"
-                            android:layout_height="wrap_content">
+                            android:orientation="horizontal">
 
-                            <TextView
+                            <com.carelynk.utilz.fonts.TimeNewRomanTextView
                                 android:layout_width="0dp"
-                                android:layout_weight="1"
                                 android:layout_height="wrap_content"
+                                android:layout_weight="1"
                                 android:text="Address: "
                                 android:textAppearance="?android:textAppearanceMedium" />
 
-                            <TextView
+                            <com.carelynk.utilz.fonts.TimeNewRomanTextView
                                 android:id="@+id/txtAddress"
                                 android:layout_width="0dp"
-                                android:layout_weight="1"
                                 android:layout_height="wrap_content"
-                                tools:text="Mira"
-                                android:textAppearance="?android:textAppearanceMedium" />
+                                android:layout_weight="1"
+                                android:textAppearance="?android:textAppearanceMedium"
+                                tools:text="Mira" />
 
                         </LinearLayout>
 
                         <LinearLayout
                             android:layout_width="match_parent"
-                            android:orientation="horizontal"
+                            android:layout_height="wrap_content"
                             android:layout_marginTop="10dp"
-                            android:layout_height="wrap_content">
+                            android:orientation="horizontal">
 
-                            <TextView
+                            <com.carelynk.utilz.fonts.TimeNewRomanTextView
                                 android:layout_width="0dp"
-                                android:layout_weight="1"
                                 android:layout_height="wrap_content"
+                                android:layout_weight="1"
                                 android:text="City: "
                                 android:textAppearance="?android:textAppearanceMedium" />
 
-                            <TextView
+                            <com.carelynk.utilz.fonts.TimeNewRomanTextView
                                 android:id="@+id/txtCity"
                                 android:layout_width="0dp"
-                                android:layout_weight="1"
                                 android:layout_height="wrap_content"
-                                tools:text="City"
-                                android:textAppearance="?android:textAppearanceMedium" />
+                                android:layout_weight="1"
+                                android:textAppearance="?android:textAppearanceMedium"
+                                tools:text="City" />
 
                         </LinearLayout>
 
                         <LinearLayout
                             android:layout_width="match_parent"
-                            android:orientation="horizontal"
+                            android:layout_height="wrap_content"
                             android:layout_marginTop="10dp"
-                            android:layout_height="wrap_content">
+                            android:orientation="horizontal">
 
-                            <TextView
+                            <com.carelynk.utilz.fonts.TimeNewRomanTextView
                                 android:layout_width="0dp"
-                                android:layout_weight="1"
                                 android:layout_height="wrap_content"
+                                android:layout_weight="1"
                                 android:text="State: "
                                 android:textAppearance="?android:textAppearanceMedium" />
 
-                            <TextView
+                            <com.carelynk.utilz.fonts.TimeNewRomanTextView
                                 android:id="@+id/txtState"
                                 android:layout_width="0dp"
-                                android:layout_weight="1"
                                 android:layout_height="wrap_content"
-                                tools:text="State"
-                                android:textAppearance="?android:textAppearanceMedium" />
+                                android:layout_weight="1"
+                                android:textAppearance="?android:textAppearanceMedium"
+                                tools:text="State" />
 
                         </LinearLayout>
 
                         <LinearLayout
                             android:layout_width="match_parent"
-                            android:orientation="horizontal"
+                            android:layout_height="wrap_content"
                             android:layout_marginTop="10dp"
-                            android:layout_height="wrap_content">
+                            android:orientation="horizontal">
 
-                            <TextView
+                            <com.carelynk.utilz.fonts.TimeNewRomanTextView
                                 android:layout_width="0dp"
-                                android:layout_weight="1"
                                 android:layout_height="wrap_content"
+                                android:layout_weight="1"
                                 android:text="Country: "
                                 android:textAppearance="?android:textAppearanceMedium" />
 
-                            <TextView
+                            <com.carelynk.utilz.fonts.TimeNewRomanTextView
                                 android:id="@+id/txtCountry"
                                 android:layout_width="0dp"
-                                android:layout_weight="1"
                                 android:layout_height="wrap_content"
-                                tools:text="Country"
-                                android:textAppearance="?android:textAppearanceMedium" />
+                                android:layout_weight="1"
+                                android:textAppearance="?android:textAppearanceMedium"
+                                tools:text="Country" />
 
                         </LinearLayout>
 
                         <LinearLayout
                             android:layout_width="match_parent"
-                            android:orientation="horizontal"
+                            android:layout_height="wrap_content"
                             android:layout_marginTop="10dp"
-                            android:layout_height="wrap_content">
+                            android:orientation="horizontal">
 
-                            <TextView
+                            <com.carelynk.utilz.fonts.TimeNewRomanTextView
                                 android:layout_width="0dp"
-                                android:layout_weight="1"
                                 android:layout_height="wrap_content"
+                                android:layout_weight="1"
                                 android:text="ZipCode: "
                                 android:textAppearance="?android:textAppearanceMedium" />
 
-                            <TextView
+                            <com.carelynk.utilz.fonts.TimeNewRomanTextView
                                 android:id="@+id/txtZip"
                                 android:layout_width="0dp"
-                                android:layout_weight="1"
                                 android:layout_height="wrap_content"
-                                tools:text="64646"
+                                android:layout_weight="1"
+                                android:textAppearance="?android:textAppearanceMedium"
+                                tools:text="64646" />
+
+                        </LinearLayout>
+
+                        <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="10dp"
+                        android:orientation="horizontal">
+
+                        <com.carelynk.utilz.fonts.TimeNewRomanTextView
+                            android:layout_width="0dp"
+                            android:layout_height="wrap_content"
+                            android:layout_weight="1"
+                            android:text="Mobile No: "
+                            android:textAppearance="?android:textAppearanceMedium" />
+
+                        <com.carelynk.utilz.fonts.TimeNewRomanTextView
+                            android:id="@+id/txtMobile"
+                            android:layout_width="0dp"
+                            android:layout_height="wrap_content"
+                            android:layout_weight="1"
+                            android:textAppearance="?android:textAppearanceMedium"
+                            tools:text="949449494" />
+
+                    </LinearLayout>
+
+                        <LinearLayout
+                            android:id="@+id/linEducation"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_marginTop="10dp"
+                            android:orientation="horizontal">
+
+                            <com.carelynk.utilz.fonts.TimeNewRomanTextView
+                                android:layout_width="0dp"
+                                android:layout_height="wrap_content"
+                                android:layout_weight="1"
+                                android:text="Education: "
                                 android:textAppearance="?android:textAppearanceMedium" />
+
+                            <com.carelynk.utilz.fonts.TimeNewRomanTextView
+                                android:id="@+id/txtEducation"
+                                android:layout_width="0dp"
+                                android:layout_height="wrap_content"
+                                android:layout_weight="1"
+                                android:textAppearance="?android:textAppearanceMedium"
+                                tools:text="949449494" />
 
                         </LinearLayout>
 
                         <LinearLayout
                             android:layout_width="match_parent"
-                            android:orientation="horizontal"
+                            android:layout_height="wrap_content"
                             android:layout_marginTop="10dp"
-                            android:layout_height="wrap_content">
+                            android:orientation="horizontal">
 
-                            <TextView
+                            <com.carelynk.utilz.fonts.TimeNewRomanTextView
                                 android:layout_width="0dp"
-                                android:layout_weight="1"
                                 android:layout_height="wrap_content"
-                                android:text="Mobile No: "
+                                android:layout_weight="1"
+                                android:text="Certification: "
                                 android:textAppearance="?android:textAppearanceMedium" />
 
-                            <TextView
-                                android:id="@+id/txtMobile"
+                            <com.carelynk.utilz.fonts.TimeNewRomanTextView
+                                android:id="@+id/txtCertification"
                                 android:layout_width="0dp"
-                                android:layout_weight="1"
                                 android:layout_height="wrap_content"
-                                tools:text="949449494"
+                                android:layout_weight="1"
+                                android:textAppearance="?android:textAppearanceMedium"
+                                tools:text="949449494" />
+
+                        </LinearLayout>
+
+                        <LinearLayout
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_marginTop="10dp"
+                            android:orientation="horizontal">
+
+                            <com.carelynk.utilz.fonts.TimeNewRomanTextView
+                                android:layout_width="0dp"
+                                android:layout_height="wrap_content"
+                                android:layout_weight="1"
+                                android:text="Expertise: "
                                 android:textAppearance="?android:textAppearanceMedium" />
+
+                            <com.carelynk.utilz.fonts.TimeNewRomanTextView
+                                android:id="@+id/txtExpertise"
+                                android:layout_width="0dp"
+                                android:layout_height="wrap_content"
+                                android:layout_weight="1"
+                                android:textAppearance="?android:textAppearanceMedium"
+                                tools:text="949449494" />
+
+                        </LinearLayout>
+
+                        <LinearLayout
+                            android:id="@+id/linFood"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_marginTop="10dp"
+                            android:orientation="horizontal">
+
+                            <com.carelynk.utilz.fonts.TimeNewRomanTextView
+                                android:layout_width="0dp"
+                                android:layout_height="wrap_content"
+                                android:layout_weight="1"
+                                android:text="Food Habit: "
+                                android:textAppearance="?android:textAppearanceMedium" />
+
+                            <com.carelynk.utilz.fonts.TimeNewRomanTextView
+                                android:id="@+id/txtFoodHabit"
+                                android:layout_width="0dp"
+                                android:layout_height="wrap_content"
+                                android:layout_weight="1"
+                                android:textAppearance="?android:textAppearanceMedium"
+                                tools:text="949449494" />
+
+                        </LinearLayout>
+
+                        <LinearLayout
+                            android:id="@+id/linOccupation"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_marginTop="10dp"
+                            android:orientation="horizontal">
+
+                            <com.carelynk.utilz.fonts.TimeNewRomanTextView
+                                android:layout_width="0dp"
+                                android:layout_height="wrap_content"
+                                android:layout_weight="1"
+                                android:text="Occupation: "
+                                android:textAppearance="?android:textAppearanceMedium" />
+
+                            <com.carelynk.utilz.fonts.TimeNewRomanTextView
+                                android:id="@+id/txtOccupation"
+                                android:layout_width="0dp"
+                                android:layout_height="wrap_content"
+                                android:layout_weight="1"
+                                android:textAppearance="?android:textAppearanceMedium"
+                                tools:text="949449494" />
 
                         </LinearLayout>
 
@@ -428,7 +550,82 @@
 
                 </android.support.v7.widget.CardView>
 
+                <android.support.v7.widget.CardView
+                    android:layout_width="match_parent"
+                    android:layout_marginTop="@dimen/activity_horizontal_margin"
+                    app:cardBackgroundColor="@android:color/white"
+                    app:cardElevation="5dp"
+                    app:contentPadding="@dimen/activity_horizontal_margin"
+                    android:layout_height="wrap_content">
 
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:orientation="vertical">
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="Setting"
+                            android:textAppearance="?android:textAppearanceMedium"
+                            android:textColor="@color/colorAccent"
+                            android:textStyle="bold"
+                            app:font="@{`medium`}" />
+
+                        <android.support.v7.widget.SwitchCompat
+                            android:id="@+id/switchAutoFollow"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_marginTop="10dp"
+                            android:focusable="false"
+                            android:enabled="false"
+                            android:textAppearance="?android:textAppearanceMedium"
+                            android:text="Auto Follow Request" />
+
+                        <android.support.v7.widget.SwitchCompat
+                            android:id="@+id/switchEmailFriendRequest"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:enabled="false"
+                            android:textAppearance="?android:textAppearanceMedium"
+                            android:layout_marginTop="10dp"
+                            android:focusable="false"
+                            android:text="Email when someone sends me a friend request" />
+
+
+                        <android.support.v7.widget.SwitchCompat
+                            android:id="@+id/switchSendEmail"
+                            android:layout_width="match_parent"
+                            android:enabled="false"
+                            android:layout_height="wrap_content"
+                            android:textAppearance="?android:textAppearanceMedium"
+                            android:layout_marginTop="10dp"
+                            android:focusable="false"
+                            android:text="Send me a email of news and updates from portal" />
+
+                        <android.support.v7.widget.SwitchCompat
+                            android:id="@+id/switchNotificationEmail"
+                            android:layout_width="match_parent"
+                            android:focusable="false"
+                            android:enabled="false"
+                            android:layout_height="wrap_content"
+                            android:textAppearance="?android:textAppearanceMedium"
+                            android:layout_marginTop="10dp"
+                            android:text="Notification Emails" />
+
+
+                        <android.support.v7.widget.SwitchCompat
+                            android:id="@+id/switchProfilePublic"
+                            android:layout_width="match_parent"
+                            android:textAppearance="?android:textAppearanceMedium"
+                            android:focusable="false"
+                            android:enabled="false"
+                            android:layout_height="wrap_content"
+                            android:layout_marginTop="10dp"
+                            android:text="Profile Make it Public" />
+                    </LinearLayout>
+
+                </android.support.v7.widget.CardView>
             </LinearLayout>
 
 
@@ -445,11 +642,11 @@
             android:id="@+id/btnEdit"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:visibility="visible"
-            android:layout_alignParentRight="true"
             android:layout_alignParentBottom="true"
+            android:layout_alignParentRight="true"
             android:layout_margin="@dimen/fab_margin"
-            android:src="@drawable/ic_edit" />
+            android:src="@drawable/ic_edit"
+            android:visibility="visible" />
 
     </RelativeLayout>
 </layout>

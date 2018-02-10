@@ -24,14 +24,11 @@ import com.carelynk.dashboard.HomeActivity;
 import com.carelynk.dashboard.adapter.AllGroupRecyclerAdapter;
 import com.carelynk.dashboard.adapter.GroupFollowedRecyclerAdapter;
 import com.carelynk.dashboard.adapter.MyGroupRecyclerAdapter;
-import com.carelynk.dashboard.adapter.RequestRecyclerAdapter;
+import com.carelynk.dashboard.adapter.GroupRequestRecyclerAdapter;
 import com.carelynk.dashboard.model.GroupModel;
 import com.carelynk.dashboard.model.GroupModelGson;
-import com.carelynk.dashboard.model.ReuestGroupModel;
 import com.carelynk.databinding.FragmentMyGroupBinding;
 import com.carelynk.rest.ApiFactory;
-import com.carelynk.rest.ApiInterface;
-import com.carelynk.rest.AsyncTaskDeleteCommon;
 import com.carelynk.rest.AsyncTaskGetCommon;
 import com.carelynk.rest.Urls;
 import com.carelynk.storage.SharedPreferenceUtil;
@@ -40,16 +37,10 @@ import com.carelynk.utilz.Constants;
 import com.carelynk.utilz.DialogUtils;
 import com.carelynk.utilz.PrefUtils;
 import com.google.gson.Gson;
-import com.google.gson.JsonObject;
 
-import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.util.List;
-
-import retrofit2.Call;
-import retrofit2.Callback;
-import retrofit2.Response;
 
 /**
  * Created by Admin on 12-Sep-16.
@@ -63,14 +54,14 @@ public class MyGroupFragment extends BaseFragment {
     private static final String TAG = "MyGroupFragment";
     private GroupFollowedRecyclerAdapter mFollowedRecyclerAdapter;
     private AllGroupRecyclerAdapter mAllGroupRecyclerAdapter;
-    private GroupModelGson mOwnGroupModelGson;
-    private RequestRecyclerAdapter mReqestRecyclerAdapter;
+    private GroupModelGson mGroupModelGson;
+    private GroupRequestRecyclerAdapter mReqestRecyclerAdapter;
 
     @Override
     public void setUserVisibleHint(boolean isVisibleToUser) {
         super.setUserVisibleHint(isVisibleToUser);
         if (isVisibleToUser) {
-            if (mOwnGroupModelGson == null || mOwnGroupModelGson.getResult().size() == 0) {
+            if (mGroupModelGson == null) {
                 refresh();
             }
             new Handler().postDelayed(new Runnable() {
@@ -102,9 +93,6 @@ public class MyGroupFragment extends BaseFragment {
             public void onLongClick(View view, int position) {
             }
         }));*/
-
-
-        getRequestOfGroup();
 
         binding.txtOwned.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -172,41 +160,44 @@ public class MyGroupFragment extends BaseFragment {
     }
 
     private void setOwnGroupRecyclerAdapter() {
-        mMyGroupRecyclerAdapter = new MyGroupRecyclerAdapter(getActivity(), mOwnGroupModelGson.getResult(), MyGroupFragment.this);
+        binding.recyclerView.setVisibility(View.VISIBLE);
+        binding.txtEmpty.setVisibility(View.GONE);
+        mMyGroupRecyclerAdapter = new MyGroupRecyclerAdapter(getActivity(), mGroupModelGson.getResult().getOwnGroupDet(), MyGroupFragment.this);
         binding.recyclerView.setHasFixedSize(true);
         LinearLayoutManager mLayoutManager = new LinearLayoutManager(getActivity());
+        mLayoutManager.setAutoMeasureEnabled(true);
+        binding.recyclerView.setNestedScrollingEnabled(false);
         binding.recyclerView.setLayoutManager(mLayoutManager);
         binding.recyclerView.setItemAnimator(new DefaultItemAnimator());
         binding.recyclerView.setAdapter(mMyGroupRecyclerAdapter);
     }
 
     private void setAllGroupRecyclerAdapter() {
-        mAllGroupRecyclerAdapter = new AllGroupRecyclerAdapter(getActivity(), mOwnGroupModelGson.getResult(), MyGroupFragment.this);
+        binding.recyclerView.setVisibility(View.VISIBLE);
+        binding.txtEmpty.setVisibility(View.GONE);
+        mAllGroupRecyclerAdapter = new AllGroupRecyclerAdapter(getActivity(), mGroupModelGson.getResult().getAllGroupDet(), MyGroupFragment.this);
         binding.recyclerView.setHasFixedSize(true);
         LinearLayoutManager mLayoutManager = new LinearLayoutManager(getActivity());
+        mLayoutManager.setAutoMeasureEnabled(true);
+        binding.recyclerView.setNestedScrollingEnabled(false);
         binding.recyclerView.setLayoutManager(mLayoutManager);
         binding.recyclerView.setItemAnimator(new DefaultItemAnimator());
         binding.recyclerView.setAdapter(mAllGroupRecyclerAdapter);
     }
 
     private void setFollowRecyclerAdapter() {
-        mFollowedRecyclerAdapter = new GroupFollowedRecyclerAdapter(getActivity(),mOwnGroupModelGson.getResult(), MyGroupFragment.this);
+        binding.recyclerView.setVisibility(View.VISIBLE);
+        binding.txtEmpty.setVisibility(View.GONE);
+        mFollowedRecyclerAdapter = new GroupFollowedRecyclerAdapter(getActivity(), mGroupModelGson.getResult().getFollowedGroupDet(), MyGroupFragment.this);
         binding.recyclerView.setHasFixedSize(true);
         LinearLayoutManager mLayoutManager = new LinearLayoutManager(getActivity());
+        mLayoutManager.setAutoMeasureEnabled(true);
+        binding.recyclerView.setNestedScrollingEnabled(false);
         binding.recyclerView.setLayoutManager(mLayoutManager);
         binding.recyclerView.setItemAnimator(new DefaultItemAnimator());
         binding.recyclerView.setAdapter(mFollowedRecyclerAdapter);
     }
 
-    private void setRequestRecyclerAdapter(List<ReuestGroupModel.Result> result) {
-        binding.recyclerViewRequest.setVisibility(View.VISIBLE);
-        mReqestRecyclerAdapter = new RequestRecyclerAdapter(getActivity(), result, MyGroupFragment.this);
-        binding.recyclerViewRequest.setHasFixedSize(true);
-        LinearLayoutManager mLayoutManager = new LinearLayoutManager(getActivity());
-        binding.recyclerViewRequest.setLayoutManager(mLayoutManager);
-        binding.recyclerViewRequest.setItemAnimator(new DefaultItemAnimator());
-        binding.recyclerViewRequest.setAdapter(mReqestRecyclerAdapter);
-    }
 
 
     public void onDeleteItemClick(final String  groupId) {
@@ -226,7 +217,7 @@ public class MyGroupFragment extends BaseFragment {
     private void deleteGroup(String groupId) {
         if(isOnline(getContext())){
             DialogUtils.showProgressDialog(getActivity());
-            AsyncTaskDeleteCommon asyncTaskGetCommon = new AsyncTaskDeleteCommon(getContext(), new AsyncTaskDeleteCommon.AsyncTaskCompleteListener() {
+            AsyncTaskGetCommon asyncTaskGetCommon = new AsyncTaskGetCommon(getContext(), new AsyncTaskGetCommon.AsyncTaskCompleteListener() {
                 @Override
                 public void onTaskComplete(String result) {
                     Log.e(TAG, "onTaskComplete: "+result);
@@ -250,129 +241,60 @@ public class MyGroupFragment extends BaseFragment {
         }
     }
 
-    public void onEditItemClick(GroupModelGson.Result group) {
+    public void onEditItemClick(GroupModelGson.OwnGroupDet group) {
         Intent intent = new Intent(getActivity(), GroupCreateActivity.class);
         intent.putExtra(Constants.EXTRA_IS_EDIT_GROUP, true);
         intent.putExtra(Constants.EXTRA_GROUP_DETAIL, group);
         moveActivityResult(intent, getActivity(), Constants.REQUEST_ADD_GROUP);
     }
 
-    public void onItemClick(int position, GroupModelGson.Result groupDetail) {
+    public void onItemClick(int position, GroupModelGson.OwnGroupDet groupDetail) {
         Intent intent = new Intent(getActivity(), GroupDetailActivity.class);
         intent.putExtra(AppUtils.Extra_Is_From_Which_Group, 0);
-        intent.putExtra(Constants.EXTRA_GROUP_DETAIL, groupDetail);
-        moveActivityResult(intent, getActivity(), Constants.REQUEST_GROUP_DETAIL);
+        intent.putExtra(Constants.EXTRA_GROUP_ID, groupDetail.getGroupId());
+        startActivityForResult(intent, Constants.REQUEST_GROUP_DETAIL);
     }
 
-    public void onItemFollowClick(int position, GroupModelGson.Result groupDetail) {
+    public void onItemFollowClick(int position, GroupModelGson.FollowedGroupDet groupDetail) {
         Intent intent = new Intent(getActivity(), GroupDetailActivity.class);
         intent.putExtra(AppUtils.Extra_Is_From_Which_Group, 1);
-        intent.putExtra(Constants.EXTRA_GROUP_DETAIL, groupDetail);
-        moveActivityResult(intent, getActivity(), Constants.REQUEST_GROUP_DETAIL);
+        intent.putExtra(Constants.EXTRA_GROUP_ID, groupDetail.getGroupId());
+        startActivityForResult(intent, Constants.REQUEST_GROUP_DETAIL);
     }
 
-    public void onItemAllGroupClick(int position, GroupModelGson.Result groupDetail) {
+    public void onItemAllGroupClick(int position, GroupModelGson.AllGroupDet groupDetail) {
         Intent intent = new Intent(getActivity(), GroupDetailActivity.class);
         intent.putExtra(AppUtils.Extra_Is_From_Which_Group, 2);
-        intent.putExtra(Constants.EXTRA_GROUP_DETAIL, groupDetail);
-        moveActivityResult(intent, getActivity(), Constants.REQUEST_GROUP_DETAIL);
+        intent.putExtra(Constants.EXTRA_GROUP_ID, groupDetail.getGroupId());
+        startActivityForResult(intent, Constants.REQUEST_GROUP_DETAIL);
     }
 
-    private void getRequestOfGroup() {
-        if(isOnline(getActivity())){
-            ApiInterface apiInterface = ApiFactory.provideInterface();
-            Call<ReuestGroupModel> call = apiInterface.getRequestGroup(ApiFactory.API_BASE_URL+""+ Urls.GET_GROUP_JOIN_REQUEST);
-            call.enqueue(new Callback<ReuestGroupModel>() {
-                @Override
-                public void onResponse(Call<ReuestGroupModel>call, Response<ReuestGroupModel> response) {
-                    if (response.isSuccessful()) {
-                        try{
-                            //{"result":[{"GroupRequestId":"1003","Message":"kittu want to join your group -food is good","GroupId":"68","UserId":"08facb07-2161-4c9f-9905-d6cdafcb2c10","Accepted":"False","UserName":"kittu"}]}
-                            Log.e(TAG, "get group: "+new Gson().toJson(response.body()));
-                            //showSnackbar(binding.getRoot(), new Gson().toJson(response.body()));
-                            if(response.body().getResult() != null && response.body().getResult().size() > 0){
-                                binding.txtRequest.setText("Group Request");
-                                setRequestRecyclerAdapter(response.body().getResult());
-                            }else{
-                                binding.txtRequest.setText("No Requests Available!");
-                            }
-                        }catch (Exception e){
-                            e.printStackTrace();
-                        }
-                    }
-                }
 
-                @Override
-                public void onFailure(Call<ReuestGroupModel>call, Throwable t) {
-                    Log.e(TAG, t.toString());
-                }
-            });
-        }else{
-            showSnackbar(binding.getRoot(), getString(R.string.no_internet));
-        }
-    }
 
     public void getOwnGroup() {
-        if(isOnline(getContext())){
-            binding.progressBar.setVisibility(View.VISIBLE);
-            AsyncTaskGetCommon asyncTaskGetCommon = new AsyncTaskGetCommon(getContext(), new AsyncTaskGetCommon.AsyncTaskCompleteListener() {
-                @Override
-                public void onTaskComplete(String result) {
-                    Log.e(TAG, "onTaskComplete: "+result);
-
-                    binding.progressBar.setVisibility(View.GONE);
-                    mOwnGroupModelGson = new Gson().fromJson(result, GroupModelGson.class);
-                    if(mOwnGroupModelGson.getResult().size() > 0) {
-                        setOwnGroupRecyclerAdapter();
-                    }
-                }
-            });
-            asyncTaskGetCommon.execute(ApiFactory.API_BASE_URL+""+ Urls.GET_OWN_GROUP);
+        if(mGroupModelGson != null && mGroupModelGson.getResult().getOwnGroupDet().size() > 0) {
+            setOwnGroupRecyclerAdapter();
         }else{
-            binding.progressBar.setVisibility(View.GONE);
-            showSnackbar(binding.getRoot(), getString(R.string.no_internet));
+            binding.recyclerView.setVisibility(View.GONE);
+            binding.txtEmpty.setVisibility(View.VISIBLE);
         }
     }
 
     public void getAllGroup() {
-        if(isOnline(getContext())){
-            binding.progressBar.setVisibility(View.VISIBLE);
-            AsyncTaskGetCommon asyncTaskGetCommon = new AsyncTaskGetCommon(getContext(), new AsyncTaskGetCommon.AsyncTaskCompleteListener() {
-                @Override
-                public void onTaskComplete(String result) {
-                    Log.e(TAG, "onTaskComplete: "+result);
-                    binding.progressBar.setVisibility(View.GONE);
-                    mOwnGroupModelGson = new Gson().fromJson(result, GroupModelGson.class);
-                    if(mOwnGroupModelGson.getResult().size() > 0) {
-                        setAllGroupRecyclerAdapter();
-                    }
-                }
-            });
-            asyncTaskGetCommon.execute(ApiFactory.API_BASE_URL+""+ Urls.GET_ALL_GROUP);
+        if(mGroupModelGson != null && mGroupModelGson.getResult().getAllGroupDet().size() > 0) {
+            setAllGroupRecyclerAdapter();
         }else{
-            binding.progressBar.setVisibility(View.GONE);
-            showSnackbar(binding.getRoot(), getString(R.string.no_internet));
+            binding.recyclerView.setVisibility(View.GONE);
+            binding.txtEmpty.setVisibility(View.VISIBLE);
         }
     }
 
     public void getFollowGroup() {
-        if(isOnline(getContext())){
-            binding.progressBar.setVisibility(View.VISIBLE);
-            AsyncTaskGetCommon asyncTaskGetCommon = new AsyncTaskGetCommon(getContext(), new AsyncTaskGetCommon.AsyncTaskCompleteListener() {
-                @Override
-                public void onTaskComplete(String result) {
-                    Log.e(TAG, "onTaskComplete: "+result);
-                    binding.progressBar.setVisibility(View.GONE);
-                    mOwnGroupModelGson = new Gson().fromJson(result, GroupModelGson.class);
-                    if(mOwnGroupModelGson.getResult().size() > 0) {
-                        setFollowRecyclerAdapter();
-                    }
-                }
-            });
-            asyncTaskGetCommon.execute(ApiFactory.API_BASE_URL+""+ Urls.GET_FOLLOW_GROUP);
+        if(mGroupModelGson != null && mGroupModelGson.getResult().getFollowedGroupDet().size() > 0) {
+            setFollowRecyclerAdapter();
         }else{
-            binding.progressBar.setVisibility(View.GONE);
-            showSnackbar(binding.getRoot(), getString(R.string.no_internet));
+            binding.recyclerView.setVisibility(View.GONE);
+            binding.txtEmpty.setVisibility(View.VISIBLE);
         }
     }
 
@@ -404,71 +326,29 @@ public class MyGroupFragment extends BaseFragment {
         binding.txtFollowed.setTextColor(ContextCompat.getColor(getContext(), R.color.colorAccent));
         binding.txtOwned.setTextColor(Color.BLACK);
 
-        getOwnGroup();
-    }
-
-    public void onAcceptRequestClick(int position, ReuestGroupModel.Result result) {
-        if(isOnline(getActivity())){
-            DialogUtils.showProgressDialog(getActivity());
-            ApiInterface apiInterface = ApiFactory.provideInterface();
-            JsonObject payerReg = new JsonObject();
-            payerReg.addProperty("GroupId", Integer.parseInt(result.getGroupId()));
-            payerReg.addProperty("RequestUserID", Integer.parseInt(result.getGroupRequestId()));
-            Log.e(TAG, "Accept update: "+payerReg.toString());
-            Call<JsonObject> call = apiInterface.acceptGroupRequest(payerReg);
-            call.enqueue(new Callback<JsonObject>() {
-                @Override
-                public void onResponse(Call<JsonObject>call, Response<JsonObject> response) {
-                    DialogUtils.stopProgressDialog();
-                    if (response.isSuccessful()) {
-                        try{
-                            Log.e(TAG, "create update: "+new Gson().toJson(response.body()));
-                            JSONObject jsonObject = new JSONObject(response.body().toString());
-                            if (jsonObject.getBoolean("IsSuccess")) {
-                                getRequestOfGroup();
-                            }else{
-                                showSnackbar(binding.getRoot(), jsonObject.getString("ErrorMessage"));
-                            }
-                        }catch (Exception e){
-                            e.printStackTrace();
-                        }
-                    }
-                }
-
-                @Override
-                public void onFailure(Call<JsonObject>call, Throwable t) {
-                    Log.e(TAG, t.toString());
-                }
-            });
-        }else{
-            showSnackbar(binding.getRoot(), getString(R.string.no_internet));
-        }
-    }
-
-    public void onRejectRequestClick(int position, ReuestGroupModel.Result result) {
-        if(isOnline(getActivity())){
-            DialogUtils.showProgressDialog(getActivity());
-            AsyncTaskDeleteCommon asyncTaskGetCommon = new AsyncTaskDeleteCommon(getContext(), new AsyncTaskDeleteCommon.AsyncTaskCompleteListener() {
+        if(isOnline(getContext())){
+            binding.progressBar.setVisibility(View.VISIBLE);
+            AsyncTaskGetCommon asyncTaskGetCommon = new AsyncTaskGetCommon(getContext(), new AsyncTaskGetCommon.AsyncTaskCompleteListener() {
                 @Override
                 public void onTaskComplete(String result) {
                     Log.e(TAG, "onTaskComplete: "+result);
-                    DialogUtils.stopProgressDialog();
-                    JSONObject jsonObject = null;
-                    try {
-                        jsonObject = new JSONObject(result);
-                        if (jsonObject.getBoolean("IsSuccess")) {
-                            getRequestOfGroup();
-                        }else{
-                            showSnackbar(binding.getRoot(), jsonObject.getString("ErrorMessage"));
-                        }
-                    } catch (JSONException e) {
-                        e.printStackTrace();
+                    binding.progressBar.setVisibility(View.GONE);
+                    mGroupModelGson = new Gson().fromJson(result, GroupModelGson.class);
+                    if(mGroupModelGson != null && mGroupModelGson.getResult().getOwnGroupDet().size() > 0) {
+                        setOwnGroupRecyclerAdapter();
+                    }else{
+                        binding.recyclerView.setVisibility(View.GONE);
+                        binding.txtEmpty.setVisibility(View.VISIBLE);
                     }
                 }
             });
-            asyncTaskGetCommon.execute(ApiFactory.API_BASE_URL+""+ Urls.REJECT_GROUP_REQUEST+""+result.getGroupRequestId());
+            asyncTaskGetCommon.execute(ApiFactory.API_BASE_URL+""+ Urls.GET_GROUP_LIST+""+SharedPreferenceUtil.getString(PrefUtils.PREF_USER_ID, ""));
         }else{
+            binding.progressBar.setVisibility(View.GONE);
             showSnackbar(binding.getRoot(), getString(R.string.no_internet));
         }
+
     }
+
+
 }

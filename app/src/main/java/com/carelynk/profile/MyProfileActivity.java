@@ -10,6 +10,8 @@ import android.view.Gravity;
 import android.view.View;
 import android.view.WindowManager;
 
+import com.bumptech.glide.Glide;
+import com.bumptech.glide.request.RequestOptions;
 import com.carelynk.R;
 import com.carelynk.base.BaseActivity;
 import com.carelynk.databinding.ActivityMyProfileBinding;
@@ -19,6 +21,7 @@ import com.carelynk.rest.ApiInterface;
 import com.carelynk.rest.AsyncTaskGetCommon;
 import com.carelynk.rest.Urls;
 import com.carelynk.storage.SharedPreferenceUtil;
+import com.carelynk.utilz.AppUtils;
 import com.carelynk.utilz.Constants;
 import com.carelynk.utilz.PrefUtils;
 import com.google.gson.JsonArray;
@@ -51,6 +54,7 @@ public class MyProfileActivity extends BaseActivity {
 
     void getProfile() {
         if (isOnline(this)) {
+            showProgressDialog();
             Log.e(TAG, "getProfile: "+ SharedPreferenceUtil.getString(PrefUtils.PREF_USER_ID, ""));
             AsyncTaskGetCommon asyncTaskGetCommon = new AsyncTaskGetCommon(this, new AsyncTaskGetCommon.AsyncTaskCompleteListener() {
                 @Override
@@ -63,6 +67,7 @@ public class MyProfileActivity extends BaseActivity {
                     // "Food_Habits":null,"Someone_Message_Email":null,"Friend_Request_Email":null,"News_Updates_Protal_Email":null,
                     // "Recd_notif_Email":null,"IsPrivate_Profile":null,"Profile_Persent":null,
                     // "InterestArea":"Kids Health,Teenage Health,Men and Women Health","ProfilePicUrl":null,"RoleId":null}
+                    stopProgressDialog();
                     Log.e(TAG, "onTaskComplete: "+result);
                     binding.progressBar.setVisibility(View.GONE);
                     try{
@@ -74,21 +79,39 @@ public class MyProfileActivity extends BaseActivity {
 
                         binding.txtFirstName.setText(jsonObject.getString("FirstName"));
                         profileModel.FirstName = jsonObject.getString("FirstName");
+                        profileModel.LastName = jsonObject.getString("LastName");
                         binding.txtLastName.setText(jsonObject.getString("LastName"));
-                        binding.txtAboutMe.setText(jsonObject.getString("AboutMe"));
-                        profileModel.AboutMe = jsonObject.getString("AboutMe");
+                        binding.txtAboutMe.setText(jsonObject.getString("AboutMeText"));
+                        profileModel.AboutMeText = jsonObject.getString("AboutMeText");
                         binding.txtDateOfBirth.setText(jsonObject.getString("DateOfBirth"));
                         profileModel.DateOfBirth = jsonObject.getString("DateOfBirth");
                         binding.txtEmail.setText(jsonObject.getString("Email"));
                         profileModel.Email = jsonObject.getString("Email");
-                        binding.txtGender.setText(jsonObject.getBoolean("Gender") ? "Male" : "Female");
+                        binding.txtGender.setText(!jsonObject.getBoolean("Gender") ? "Male" : "Female");
                         profileModel.Gender = jsonObject.getBoolean("Gender");
                         binding.txtMarital.setText(jsonObject.getString("Marital_Status"));
                         profileModel.Marital_Status = jsonObject.getString("Marital_Status");
-                        binding.txtWhoAmI.setText(jsonObject.getString("AboutMeText"));
+                        binding.txtWhoAmI.setText(jsonObject.getString("AboutMe"));
+                        profileModel.AboutMe = jsonObject.getString("AboutMe");
+                        if(jsonObject.getString("AboutMe").equalsIgnoreCase("entity")){
+                            binding.linGender.setVisibility(View.GONE);
+                            binding.linDateofbirth.setVisibility(View.GONE);
+                            binding.linMarital.setVisibility(View.GONE);
+                            binding.linEducation.setVisibility(View.GONE);
+                            binding.linFood.setVisibility(View.GONE);
+                            binding.linOccupation.setVisibility(View.GONE);
+                            binding.linLast.setVisibility(View.GONE);
+                            binding.txtFirstNameHint.setText("Entity Name: ");
+                        }
                         profileModel.AboutMeText = jsonObject.getString("AboutMeText");
                         // TODO: 21-Mar-17 who am i and gender not coming
 
+                        binding.txtEducation.setText(jsonObject.getString("Education"));
+                        profileModel.Education = jsonObject.getString("Education");
+                        binding.txtCertification.setText(jsonObject.getString("Certification"));
+                        profileModel.Certification = jsonObject.getString("Certification");
+                        binding.txtExpertise.setText(jsonObject.getString("Expertise"));
+                        profileModel.Expertise = jsonObject.getString("Expertise");
                         binding.txtAddress.setText(jsonObject.getString("Address"));
                         profileModel.Address = jsonObject.getString("Address");
                         binding.txtCity.setText(jsonObject.getString("City"));
@@ -97,18 +120,41 @@ public class MyProfileActivity extends BaseActivity {
                         profileModel.Country = jsonObject.getString("Country");
                         binding.txtState.setText(jsonObject.getString("State"));
                         profileModel.State = jsonObject.getString("State");
-                        binding.txtZip.setText(""+jsonObject.getString("ZipCode"));
-                        profileModel.ZipCode = jsonObject.getString("ZipCode");
-                        binding.txtMobile.setText(jsonObject.getString("ContactNo"));
-                        profileModel.ContactNo = jsonObject.getString("ContactNo");
+                        binding.txtZip.setText(jsonObject.isNull("ZipCode") ? "0" : ""+jsonObject.getLong("ZipCode"));
+                        profileModel.ZipCode = jsonObject.isNull("ZipCode") ? "0" : ""+jsonObject.getLong("ZipCode");
+                        binding.txtMobile.setText(jsonObject.isNull("ContactNo") ? "0" : ""+jsonObject.getLong("ContactNo"));
+                        profileModel.ContactNo = jsonObject.isNull("ContactNo") ? "0" : ""+jsonObject.getLong("ContactNo");
                         profileModel.UserProfileId = jsonObject.getInt("UserProfileId");
+                        Glide.with(MyProfileActivity.this).
+                                load(AppUtils.getImagePath(jsonObject.getString("ProfilePicUrl"))).
+                                apply(new RequestOptions().placeholder(R.drawable.ic_placeholder))
+                                .into(binding.imgUser);
+                        profileModel.ProfilePicUrl = jsonObject.getString("ProfilePicUrl");
+
+                        profileModel.AutoFollow = !jsonObject.getBoolean("Someone_Message_Email");
+                        profileModel.EmailFriendRequest = !jsonObject.getBoolean("Friend_Request_Email");
+                        profileModel.NotificationEmail = !jsonObject.getBoolean("Recd_notif_Email");
+                        profileModel.ProfilePublic = !jsonObject.getBoolean("IsPrivate_Profile");
+                        profileModel.SendEmail = !jsonObject.getBoolean("News_Updates_Protal_Email");
+                        binding.switchAutoFollow.setChecked(!jsonObject.getBoolean("Someone_Message_Email"));
+                        binding.switchEmailFriendRequest.setChecked(!jsonObject.getBoolean("Friend_Request_Email"));
+                        binding.switchNotificationEmail.setChecked(!jsonObject.getBoolean("Recd_notif_Email"));
+                        binding.switchProfilePublic.setChecked(!jsonObject.getBoolean("IsPrivate_Profile"));
+                        binding.switchSendEmail.setChecked(!jsonObject.getBoolean("News_Updates_Protal_Email"));
+                        binding.txtOccupation.setText(jsonObject.getString("Occupation"));
+                        binding.txtFoodHabit.setText(jsonObject.getString("Food_Habits"));
+                        profileModel.Food_Habits = jsonObject.getString("Food_Habits");
+                        profileModel.Occupation = jsonObject.getString("Occupation");
+
+                        SharedPreferenceUtil.putValue(PrefUtils.PREF_PROFILE_PIC, jsonObject.getString("ProfilePicUrl"));
+                        SharedPreferenceUtil.save();
 
                     }catch (Exception e){
                         e.printStackTrace();
                     }
                 }
             });
-            asyncTaskGetCommon.execute(ApiFactory.API_BASE_URL+""+ Urls.GET_PROFILE);
+            asyncTaskGetCommon.execute(ApiFactory.API_BASE_URL+""+ Urls.GET_PROFILE+""+SharedPreferenceUtil.getString(PrefUtils.PREF_USER_ID, ""));
         } else {
             showSnackbar(binding.getRoot(), getString(R.string.no_internet));
         }

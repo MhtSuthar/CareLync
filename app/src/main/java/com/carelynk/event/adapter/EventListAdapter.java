@@ -9,14 +9,18 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.bumptech.glide.Glide;
+import com.bumptech.glide.request.RequestOptions;
 import com.carelynk.R;
 import com.carelynk.dashboard.fragment.MyGroupFragment;
 import com.carelynk.dashboard.model.GroupModel;
 import com.carelynk.event.EventListActivity;
 import com.carelynk.event.model.EventList;
+import com.carelynk.utilz.AppUtils;
+import com.carelynk.utilz.CircleTransform;
 
 import java.util.List;
 
@@ -36,10 +40,12 @@ public class EventListAdapter extends RecyclerView.Adapter<EventListAdapter.View
         public TextView txtCreatedName;
         public ImageView imgGroup;
         public TextView txtDesc, txtTime;
+        public RelativeLayout rel_footer;
 
         public ViewHolder(View rowView) {
             super(rowView);
             txtGroupName = (TextView) rowView.findViewById(R.id.txtGroupName);
+            rel_footer = (RelativeLayout) rowView.findViewById(R.id.rel_footer);
             txt_edit = (TextView) rowView.findViewById(R.id.txt_edit);
             txt_delete = (TextView) rowView.findViewById(R.id.txt_delete);
             txtCreatedName = (TextView) rowView.findViewById(R.id.txtCreatedName);
@@ -75,6 +81,19 @@ public class EventListAdapter extends RecyclerView.Adapter<EventListAdapter.View
         holder.txtCreatedName.setText(mListGroup.get(position).getAddress());
         holder.txtTime.setText(mListGroup.get(position).getEventDateFrom()+" "+mListGroup.get(position).getEventTimeFrom()+" To "+
                 mListGroup.get(position).getEventDateTo()+" "+mListGroup.get(position).getEventTimeTo());
+
+        if(!TextUtils.isEmpty(mListGroup.get(position).getPhotoURL())) {
+            holder.imgGroup.setVisibility(View.VISIBLE);
+            Glide.with(mContext).load(AppUtils.getImagePath(mListGroup.get(position).getPhotoURL())).
+                    apply(RequestOptions.circleCropTransform().placeholder(R.drawable.ic_launcher_black)).into(holder.imgGroup);
+        }else
+            holder.imgGroup.setVisibility(View.GONE);
+
+        if(mListGroup.get(position).getIsPrivate().equalsIgnoreCase("False")){
+            holder.rel_footer.setVisibility(View.GONE);
+        }else{
+            holder.rel_footer.setVisibility(View.VISIBLE);
+        }
 
         holder.itemView.setOnClickListener(new View.OnClickListener() {
             @Override

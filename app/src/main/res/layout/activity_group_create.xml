@@ -42,7 +42,7 @@
                         android:padding="10dp"
                         android:text="@string/create_group"
                         android:textAppearance="?android:textAppearanceLarge"
-                        android:textColor="@color/colorAccent"
+                        android:textColor="@android:color/white"
                         app:font="@{`medium`}" />
 
                     <ProgressBar
@@ -65,7 +65,7 @@
                         android:padding="10dp"
                         android:text="@string/create"
                         android:textAppearance="?android:textAppearanceLarge"
-                        android:textColor="@color/colorAccent"
+                        android:textColor="@android:color/white"
                         app:font="@{`medium`}" />
 
                 </RelativeLayout>
@@ -199,6 +199,7 @@
                                 android:layout_width="match_parent"
                                 android:layout_height="wrap_content"
                                 android:layout_marginTop="@dimen/common_margin"
+                                android:visibility="gone"
                                 android:text="@string/make_this_group_is_private"
                                 android:textColor="@android:color/black"
                                 app:font="@{`medium`}" />

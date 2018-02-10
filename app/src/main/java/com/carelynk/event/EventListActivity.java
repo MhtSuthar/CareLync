@@ -22,6 +22,7 @@ import com.carelynk.event.model.EventList;
 import com.carelynk.rest.ApiFactory;
 import com.carelynk.rest.ApiInterface;
 import com.carelynk.rest.AsyncTaskDeleteCommon;
+import com.carelynk.rest.AsyncTaskGetCommon;
 import com.carelynk.rest.Urls;
 import com.carelynk.storage.SharedPreferenceUtil;
 import com.carelynk.utilz.Constants;
@@ -165,7 +166,7 @@ public class EventListActivity extends BaseActivity {
     private void deleteEvent(String eventID, final int position) {
         if(isOnline(this)){
             DialogUtils.showProgressDialog(this);
-            AsyncTaskDeleteCommon asyncTaskGetCommon = new AsyncTaskDeleteCommon(this, new AsyncTaskDeleteCommon.AsyncTaskCompleteListener() {
+            AsyncTaskGetCommon asyncTaskGetCommon = new AsyncTaskGetCommon(this, new AsyncTaskGetCommon.AsyncTaskCompleteListener() {
                 @Override
                 public void onTaskComplete(String result) {
                     Log.e(TAG, "onTaskComplete: "+result);
@@ -193,9 +194,11 @@ public class EventListActivity extends BaseActivity {
     }
 
     public void onClickDetail(int position) {
-        /*DialogFragment newFragment = new EventDetailDialogFragment();
-        //newFragment.setTargetFragment(this, Constants.REQUEST_CODE_SEND_FRIEND);
-        newFragment.show(getSupportFragmentManager().beginTransaction(), "dialog");*/
+        Intent intent = new Intent(EventListActivity.this, EventDetailActivity.class);
+        intent.putExtra(Constants.EXTRA_IS_FOR_EDIT_EVENT, true);
+        intent.putExtra(Constants.EXTRA_EVENT, mEventList.get(position));
+        startActivityForResult(intent, Constants.REQUEST_CODE_ADD_EVENT);
+
     }
 
     @Override

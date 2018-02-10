@@ -19,7 +19,7 @@
                 android:orientation="horizontal"
                 android:padding="@dimen/common_margin">
 
-                <TextView
+                <com.carelynk.utilz.fonts.TimeNewRomanTextView
                     android:id="@+id/txtName"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
@@ -47,7 +47,7 @@
                     android:orientation="horizontal"
                     android:padding="@dimen/common_margin">
 
-                    <TextView
+                    <com.carelynk.utilz.fonts.TimeNewRomanTextView
                         android:id="@+id/txtCancel"
                         android:drawableLeft="@drawable/ic_cancel_grey"
                         android:layout_width="wrap_content"
@@ -58,7 +58,7 @@
                         android:layout_marginRight="10dp"
                         android:layout_height="wrap_content" />
 
-                    <TextView
+                    <com.carelynk.utilz.fonts.TimeNewRomanTextView
                         android:id="@+id/txtAccept"
                         android:drawableLeft="@drawable/ic_done_primary"
                         android:layout_width="wrap_content"

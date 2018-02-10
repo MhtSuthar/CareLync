@@ -10,66 +10,65 @@
     android:paddingTop="1dp">
 
 
-        <LinearLayout
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_margin="5dp"
+        android:background="@android:color/white"
+        android:orientation="vertical">
+
+        <RelativeLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_margin="5dp"
-            android:background="@android:color/white"
-            android:orientation="vertical">
+            android:padding="@dimen/activity_horizontal_margin">
 
-            <RelativeLayout
+            <com.carelynk.utilz.fonts.TimeNewRomanTextView
+                android:id="@+id/txtGroupName"
                 android:layout_width="match_parent"
-                android:padding="@dimen/activity_horizontal_margin"
-                android:layout_height="wrap_content">
+                android:layout_height="wrap_content"
+                android:layout_toRightOf="@+id/imgGroup"
+                android:paddingLeft="@dimen/activity_horizontal_margin"
+                android:paddingRight="@dimen/activity_horizontal_margin"
+                android:text="GroupName"
+                android:textAppearance="?android:textAppearanceMedium"
+                android:textColor="@color/colorAccent" />
 
-                <TextView
-                    android:id="@+id/txtGroupName"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_toRightOf="@+id/imgGroup"
-                    android:paddingRight="@dimen/activity_horizontal_margin"
-                    android:paddingLeft="@dimen/activity_horizontal_margin"
-                    android:textAppearance="?android:textAppearanceMedium"
-                    android:textColor="@color/colorAccent"
-                    android:text="GroupName" />
+            <com.carelynk.utilz.fonts.TimeNewRomanTextView
+                android:id="@+id/txtCreatedName"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/txtGroupName"
+                android:layout_toRightOf="@+id/imgGroup"
+                android:paddingLeft="@dimen/activity_horizontal_margin"
+                android:paddingRight="@dimen/activity_horizontal_margin"
+                android:text="Creted By"
+                android:textAppearance="?android:textAppearanceSmall"
+                android:textColor="@color/color_text_dark" />
 
-                <TextView
-                    android:id="@+id/txtCreatedName"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_below="@+id/txtGroupName"
-                    android:layout_toRightOf="@+id/imgGroup"
-                    android:paddingRight="@dimen/activity_horizontal_margin"
-                    android:paddingLeft="@dimen/activity_horizontal_margin"
-                    android:textAppearance="?android:textAppearanceSmall"
-                    android:textColor="@color/color_text_dark"
-                    android:text="Creted By" />
+            <com.carelynk.utilz.fonts.TimeNewRomanTextView
+                android:id="@+id/txtDesc"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/txtCreatedName"
+                android:layout_toRightOf="@+id/imgGroup"
+                android:paddingLeft="@dimen/activity_horizontal_margin"
+                android:paddingRight="@dimen/activity_horizontal_margin"
+                android:textAppearance="?android:textAppearanceMedium"
+                android:textColor="@android:color/black"
+                tools:text="Desc" />
 
-                <TextView
-                    android:id="@+id/txtDesc"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_toRightOf="@+id/imgGroup"
-                    android:paddingLeft="@dimen/activity_horizontal_margin"
-                    android:paddingRight="@dimen/activity_horizontal_margin"
-                    android:layout_below="@+id/txtCreatedName"
-                    android:textAppearance="?android:textAppearanceMedium"
-                    android:textColor="@android:color/black"
-                    tools:text="Desc" />
-
-                <ImageView
-                    android:id="@+id/imgGroup"
-                    android:layout_width="60dp"
-                    android:layout_height="60dp"
-                    android:scaleType="centerCrop"
-                    android:visibility="visible"
-                    android:src="@drawable/ic_placeholder" />
+            <ImageView
+                android:id="@+id/imgGroup"
+                android:layout_width="60dp"
+                android:layout_height="60dp"
+                android:scaleType="centerCrop"
+                android:src="@drawable/ic_placeholder"
+                android:visibility="visible" />
 
 
-            </RelativeLayout>
+        </RelativeLayout>
 
-        </LinearLayout>
-
+    </LinearLayout>
 
 
 </LinearLayout>

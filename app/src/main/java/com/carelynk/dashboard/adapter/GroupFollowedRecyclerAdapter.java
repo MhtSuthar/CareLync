@@ -2,16 +2,20 @@ package com.carelynk.dashboard.adapter;
 
 import android.content.Context;
 import android.support.v7.widget.RecyclerView;
+import android.text.TextUtils;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import com.bumptech.glide.Glide;
+import com.bumptech.glide.request.RequestOptions;
 import com.carelynk.R;
 import com.carelynk.dashboard.fragment.MyGroupFragment;
 import com.carelynk.dashboard.model.GroupModelGson;
 import com.carelynk.utilz.AppUtils;
+import com.carelynk.utilz.CircleTransform;
 
 import java.util.List;
 
@@ -20,7 +24,7 @@ import java.util.List;
  */
 public class GroupFollowedRecyclerAdapter extends RecyclerView.Adapter<GroupFollowedRecyclerAdapter.ViewHolder> {
 
-    private List<GroupModelGson.Result> mListGroup;
+    private List<GroupModelGson.FollowedGroupDet> mListGroup;
     private Context mContext;
     private MyGroupFragment myGroupFragment;
 
@@ -39,7 +43,7 @@ public class GroupFollowedRecyclerAdapter extends RecyclerView.Adapter<GroupFoll
         }
     }
 
-    public GroupFollowedRecyclerAdapter(Context context, List<GroupModelGson.Result> mListPatient, MyGroupFragment myGroupFragment) {
+    public GroupFollowedRecyclerAdapter(Context context, List<GroupModelGson.FollowedGroupDet> mListPatient, MyGroupFragment myGroupFragment) {
         this.mListGroup = mListPatient;
         mContext = context;
         this.myGroupFragment = myGroupFragment;
@@ -50,7 +54,7 @@ public class GroupFollowedRecyclerAdapter extends RecyclerView.Adapter<GroupFoll
     public ViewHolder onCreateViewHolder(ViewGroup parent,
                                                                 int viewType) {
         View v = LayoutInflater.from(parent.getContext())
-                .inflate(R.layout.list_item_follow, parent, false);
+                .inflate(R.layout.list_item_group_follow, parent, false);
         ViewHolder vh = new ViewHolder(v);
         return vh;
     }
@@ -67,16 +71,15 @@ public class GroupFollowedRecyclerAdapter extends RecyclerView.Adapter<GroupFoll
 
         holder.txtGroupName.setText(mListGroup.get(position).getGroupName());
         //holder.tx.setText(mListGroup.get(position).getDescription());
-        holder.txtCreatedName.setText("Created on "+ AppUtils.formattedDate("dd/MM/yyyy", "dd-MMM-yyyy", mListGroup.get(position).getCreatedDate()));
+        holder.txtCreatedName.setText("Created on "+ AppUtils.formattedDate("MM/dd/yyyy", "dd-MMM-yyyy", mListGroup.get(position).getCreatedDate()));
 
 
-        /*if(feedModel.PhotoURL != null && !feedModel.PhotoURL.equals("") && !feedModel.PhotoURL.equals("null")) {
+        if(!TextUtils.isEmpty(mListGroup.get(position).getPhotoURL())) {
             holder.imgGroup.setVisibility(View.VISIBLE);
-            Log.e("Image", "onBindVieold http://www.demo.carelynk.com/Content"+feedModel.PhotoURL.
-                    split("Content")[1]);
-            Glide.with(mContext).load("http://www.demo.carelynk.com/Content"+feedModel.PhotoURL.split("Content")[1]).into(holder.imgGroup);
+            Glide.with(mContext).load(AppUtils.getImagePath(mListGroup.get(position).getPhotoURL())).apply(RequestOptions.circleCropTransform()).into(holder.imgGroup);
         }else
-            holder.imgGroup.setVisibility(View.GONE);*/
+            Glide.with(mContext).load(R.drawable.ic_launcher_black).apply(RequestOptions.circleCropTransform()).into(holder.imgGroup);
+
     }
 
     @Override

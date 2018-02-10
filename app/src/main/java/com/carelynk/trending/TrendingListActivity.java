@@ -4,12 +4,12 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.design.widget.FloatingActionButton;
-import android.support.v4.app.DialogFragment;
 import android.support.v4.content.ContextCompat;
 import android.support.v7.widget.DefaultItemAnimator;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
+import android.util.Log;
 import android.view.Gravity;
 import android.view.View;
 import android.widget.ProgressBar;
@@ -17,13 +17,21 @@ import android.widget.TextView;
 
 import com.carelynk.R;
 import com.carelynk.base.BaseActivity;
+import com.carelynk.dashboard.FeedDetailActivity;
 import com.carelynk.event.EventCreateActivity;
-import com.carelynk.event.adapter.EventListAdapter;
-import com.carelynk.event.fragment.EventDetailDialogFragment;
+import com.carelynk.rest.ApiFactory;
+import com.carelynk.rest.AsyncTaskGetCommon;
+import com.carelynk.rest.Urls;
+import com.carelynk.storage.SharedPreferenceUtil;
 import com.carelynk.trending.adapter.TrendingListAdapter;
+import com.carelynk.utilz.AppUtils;
 import com.carelynk.utilz.Constants;
 
+import org.json.JSONArray;
+import org.json.JSONObject;
+
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 
 /**
@@ -38,6 +46,7 @@ public class TrendingListActivity extends BaseActivity {
     private TextView txtToolbar;
     private ProgressBar progressBar;
     private TrendingListAdapter trendingListAdapter;
+    private static final String TAG = "TrendingListActivity";
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -47,7 +56,7 @@ public class TrendingListActivity extends BaseActivity {
         setupWindowAnimationsExplodeSlide(Gravity.BOTTOM);
 
         initView();
-        setRecyclerAdapter();
+        getHealthFeedDetail();
     }
 
     private void initView() {
@@ -69,9 +78,9 @@ public class TrendingListActivity extends BaseActivity {
         mFloatingActionButton.setVisibility(View.GONE);
     }
 
-    private void setRecyclerAdapter() {
+    private void setRecyclerAdapter(List<HashMap<String, String>> mList) {
         progressBar.setVisibility(View.GONE);
-        trendingListAdapter = new TrendingListAdapter(this, getDummyList(), TrendingListActivity.this);
+        trendingListAdapter = new TrendingListAdapter(this, mList, TrendingListActivity.this);
         mRecyclerView.setHasFixedSize(true);
         LinearLayoutManager mLayoutManager = new LinearLayoutManager(this);
         mRecyclerView.setLayoutManager(mLayoutManager);
@@ -79,48 +88,46 @@ public class TrendingListActivity extends BaseActivity {
         mRecyclerView.setAdapter(trendingListAdapter);
     }
 
-    private List<String> getDummyList() {
-        List<String> list = new ArrayList<>();
-        list.add("");
-        list.add("");
-        list.add("");
-        list.add("");
-        list.add("");
-        return list;
-    }
-
     void getHealthFeedDetail() {
         if (isOnline(this)) {
-
+            AsyncTaskGetCommon asyncTaskGetCommon = new AsyncTaskGetCommon(this, new AsyncTaskGetCommon.AsyncTaskCompleteListener() {
+                @Override
+                public void onTaskComplete(String result) {
+                    Log.e(TAG, "getFollowList: "+result);
+                    progressBar.setVisibility(View.GONE);
+                    try {
+                        JSONObject jsonObject = new JSONObject(result);
+                        JSONArray object = jsonObject.getJSONArray("result");
+                        List<HashMap<String, String>> mList = new ArrayList<>();
+                        for (int i = 0; i < object.length(); i++) {
+                            HashMap<String, String> hashMap = new HashMap<>();
+                            JSONObject jsonObj = object.getJSONObject(i);
+                            hashMap.put("GoalId", jsonObj.getString("GoalId"));
+                            hashMap.put("GoalName", jsonObj.getString("GoalName"));
+                            mList.add(hashMap);
+                        }
+                        if (mList.size() > 0) {
+                            setRecyclerAdapter(mList);
+                        }else{
+                            showSnackbar(mRecyclerView, "No Trending Data Available");
+                        }
+                    }catch (Exception e){
+                        e.printStackTrace();
+                    }
+                }
+            });
+            asyncTaskGetCommon.execute(ApiFactory.API_BASE_URL+""+ Urls.URL_TRENDING);
         } else {
             progressBar.setVisibility(View.GONE);
-           // showSnackbar(binding.getRoot(), getString(R.string.no_internet));
+            showSnackbar(mRecyclerView, getString(R.string.no_internet));
         }
     }
 
-    public void onEditClick(int position) {
-        Intent intent = new Intent(TrendingListActivity.this, EventCreateActivity.class);
-        intent.putExtra(Constants.EXTRA_IS_FOR_EDIT_EVENT, true);
-        moveActivity(intent, TrendingListActivity.this);
-    }
 
-    public void onDeleteClick(int position) {
-        showAlertDialog(new OnDialogClick() {
-            @Override
-            public void onPositiveBtnClick() {
 
-            }
-
-            @Override
-            public void onNegativeBtnClick() {
-
-            }
-        }, getString(R.string.delete), getString(R.string.are_you_sure_delete), true);
-    }
-
-    public void onClickDetail(int position) {
-        /*DialogFragment newFragment = new EventDetailDialogFragment();
-        //newFragment.setTargetFragment(this, Constants.REQUEST_CODE_SEND_FRIEND);
-        newFragment.show(getSupportFragmentManager().beginTransaction(), "dialog");*/
+    public void onClickDetail(String goalId) {
+        Intent intent = new Intent(this, FeedDetailActivity.class);
+        intent.putExtra(AppUtils.Extra_Goal_Id, ""+goalId);
+        startActivity(intent);
     }
 }

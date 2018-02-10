@@ -55,6 +55,10 @@ public class SplashActivity extends BaseActivity {
         new Handler().postDelayed(new Runnable() {
             @Override
             public void run() {
+                //SharedPreferenceUtil.putValue(PrefUtils.PREF_IS_LOGIN, true);
+                //SharedPreferenceUtil.putValue(PrefUtils.PREF_USER_ID, "e0210b09-03ff-45a6-b07b-1af532b22bdf");
+                //SharedPreferenceUtil.save();
+
                 Intent intent;
                 if(SharedPreferenceUtil.getBoolean(PrefUtils.PREF_IS_LOGIN, false))
                     intent = new Intent(SplashActivity.this, HomeActivity.class);

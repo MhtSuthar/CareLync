@@ -1,24 +1,40 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:orientation="vertical" android:layout_width="match_parent"
-    android:padding="@dimen/activity_horizontal_margin"
+    android:layout_marginTop="10dp"
+    android:layout_marginLeft="10dp"
+    android:layout_marginRight="10dp"
     android:background="@android:color/white"
     android:layout_height="wrap_content">
 
-    <TextView
+    <com.carelynk.utilz.fonts.TimeNewRomanTextView
         android:id="@+id/txtDesc"
         android:layout_width="match_parent"
+        android:paddingTop="10dp"
+        android:paddingLeft="10dp"
+        android:paddingRight="10dp"
         android:text="What an amazing topic i need to read it every time."
         android:textAppearance="?android:textAppearanceMedium"
         android:textColor="@android:color/black"
         android:layout_height="wrap_content" />
 
-    <TextView
+    <com.carelynk.utilz.fonts.TimeNewRomanTextView
         android:id="@+id/txtName"
         android:layout_width="match_parent"
         android:text="Hek"
+        android:paddingLeft="10dp"
+        android:paddingBottom="10dp"
+        android:gravity="left"
         android:textAppearance="?android:textAppearanceSmall"
         android:textColor="@color/colorAccent"
         android:layout_height="wrap_content" />
+
+    <ImageView
+        android:id="@+id/img_comment"
+        android:visibility="gone"
+        android:layout_width="match_parent"
+        android:layout_height="180dp"
+        android:src="@drawable/ic_placeholder"
+        />
 
 </LinearLayout>

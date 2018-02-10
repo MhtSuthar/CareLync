@@ -12,11 +12,9 @@ import com.carelynk.base.BaseActivityWithSidebar;
 import com.carelynk.databinding.ActivityHomeBinding;
 import com.carelynk.event.EventListActivity;
 import com.carelynk.profile.MyProfileActivity;
-import com.carelynk.search.MySearchActivity;
-import com.carelynk.storage.SharedPreferenceUtil;
+import com.carelynk.search.DiscoverActivity;
 import com.carelynk.utilz.AnimationUtils;
 import com.carelynk.utilz.Constants;
-import com.carelynk.utilz.PrefUtils;
 
 /**
  * Created by Admin on 15-Sep-16.
@@ -82,7 +80,7 @@ public class MenuActivity extends BaseActivityWithSidebar {
         binding.viewMySearch.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                moveActivity(new Intent(MenuActivity.this, MySearchActivity.class), MenuActivity.this);
+                moveActivity(new Intent(MenuActivity.this, DiscoverActivity.class), MenuActivity.this);
             }
         });
     }

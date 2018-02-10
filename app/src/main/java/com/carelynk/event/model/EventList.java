@@ -20,7 +20,7 @@ public class EventList {
         this.result = result;
     }
 
-    public class Result implements Serializable {
+    public static class Result implements Serializable {
 
         @SerializedName("Event_ID")
         @Expose

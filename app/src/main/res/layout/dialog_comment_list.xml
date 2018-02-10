@@ -8,8 +8,8 @@
 
     <RelativeLayout
         android:layout_width="match_parent"
-        android:background="@android:color/white"
-        android:layout_height="match_parent">
+        android:layout_height="match_parent"
+        android:background="@color/color_app_bg">
 
         <include
             android:id="@+id/includeToolbar"
@@ -23,17 +23,92 @@
             android:layout_below="@+id/includeToolbar"
             android:layout_centerHorizontal="true"
             android:layout_gravity="center"
-            android:layout_marginTop="10dp"
-            />
+            android:layout_marginTop="10dp" />
 
         <android.support.v7.widget.RecyclerView
             android:id="@+id/recyclerView"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:layout_below="@+id/includeToolbar"
-            android:paddingBottom="50dp"
+            android:layout_above="@+id/rel_bottom"
             android:clipToPadding="false"
+            android:paddingBottom="50dp"
             app:layout_behavior="@string/appbar_scrolling_view_behavior" />
 
+        <RelativeLayout
+            android:id="@+id/relImage"
+            android:layout_width="match_parent"
+            android:layout_height="200dp"
+            android:layout_above="@+id/rel_bottom"
+            android:visibility="gone">
+
+            <ImageView
+                android:id="@+id/imgSelect"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:src="@drawable/ic_placeholder" />
+
+            <ImageView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentRight="true"
+                android:onClick="onClickClose"
+                android:padding="10dp"
+                android:src="@drawable/ic_cancel_grey" />
+        </RelativeLayout>
+
+        <RelativeLayout
+            android:id="@+id/rel_bottom"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_alignParentBottom="true"
+            android:background="@android:color/white"
+            android:padding="10dp">
+
+            <EditText
+                android:id="@+id/edtMessage"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_centerVertical="true"
+                android:layout_toLeftOf="@+id/progressBarChat"
+                android:background="@android:color/transparent"
+                android:cursorVisible="true"
+                android:hint="Comments here"
+                android:maxLines="3"
+                android:padding="10dp"
+                android:textAppearance="?android:textAppearanceMedium" />
+
+            <ProgressBar
+                android:id="@+id/progressBarChat"
+                style="?android:attr/progressBarStyleLarge"
+                android:layout_width="30dp"
+                android:layout_height="30dp"
+                android:layout_centerVertical="true"
+                android:layout_marginTop="@dimen/activity_horizontal_margin"
+                android:layout_toLeftOf="@+id/imgGallary"
+                android:visibility="gone" />
+
+            <ImageView
+                android:id="@+id/imgGallary"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_centerVertical="true"
+                android:layout_marginRight="5dp"
+                android:layout_toLeftOf="@+id/img_send"
+                android:onClick="onClickPic"
+                android:padding="5dp"
+                android:src="@drawable/ic_camera_blue" />
+
+            <ImageView
+                android:id="@+id/img_send"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentRight="true"
+                android:layout_centerVertical="true"
+                android:onClick="onClickSend"
+                android:padding="5dp"
+                android:src="@drawable/ic_send" />
+
+        </RelativeLayout>
     </RelativeLayout>
 </layout>

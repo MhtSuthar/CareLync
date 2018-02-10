@@ -6,7 +6,6 @@ package com.carelynk.utilz;
 public class Constants {
 
     public static final String IS_LOGIN = "is_login";
-    public static final String USER_ID = "user_id";
     public static final String USER_NAME = "user_name";
     public static final String PROFILE_PIC = "profile_pic";
     public static final String ROLE_USER = "role";
@@ -50,4 +49,23 @@ public class Constants {
     public static final int REQUEST_CODE_ADD_EVENT = 107;
     public static final String EXTRA_EVENT = "events";
     public static final int REQUEST_GROUP_DETAIL = 108;
+    public static final String EXTRA_USERID = "user_id";
+    public static final int REQUEST_CODE_CHANGE_FEED = 1003;
+    public static final String EXTRA_GROUP_ID = "group_id";
+    public static final String EXTRA_EVENT_ID = "event_id";
+    public static final int REQUEST_CODE_INVITE = 109;
+    public static final int REQUEST_PERMISSION_READ_CONTACT = 111;
+    public static final int REQUEST_OPEN_VIDEO = 115;
+    public static final String EXTRA_USER_IMAGE = "image";
+    public static final String EXTRA_USER_NAME = "name";
+    public static final java.lang.String EXTRA_GROUP_UPDATE_ID = "group_update_id";
+    public static final java.lang.String EXTRA_GOAL_ID = "goal_id";
+    public static final int REQUEST_CODE_UPDATE_GOAL = 155;
+    public static final String EXTRA_DESCRIPTION = "description";
+    public static final String EXTRA_TITLE = "title";
+    public static final java.lang.String EXTRA_IMAGE = "image";
+    public static final String EXTRA_VIDEO_PATH = "video";
+    public static String Name = "name";
+    public static String Mobile = "mobile";
+    public static String ContactId = "contact_id";
 }

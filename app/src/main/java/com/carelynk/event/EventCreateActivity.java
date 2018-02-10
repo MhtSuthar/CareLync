@@ -18,17 +18,20 @@ import android.view.View;
 import android.widget.ImageView;
 
 import com.bumptech.glide.Glide;
+import com.bumptech.glide.request.RequestOptions;
 import com.carelynk.R;
 import com.carelynk.base.BaseActivity;
 import com.carelynk.dashboard.GroupCreateActivity;
 import com.carelynk.databinding.ActivityEventCreateBinding;
 import com.carelynk.event.model.EventList;
+import com.carelynk.invite.InviteActivity;
 import com.carelynk.rest.ApiFactory;
 import com.carelynk.rest.ApiInterface;
 import com.carelynk.rest.AsyncTaskPostCommon;
 import com.carelynk.rest.Urls;
 import com.carelynk.storage.SharedPreferenceUtil;
 import com.carelynk.utilz.AppUtils;
+import com.carelynk.utilz.CircleTransform;
 import com.carelynk.utilz.Constants;
 import com.carelynk.utilz.DatePickerDialogFragment;
 import com.carelynk.utilz.DialogUtils;
@@ -47,6 +50,9 @@ import java.io.IOException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 
+import okhttp3.MediaType;
+import okhttp3.MultipartBody;
+import okhttp3.RequestBody;
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
@@ -99,18 +105,24 @@ public class EventCreateActivity extends BaseActivity {
         if(getIntent().hasExtra(Constants.EXTRA_IS_FOR_EDIT_EVENT)){
             mIsFromEdit = getIntent().getExtras().getBoolean(Constants.EXTRA_IS_FOR_EDIT_EVENT);
             binding.txtToolbar.setText(getString(R.string.edit_event));
+            binding.txtCreate.setText("Update");
             mEventData = (EventList.Result) getIntent().getSerializableExtra(Constants.EXTRA_EVENT);
             binding.edtEventAddress.setText(mEventData.getAddress());
             binding.edtDesc.setText(mEventData.getEventDesc());
             binding.edtEventName.setText(mEventData.getEventName());
 
             binding.edtTimeTo.setText(mEventData.getEventTimeTo());
-            binding.edtDateTo.setText(AppUtils.formattedDate("dd/MM/yyyy", "dd MMMM yyyy", mEventData.getEventDateTo()));
-            binding.edtEventDate.setText(AppUtils.formattedDate("dd/MM/yyyy", "dd MMMM yyyy", mEventData.getEventDateFrom()));
+            binding.edtDateTo.setText(AppUtils.formattedDate("dd MMM yyyy", "dd MMMM yyyy", mEventData.getEventDateTo()));
+            binding.edtEventDate.setText(AppUtils.formattedDate("dd MMM yyyy", "dd MMMM yyyy", mEventData.getEventDateFrom()));
             binding.edtEventTime.setText(mEventData.getEventTimeFrom());
             binding.checkPrivate.setChecked(mEventData.getIsPrivate().equalsIgnoreCase("true") ? true : false);
+            Glide.with(this).load(AppUtils.getImagePath(mEventData.getPhotoURL())).apply(RequestOptions.circleCropTransform()).into(binding.imgPreview);
+            if(!TextUtils.isEmpty(mEventData.getPhotoURL())){
+                binding.imgSelect.setVisibility(View.GONE);
+                binding.imgPreview.setVisibility(View.VISIBLE);
+            }
         }
-        binding.toolbar.setNavigationIcon(R.drawable.ic_cancel_grey);
+        binding.toolbar.setNavigationIcon(R.drawable.ic_close);
         binding.toolbar.setNavigationOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -195,6 +207,30 @@ public class EventCreateActivity extends BaseActivity {
 
     public void attemptInsertEvent(View view) {
         DialogUtils.showProgressDialog(this);
+
+        MultipartBody.Part bodyImage = null;
+        RequestBody PhotoUrl = null;
+        if(!TextUtils.isEmpty(imagePath)) {
+            File imageProfileFile = new File(imagePath);
+            RequestBody requestFile = RequestBody.create(MediaType.parse("image/*"), imageProfileFile);
+            bodyImage = MultipartBody.Part.createFormData("fileUpload", imageProfileFile.getName(), requestFile);
+        }
+
+        if(mIsFromEdit)
+            PhotoUrl = RequestBody.create(MediaType.parse("text/plain"), mEventData.getPhotoURL());
+
+        RequestBody User_ID = RequestBody.create(MediaType.parse("text/plain"), SharedPreferenceUtil.getString(PrefUtils.PREF_USER_ID, ""));
+        RequestBody Event_ID = RequestBody.create(MediaType.parse("text/plain"), mIsFromEdit ? mEventData.getEventID() : "0");
+        RequestBody EventDesc = RequestBody.create(MediaType.parse("text/plain"), binding.edtDesc.getText().toString());
+        RequestBody IsPrivate = RequestBody.create(MediaType.parse("text/plain"), binding.checkPrivate.isChecked() ? "true" : "false");
+        RequestBody EventName = RequestBody.create(MediaType.parse("text/plain"),  binding.edtEventName.getText().toString());
+        RequestBody EventDateFrom = RequestBody.create(MediaType.parse("text/plain"), getDateFrom());
+        RequestBody EventDateTo = RequestBody.create(MediaType.parse("text/plain"), getDateTo());
+        RequestBody EventTimeTo = RequestBody.create(MediaType.parse("text/plain"), getDateTo());
+        RequestBody Location = RequestBody.create(MediaType.parse("text/plain"), binding.edtEventAddress.getText().toString());
+        RequestBody EventTimeFrom = RequestBody.create(MediaType.parse("text/plain"), getDateFrom());
+
+
         ApiInterface apiInterface = ApiFactory.provideInterface();
         Call<JsonObject> call;
         JsonObject payerReg = new JsonObject();
@@ -212,9 +248,12 @@ public class EventCreateActivity extends BaseActivity {
 
         Log.e(TAG, "create: " + payerReg.toString());
         if(mIsFromEdit) {
-            call = apiInterface.updateEvent(payerReg);
+            call = apiInterface.updateEventPhoto(Event_ID, EventDesc, IsPrivate, EventName, EventDateFrom, EventDateTo, EventTimeTo,
+                    Location, EventTimeFrom, PhotoUrl, bodyImage);
         }else{
-            call = apiInterface.createEvent(payerReg);
+            //call = apiInterface.createEvent(payerReg);
+            call = apiInterface.createEventPhoto(Event_ID, EventDesc, User_ID, IsPrivate, EventName, EventDateFrom, EventDateTo, EventTimeTo,
+                    Location, EventTimeFrom, bodyImage);
         }
         call.enqueue(new Callback<JsonObject>() {
                 @Override
@@ -224,14 +263,36 @@ public class EventCreateActivity extends BaseActivity {
                         try {
                             Log.e(TAG, "onResponse: " + response.body().toString());
                             JSONObject jsonObject = new JSONObject(response.body().toString());
-                            JSONObject object = jsonObject.getJSONObject("result");
-                            if (object.getBoolean("IsSuccess")) {
-                                AppUtils.closeKeyBoard(EventCreateActivity.this);
-                                showSnackbar(binding.getRoot(), "Event Done Successfully");
-                                setResult(RESULT_OK);
-                                finish();
-                            } else {
-                                showSnackbar(binding.getRoot(), jsonObject.getString("ErrorMessage"));
+                            if(mIsFromEdit){
+                                if (jsonObject.getBoolean("IsSuccess")) {
+                                    AppUtils.closeKeyBoard(EventCreateActivity.this);
+                                    showSnackbar(binding.getRoot(), "Event Done Successfully");
+                                    if(binding.checkPrivate.isChecked()) {
+                                        Intent intent = new Intent(EventCreateActivity.this, InviteActivity.class);
+                                        intent.putExtra(Constants.EXTRA_EVENT_ID, "" + jsonObject.getInt("EventID"));
+                                        startActivityForResult(intent, Constants.REQUEST_CODE_INVITE);
+                                    }else {
+                                        setResult(RESULT_OK);
+                                        finish();
+                                    }
+                                } else {
+                                    showSnackbar(binding.getRoot(), jsonObject.getString("ErrorMessage"));
+                                }
+                            }else{
+                                if (jsonObject.getJSONObject("result").getBoolean("IsSuccess")) {
+                                    AppUtils.closeKeyBoard(EventCreateActivity.this);
+                                    showSnackbar(binding.getRoot(), "Event Done Successfully");
+                                    if(binding.checkPrivate.isChecked()) {
+                                        Intent intent = new Intent(EventCreateActivity.this, InviteActivity.class);
+                                        intent.putExtra(Constants.EXTRA_EVENT_ID, "" + jsonObject.getJSONObject("result").getInt("EventID"));
+                                        startActivityForResult(intent, Constants.REQUEST_CODE_INVITE);
+                                    }else {
+                                        setResult(RESULT_OK);
+                                        finish();
+                                    }
+                                } else {
+                                    showSnackbar(binding.getRoot(), jsonObject.getString("ErrorMessage"));
+                                }
                             }
                         } catch (Exception e) {
                             e.printStackTrace();
@@ -249,7 +310,7 @@ public class EventCreateActivity extends BaseActivity {
 
     private String getDateFrom() {
         String date = AppUtils.formattedDate("dd MMM yyyy", "MM-dd-yyyy", binding.edtEventDate.getText().toString());
-        String time = binding.edtEventTime.getText().toString()+":00";
+        String time = binding.edtEventTime.getText().toString()+"";
         return date+" "+time;
     }
 
@@ -257,7 +318,7 @@ public class EventCreateActivity extends BaseActivity {
         String date = "", time="";
         if(!TextUtils.isEmpty(binding.edtDateTo.getText().toString())) {
             date = AppUtils.formattedDate("dd MMM yyyy", "MM-dd-yyyy", binding.edtDateTo.getText().toString());
-            time = binding.edtTimeTo.getText().toString() + ":00";
+            time = binding.edtTimeTo.getText().toString() + "";
         }
         return date+" "+time;
     }
@@ -417,6 +478,9 @@ public class EventCreateActivity extends BaseActivity {
                 mCameraIntentHelper.onActivityResult(requestCode, resultCode, data);
             } else if (requestCode == Constants.REQUEST_OPEN_GALLERY) {
                 getGalleryImageUri(data);
+            }else if (requestCode == Constants.REQUEST_CODE_INVITE) {
+                 setResult(RESULT_OK);
+                 finish();
             }
         }
     }
@@ -445,7 +509,7 @@ public class EventCreateActivity extends BaseActivity {
     private void displayImage(Uri photoUri) {
         binding.imgSelect.setVisibility(View.GONE);
         binding.imgPreview.setVisibility(View.VISIBLE);
-        Glide.with(this).load(photoUri).into(binding.imgPreview);
+        Glide.with(this).load(photoUri).apply(RequestOptions.circleCropTransform()).into(binding.imgPreview);
     }
 
 

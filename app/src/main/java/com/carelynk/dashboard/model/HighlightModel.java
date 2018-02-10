@@ -1,5 +1,7 @@
 package com.carelynk.dashboard.model;
 
+import org.json.JSONArray;
+
 import java.io.Serializable;
 
 /**
@@ -19,4 +21,8 @@ public class HighlightModel implements Serializable{
     public String PostType;
     public int SupportCount;
     public int AnswerCount;
+    public String ProfilePicUrl;
+    public String Expertise;
+    public String VideoUrl;
+    public JSONArray PepPleMayKnow;
 }

@@ -4,10 +4,11 @@
 
 
     <item
-        android:id="@+id/menu_categoty"
-        android:title="@string/category"
-        android:icon="@drawable/ic_category"
+        android:id="@+id/menu_search"
+        android:title="@string/search"
+        android:icon="@drawable/ic_search"
         android:visible="true"
+        app:actionViewClass="android.support.v7.widget.SearchView"
         app:showAsAction="ifRoom" />
 
 </menu>

@@ -22,8 +22,10 @@ import com.carelynk.utilz.Constants;
 import com.carelynk.utilz.DialogUtils;
 import com.google.gson.JsonObject;
 
+import org.json.JSONArray;
 import org.json.JSONObject;
 
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.HashMap;
 import java.util.List;
@@ -39,8 +41,11 @@ import retrofit2.Response;
 public class InterestedFragment extends BaseFragment {
 
     FragmentInterestedBinding binding;
+    private String IdInterest = "id";
+    private String InterestArea = "interest_area";
     private InterestRecyclerAdapter interestRecyclerAdapter;
     private static final String TAG = "InterestedFragment";
+    private List<HashMap<String, String>> mListInterest = new ArrayList<>();
 
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
@@ -51,8 +56,10 @@ public class InterestedFragment extends BaseFragment {
     @Override
     public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
-        setAdapter();
 
+        if(isOnline(getContext())){
+            getIntrest();
+        }
         binding.btnSubmit.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -63,11 +70,46 @@ public class InterestedFragment extends BaseFragment {
         });
     }
 
+    private void getIntrest() {
+        showProgressDialog();
+        ApiInterface apiInterface = ApiFactory.provideInterface();
+        Call<JsonObject> call = apiInterface.getAreaOfIntrest();
+        call.enqueue(new Callback<JsonObject>() {
+            @Override
+            public void onResponse(Call<JsonObject>call, Response<JsonObject> response) {
+                if (response.isSuccessful()) {
+                    try{
+                        stopProgressDialog();
+                        Log.e(TAG, "onResponse: "+response.body().toString());
+                        JSONObject jsonObject = new JSONObject(response.body().toString());
+                        JSONObject object = jsonObject.getJSONObject("result");
+                        JSONArray jsonArray = object.getJSONArray("Table");
+                        for (int i = 0; i < jsonArray.length(); i++) {
+                            JSONObject objects = jsonArray.getJSONObject(i);
+                            HashMap<String, String> map = new HashMap<String, String>();
+                            map.put(IdInterest, ""+objects.getInt("id"));
+                            map.put(InterestArea, ""+objects.getString("InterestOfArea"));
+                            mListInterest.add(map);
+                        }
+                        setAdapter();
+                    }catch (Exception e){
+                        e.printStackTrace();
+                    }
+                }
+            }
+
+            @Override
+            public void onFailure(Call<JsonObject>call, Throwable t) {
+                Log.e(TAG, t.toString());
+            }
+        });
+    }
+
     void setAdapter() {
-        List<String> list = Arrays.asList(getResources().getStringArray(R.array.interest_area));
+        //List<String> list = Arrays.asList(getResources().getStringArray(R.array.interest_area));
         GridLayoutManager gridLayoutManager = new GridLayoutManager(getContext(), 2);
         binding.recyclerView.setLayoutManager(gridLayoutManager);
-        interestRecyclerAdapter = new InterestRecyclerAdapter(getContext(), list);
+        interestRecyclerAdapter = new InterestRecyclerAdapter(getContext(), mListInterest);
         binding.recyclerView.setAdapter(interestRecyclerAdapter);
     }
 
@@ -75,10 +117,10 @@ public class InterestedFragment extends BaseFragment {
         if (!isOnline(getContext())) {
             showSnackbar(binding.getRoot(), getString(R.string.no_internet));
             return false;
-        } else if (TextUtils.isEmpty(binding.edtAbout.getText().toString())) {
+        }/* else if (TextUtils.isEmpty(binding.edtAbout.getText().toString())) {
             showSnackbar(binding.getRoot(), getString(R.string.enter_about_me));
             return false;
-        } else if (interestRecyclerAdapter != null && !interestRecyclerAdapter.isSelectedInterest()) {
+        }*/ else if (interestRecyclerAdapter != null && !interestRecyclerAdapter.isSelectedInterest()) {
             showSnackbar(binding.getRoot(), getString(R.string.select_interest));
             return false;
         }
@@ -91,6 +133,7 @@ public class InterestedFragment extends BaseFragment {
         RegisterStepTwo  registerStepTwo = new RegisterStepTwo(binding.edtAbout.getText().toString(),
                 getArguments().getString(Constants.BUNDLE_USER_ID, ""),
                 interestRecyclerAdapter.getInterestArea());
+        Log.e(TAG, "attemptRegistration: "+interestRecyclerAdapter.getInterestArea()+"   \n us  "+getArguments().getString(Constants.BUNDLE_USER_ID, ""));
 //        HashMap<String, String> map = new HashMap<>();
 //        map.put("AboutMeText", ""+binding.edtAbout.getText().toString());
 //        map.put("InterestArea", interestRecyclerAdapter.getInterestArea());

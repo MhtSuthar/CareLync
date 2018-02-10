@@ -8,6 +8,7 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.bumptech.glide.Glide;
+import com.bumptech.glide.request.RequestOptions;
 import com.carelynk.R;
 import com.carelynk.utilz.CircleTransform;
 
@@ -20,7 +21,7 @@ public class CustomBinding {
 
     @BindingAdapter({"imageUrl"})
     public static void setImage(ImageView imageView, Drawable url){
-        Glide.with(imageView.getContext()).load(R.drawable.dummy_img).transform(new CircleTransform(imageView.getContext())).into(imageView);
+        Glide.with(imageView.getContext()).load(R.drawable.ic_default_avatar).apply(RequestOptions.circleCropTransform()).into(imageView);
     }
 
     @BindingAdapter({"imageResource"})

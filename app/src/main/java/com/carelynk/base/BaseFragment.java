@@ -2,10 +2,12 @@ package com.carelynk.base;
 
 import android.app.Activity;
 import android.app.ActivityOptions;
+import android.app.Dialog;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.pm.PackageManager;
+import android.graphics.drawable.ColorDrawable;
 import android.net.ConnectivityManager;
 import android.net.Network;
 import android.net.NetworkInfo;
@@ -17,6 +19,7 @@ import android.support.v4.app.FragmentTransaction;
 import android.support.v4.content.ContextCompat;
 import android.support.v7.app.AlertDialog;
 import android.view.View;
+import android.view.Window;
 
 import com.carelynk.R;
 
@@ -24,6 +27,8 @@ import com.carelynk.R;
  * Created by Admin on 12-Sep-16.
  */
 public abstract class BaseFragment extends Fragment {
+
+    private Dialog dialog;
 
     protected void moveActivity(Intent intent, Activity context, boolean isFinish){
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
@@ -122,6 +127,26 @@ public abstract class BaseFragment extends Fragment {
         return false;
     }
 
+    protected void showProgressDialog() {
+        if (dialog != null) {
+            if (dialog.isShowing())
+                dialog.dismiss();
+            dialog = null;
+        }
+        dialog = new Dialog(getActivity());
+        dialog.requestWindowFeature(Window.FEATURE_NO_TITLE);
+        dialog.setCancelable(true);
+        dialog.getWindow().setBackgroundDrawable(new ColorDrawable(android.graphics.Color.TRANSPARENT));
+        dialog.setContentView(R.layout.dialog_loader);
+        dialog.show();
+    }
 
+    protected void stopProgressDialog() {
+        if (dialog != null) {
+            if (dialog.isShowing())
+                dialog.dismiss();
+            dialog = null;
+        }
+    }
 
 }

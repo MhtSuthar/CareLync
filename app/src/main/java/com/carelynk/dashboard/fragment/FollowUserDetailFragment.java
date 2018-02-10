@@ -15,6 +15,7 @@ import android.view.Window;
 import android.view.WindowManager;
 
 import com.bumptech.glide.Glide;
+import com.bumptech.glide.request.RequestOptions;
 import com.carelynk.R;
 import com.carelynk.dashboard.adapter.CommentRecyclerAdapter;
 import com.carelynk.databinding.DialogCommentListBinding;
@@ -45,7 +46,7 @@ public class FollowUserDetailFragment extends DialogFragment {
 
         initToolbar();
 
-        Glide.with(this).load(R.drawable.dummy_img).transform(new CircleTransform(getContext())).into(binding.imgUser);
+        Glide.with(this).load(R.drawable.ic_default_avatar).apply(RequestOptions.circleCropTransform()).into(binding.imgUser);
     }
 
     private void initToolbar() {

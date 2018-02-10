@@ -1,0 +1,53 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="wrap_content"
+    android:layout_marginRight="@dimen/common_margin"
+    android:layout_height="wrap_content">
+
+    <LinearLayout
+        android:id="@+id/linUserOne"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:gravity="center"
+        android:padding="@dimen/common_margin"
+        android:background="@drawable/round_corner_grey"
+        android:orientation="horizontal"
+        >
+
+        <ImageView
+            android:id="@+id/imgUser"
+            android:layout_width="60dp"
+            android:layout_height="60dp"
+            android:src="@drawable/ic_user_dummy" />
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:padding="10dp"
+            android:gravity="center"
+            android:orientation="vertical">
+
+            <com.carelynk.utilz.fonts.TimeNewRomanTextView
+                android:id="@+id/txtName"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="Health"
+                android:textColor="@color/colorPrimary"
+                android:textAppearance="?android:textAppearanceMedium" />
+
+            <com.carelynk.utilz.fonts.TimeNewRomanTextView
+                android:id="@+id/txtNameExpertise"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:maxWidth="180dp"
+                android:textColor="@color/color_text_dark"
+                android:text="Expertiseds"
+                android:maxLines="2"
+                android:ellipsize="end"
+                android:textAppearance="?android:textAppearanceSmall" />
+
+        </LinearLayout>
+
+    </LinearLayout>
+
+</RelativeLayout>

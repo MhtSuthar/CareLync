@@ -12,6 +12,7 @@ import android.widget.TextView;
 
 import com.carelynk.R;
 
+import java.util.HashMap;
 import java.util.List;
 
 /**
@@ -19,7 +20,7 @@ import java.util.List;
  */
 public class InterestRecyclerAdapter extends RecyclerView.Adapter<InterestRecyclerAdapter.ViewHolder> {
 
-    private List<String> mListPatient;
+    private List<HashMap<String, String>> mListPatient;
     private Context mContext;
     private boolean[] mSelectInterest;
 
@@ -41,9 +42,9 @@ public class InterestRecyclerAdapter extends RecyclerView.Adapter<InterestRecycl
         for (int i = 0; i < mSelectInterest.length; i++) {
             if(mSelectInterest[i]){
                 if(mInterest.equals("")){
-                    mInterest = mListPatient.get(i);
+                    mInterest = mListPatient.get(i).get("interest_area");
                 }else{
-                    mInterest = mInterest+","+mListPatient.get(i);
+                    mInterest = mInterest+","+mListPatient.get(i).get("interest_area");
                 }
             }
         }
@@ -60,7 +61,7 @@ public class InterestRecyclerAdapter extends RecyclerView.Adapter<InterestRecycl
         }
     }
 
-    public InterestRecyclerAdapter(Context context, List<String> mListPatient) {
+    public InterestRecyclerAdapter(Context context, List<HashMap<String, String>> mListPatient) {
         this.mListPatient = mListPatient;
         mContext = context;
         mSelectInterest = new boolean[mListPatient.size()];
@@ -78,7 +79,7 @@ public class InterestRecyclerAdapter extends RecyclerView.Adapter<InterestRecycl
 
     @Override
     public void onBindViewHolder(final ViewHolder holder, final int position) {
-        holder.txtInterest.setText(mListPatient.get(position));
+        holder.txtInterest.setText(mListPatient.get(position).get("interest_area"));
         holder.imgSelect.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {

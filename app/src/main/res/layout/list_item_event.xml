@@ -22,7 +22,7 @@
             android:padding="@dimen/activity_horizontal_margin"
             android:layout_height="wrap_content">
 
-            <TextView
+            <com.carelynk.utilz.fonts.TimeNewRomanBoldTextView
                 android:id="@+id/txtGroupName"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
@@ -33,7 +33,7 @@
                 android:textColor="@color/colorAccent"
                 tools:text="gdfgdfg" />
 
-            <TextView
+            <com.carelynk.utilz.fonts.TimeNewRomanTextView
                 android:id="@+id/txtCreatedName"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
@@ -45,7 +45,7 @@
                 android:textColor="@color/color_text_dark"
                 tools:text="gdfgdfg" />
 
-            <TextView
+            <com.carelynk.utilz.fonts.TimeNewRomanTextView
                 android:id="@+id/txtTime"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
@@ -61,11 +61,10 @@
                 android:id="@+id/imgGroup"
                 android:layout_width="60dp"
                 android:layout_height="60dp"
-                android:scaleType="centerCrop"
                 android:visibility="visible"
-                android:src="@drawable/ic_placeholder" />
+                />
 
-            <TextView
+            <com.carelynk.utilz.fonts.TimeNewRomanTextView
                 android:id="@+id/txtDesc"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
@@ -80,38 +79,36 @@
         </RelativeLayout>
 
         <RelativeLayout
+            android:id="@+id/rel_footer"
             android:layout_width="match_parent"
-            android:padding="@dimen/activity_horizontal_margin"
-            android:layout_height="wrap_content">
+            android:layout_height="wrap_content"
+            android:padding="@dimen/activity_horizontal_margin">
 
-            <TextView
+            <com.carelynk.utilz.fonts.TimeNewRomanTextView
                 android:id="@+id/txt_edit"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="Edit"
-                android:drawableLeft="@drawable/ic_edit_grey"
-                android:gravity="center"
-                android:drawablePadding="5dp"
                 android:layout_marginRight="10dp"
                 android:layout_toLeftOf="@+id/txt_delete"
+                android:drawableLeft="@drawable/ic_edit_grey"
+                android:drawablePadding="5dp"
+                android:gravity="center"
+                android:text="Edit"
                 android:textAppearance="?android:textAppearanceSmall"
-                android:textColor="@android:color/black"
-                />
+                android:textColor="@android:color/black" />
 
-            <TextView
+            <com.carelynk.utilz.fonts.TimeNewRomanTextView
                 android:id="@+id/txt_delete"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="Delete"
-                android:drawablePadding="5dp"
                 android:layout_alignParentRight="true"
                 android:drawableLeft="@drawable/ic_delete"
+                android:drawablePadding="5dp"
                 android:gravity="center"
+                android:text="Delete"
                 android:textAppearance="?android:textAppearanceSmall"
-                android:textColor="@android:color/black"
-                />
+                android:textColor="@android:color/black" />
         </RelativeLayout>
-
 
 
     </LinearLayout>

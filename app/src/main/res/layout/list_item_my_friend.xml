@@ -27,7 +27,7 @@
                 android:layout_height="60dp"
                 android:src="@drawable/ic_user_dummy" />
 
-            <TextView
+            <com.carelynk.utilz.fonts.TimeNewRomanTextView
                 android:id="@+id/txtName"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"

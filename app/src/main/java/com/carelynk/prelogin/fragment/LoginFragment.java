@@ -1,10 +1,17 @@
 package com.carelynk.prelogin.fragment;
 
+import android.Manifest;
+import android.content.Context;
 import android.content.Intent;
+import android.content.pm.PackageManager;
 import android.databinding.DataBindingUtil;
+import android.net.Uri;
 import android.os.Bundle;
+import android.provider.Settings;
 import android.support.annotation.Nullable;
+import android.telephony.TelephonyManager;
 import android.text.TextUtils;
+import android.text.format.Formatter;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -16,13 +23,21 @@ import com.carelynk.dashboard.HomeActivity;
 import com.carelynk.databinding.FragmentLoginBinding;
 import com.carelynk.rest.ApiFactory;
 import com.carelynk.rest.ApiInterface;
+import com.carelynk.rest.AsyncTaskGetCommon;
+import com.carelynk.rest.Urls;
 import com.carelynk.storage.SharedPreferenceUtil;
 import com.carelynk.utilz.Constants;
 import com.carelynk.utilz.DialogUtils;
 import com.carelynk.utilz.PrefUtils;
 import com.google.gson.JsonObject;
 
+import org.json.JSONArray;
 import org.json.JSONObject;
+
+import java.net.InetAddress;
+import java.net.NetworkInterface;
+import java.net.SocketException;
+import java.util.Enumeration;
 
 import retrofit2.Call;
 import retrofit2.Callback;
@@ -35,6 +50,7 @@ public class LoginFragment extends BaseFragment {
 
     FragmentLoginBinding binding;
     private static final String TAG = "LoginFragment";
+    private String deviceUniqueIdentifier = "";
 
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
@@ -45,7 +61,7 @@ public class LoginFragment extends BaseFragment {
     @Override
     public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
-
+        checkPermission();
         binding.chkRemember.setChecked(SharedPreferenceUtil.getBoolean(PrefUtils.PREF_REMEMBER_ME, false));
         if(SharedPreferenceUtil.getBoolean(PrefUtils.PREF_REMEMBER_ME, false)){
             binding.edtEmail.setText(SharedPreferenceUtil.getString(PrefUtils.PREF_EMAIL, ""));
@@ -71,6 +87,91 @@ public class LoginFragment extends BaseFragment {
                addFragment(new RegistrationFragment());
             }
         });
+
+        binding.txtForget.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                //addFragment(new ForgetPassFragment());
+                Intent i = new Intent(Intent.ACTION_VIEW);
+                i.setData(Uri.parse("https://carelynk.com/Account/ForgotPassword"));
+                startActivity(i);
+            }
+        });
+    }
+
+    void sendIp(){
+        if(isOnline(getActivity())){
+            AsyncTaskGetCommon asyncTaskCommon = new AsyncTaskGetCommon(getActivity(), new AsyncTaskGetCommon.AsyncTaskCompleteListener() {
+                @Override
+                public void onTaskComplete(String result) {
+                    if (result.length() > 0) {
+                        try{
+                            JSONObject jsonObject = new JSONObject(result);
+                            if(jsonObject.getBoolean("IsSuccess")){
+                                Intent intent = new Intent(getActivity(), HomeActivity.class);
+                                moveActivity(intent, getActivity(), true);
+                            }else{
+                                showSnackbar(binding.getRoot(), jsonObject.getString("Message"));
+                            }
+                        }catch (Exception e){
+                            e.printStackTrace();
+                        }
+                    } else
+                        showSnackbar(binding.getRoot(), getString(R.string.error_server));
+                }
+            });
+            asyncTaskCommon.execute(ApiFactory.API_BASE_URL+""+ Urls.SEND_IP+""+SharedPreferenceUtil.getString(PrefUtils.PREF_USER_ID, "")+
+                    "&IpAdress="+getLocalIpAddress()+"_"+deviceUniqueIdentifier);
+        }else
+            showSnackbar(binding.getRoot(), getString(R.string.no_internet));
+    }
+
+    public void checkPermission() {
+        if (checkPermission(Manifest.permission.READ_PHONE_STATE, getActivity())) {
+            getDeviceIMEI(getContext());
+        } else {
+            requestPermissions(new String[]{Manifest.permission.READ_PHONE_STATE}, Constants.REQUEST_PERMISSION_WRITE_STORAGE);
+        }
+    }
+
+    @Override
+    public void onRequestPermissionsResult(int requestCode, String[] permissions, int[] grantResults) {
+        super.onRequestPermissionsResult(requestCode, permissions, grantResults);
+        if (requestCode == Constants.REQUEST_PERMISSION_WRITE_STORAGE) {
+            if (grantResults.length > 0
+                    && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
+                getDeviceIMEI(getContext());
+            }
+        }
+    }
+
+    private void getDeviceIMEI(Context context) {
+        TelephonyManager tm = (TelephonyManager) context.getSystemService(Context.TELEPHONY_SERVICE);
+        if (null != tm) {
+            deviceUniqueIdentifier = tm.getDeviceId();
+        }
+        if (null == deviceUniqueIdentifier || 0 == deviceUniqueIdentifier.length()) {
+            deviceUniqueIdentifier = Settings.Secure.getString(context.getContentResolver(), Settings.Secure.ANDROID_ID);
+        }
+    }
+
+    public String getLocalIpAddress() {
+        try {
+            for (Enumeration<NetworkInterface> en = NetworkInterface.getNetworkInterfaces(); en.hasMoreElements();) {
+                NetworkInterface intf = en.nextElement();
+                for (Enumeration<InetAddress> enumIpAddr = intf.getInetAddresses(); enumIpAddr.hasMoreElements();) {
+                    InetAddress inetAddress = enumIpAddr.nextElement();
+                    if (!inetAddress.isLoopbackAddress()) {
+                        String ip = Formatter.formatIpAddress(inetAddress.hashCode());
+                        Log.e(TAG, "***** IP="+ ip);
+                        return ip;
+                    }
+                }
+            }
+        } catch (SocketException ex) {
+            Log.e(TAG, ex.toString());
+        }
+        return "192.168.1.1";
     }
 
     private boolean isValid() {
@@ -120,15 +221,12 @@ public class LoginFragment extends BaseFragment {
                                 SharedPreferenceUtil.putValue(PrefUtils.PREF_CONTACT,  jsonObject.getString("ContactNo"));
                                 SharedPreferenceUtil.putValue(PrefUtils.PREF_INTEREST_AREA,  jsonObject.getString("InterestArea"));
                                 SharedPreferenceUtil.putValue(PrefUtils.PREF_USER_ID, jsonObject.getString("UserId"));
-                                Log.e(TAG, "User id: "+jsonObject.getString("UserId"));
                                 if(binding.chkRemember.isChecked()) {
                                     SharedPreferenceUtil.putValue(PrefUtils.PREF_REMEMBER_ME, true);
                                 }
                                 SharedPreferenceUtil.save();
-                                Log.e(TAG, "User id: after "+SharedPreferenceUtil.getString(PrefUtils.PREF_USER_ID, ""));
-                                Intent intent = new Intent(getActivity(), HomeActivity.class);
-                                //intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_CLEAR_TOP);
-                                moveActivity(intent, getActivity(), true);
+                                sendIp();
+
                             }else{
                                 showSnackbar(binding.getRoot(), jsonObject.getString("ErrorMessage"));
                             }

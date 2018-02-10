@@ -6,9 +6,11 @@
 
     </data>
 
-    <android.support.design.widget.CoordinatorLayout
+    <LinearLayout
         android:id="@+id/coordinatorLayout"
         android:layout_width="match_parent"
+        android:orientation="vertical"
+        android:background="@color/color_app_bg"
         android:layout_height="match_parent">
 
         <android.support.design.widget.AppBarLayout
@@ -38,5 +40,5 @@
             android:layout_centerHorizontal="true"
             android:layout_marginTop="@dimen/activity_horizontal_margin" />
 
-    </android.support.design.widget.CoordinatorLayout>
+    </LinearLayout>
 </layout>

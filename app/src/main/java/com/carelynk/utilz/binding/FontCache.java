@@ -41,9 +41,11 @@ public class FontCache {
         }
 
         for (String filename : fileList) {
-            String alias = filename.substring(0, filename.lastIndexOf('.'));
-            fontMapping.put(alias, filename);
-            fontMapping.put(alias.toLowerCase(), filename);
+            if(!filename.equals("ReadMe")) {
+                String alias = filename.substring(0, filename.lastIndexOf('.'));
+                fontMapping.put(alias, filename);
+                fontMapping.put(alias.toLowerCase(), filename);
+            }
         }
     }
 

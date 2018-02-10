@@ -23,7 +23,7 @@
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
                     android:scaleType="centerCrop"
-                    android:src="@drawable/dummy_img" />
+                    android:src="@drawable/ic_placeholder" />
 
                 <View
                     android:layout_width="match_parent"
@@ -37,7 +37,7 @@
                     android:layout_centerInParent="true"
                     android:background="@drawable/circle_white_trasparent_bg"
                     android:padding="3dp"
-                    android:src="@drawable/dummy_img" />
+                    android:src="@drawable/ic_placeholder" />
 
                 <TextView
                     android:layout_width="match_parent"

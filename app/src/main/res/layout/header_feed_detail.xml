@@ -4,183 +4,18 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
+    android:layout_margin="10dp"
+    android:background="@android:color/white"
+    android:focusable="true"
+    android:focusableInTouchMode="true"
     android:orientation="vertical"
-    android:paddingLeft="5dp"
-    android:paddingRight="5dp">
+    >
 
-    <android.support.v7.widget.CardView
-        android:id="@+id/cardView"
+
+    <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        app:cardBackgroundColor="@android:color/white"
-        app:cardElevation="5dp"
-        app:cardPreventCornerOverlap="true"
-        app:cardUseCompatPadding="true"
-        app:contentPaddingLeft="-5dp"
-        app:contentPaddingRight="-5dp">
-
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:orientation="vertical">
-
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:orientation="vertical"
-                android:padding="@dimen/activity_horizontal_margin">
-
-                <TextView
-                    android:id="@+id/txtTitle"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginLeft="@dimen/common_margin"
-                    android:layout_toRightOf="@+id/imgUser"
-                    android:fontFamily="sans-serif-condensed"
-                    android:textAppearance="?android:textAppearanceMedium"
-                    android:textColor="@color/colorAccent"
-                    android:text="Title" />
-
-
-                <RelativeLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_marginTop="@dimen/activity_horizontal_margin">
-
-                    <ImageView
-                        android:id="@+id/imgUser"
-                        android:layout_width="40dp"
-                        android:layout_height="40dp"
-                        android:src="@drawable/ic_placeholder" />
-
-                    <TextView
-                        android:id="@+id/txtName"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_marginLeft="@dimen/common_margin"
-                        android:layout_toRightOf="@+id/imgUser"
-                        android:fontFamily="sans-serif-condensed"
-                        android:textAppearance="?android:textAppearanceMedium"
-                        android:textColor="@android:color/black"
-                        android:text="User" />
-
-                    <TextView
-                        android:id="@+id/txtPostTime"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_below="@+id/txtName"
-                        android:layout_marginLeft="@dimen/common_margin"
-                        android:layout_marginTop="5dp"
-                        android:layout_toRightOf="@+id/imgUser"
-                        android:fontFamily="sans-serif-condensed"
-                        android:text="Posted on 2 hours ago"
-                        android:textColor="@color/color_text_dark" />
-
-                    <TextView
-                        android:id="@+id/txtFollow"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_alignParentRight="true"
-                        android:padding="@dimen/common_margin"
-                        android:visibility="gone" />
-
-
-                </RelativeLayout>
-
-                <TextView
-                    android:id="@+id/txtDesc"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_marginLeft="@dimen/common_margin"
-                    android:layout_marginTop="@dimen/common_margin"
-                    android:layout_toRightOf="@+id/imgUser"
-                    android:text="@string/dummy_text"
-                    android:textAppearance="?android:textAppearanceMedium"
-                    android:textColor="@android:color/black"
-                    android:visibility="visible" />
-            </LinearLayout>
-
-            <ImageView
-                android:id="@+id/imgCover"
-                android:layout_width="match_parent"
-                android:layout_height="200dp"
-                android:scaleType="fitXY"
-                android:visibility="gone"
-                android:src="@drawable/dummy_bg_img" />
-
-            <LinearLayout
-                android:id="@+id/linSupport"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:gravity="right|center"
-                android:orientation="horizontal"
-                android:padding="@dimen/activity_horizontal_margin"
-                android:visibility="visible">
-
-                <CheckBox
-                    android:id="@+id/chkSupport"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginLeft="@dimen/common_margin"
-                    android:layout_marginRight="@dimen/common_margin"
-                    android:button="@drawable/checkbox_selector_fav"
-                    android:text=" Support"
-                    android:textAppearance="?android:textAppearanceSmall"
-                    android:textColor="@color/colorAccent" />
-
-            </LinearLayout>
-
-            <LinearLayout
-                android:id="@+id/linFooter"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:gravity="right|center"
-                android:orientation="horizontal"
-                android:padding="@dimen/activity_horizontal_margin"
-                android:visibility="gone">
-
-                <TextView
-                    android:id="@+id/txt_edit"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="Edit"
-                    android:drawableLeft="@drawable/ic_edit_grey"
-                    android:gravity="center"
-                    android:drawablePadding="5dp"
-                    android:layout_marginRight="10dp"
-                    android:layout_toLeftOf="@+id/txt_delete"
-                    android:textAppearance="?android:textAppearanceSmall"
-                    android:textColor="@android:color/black"
-                    />
-
-                <TextView
-                    android:id="@+id/txt_delete"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="Delete"
-                    android:drawablePadding="5dp"
-                    android:layout_alignParentRight="true"
-                    android:drawableLeft="@drawable/ic_delete"
-                    android:gravity="center"
-                    android:textAppearance="?android:textAppearanceSmall"
-                    android:textColor="@android:color/black"
-                    />
-
-            </LinearLayout>
-
-
-        </LinearLayout>
-
-
-    </android.support.v7.widget.CardView>
-
-    <android.support.v7.widget.CardView
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        app:cardBackgroundColor="@android:color/white"
-        app:cardElevation="5dp"
-        app:cardPreventCornerOverlap="true"
-        app:cardUseCompatPadding="true">
+        android:orientation="vertical">
 
         <LinearLayout
             android:layout_width="match_parent"
@@ -188,46 +23,233 @@
             android:orientation="vertical"
             android:padding="@dimen/activity_horizontal_margin">
 
-            <EditText
-                android:id="@+id/edtComment"
-                android:layout_width="match_parent"
+            <com.carelynk.utilz.fonts.TimeNewRomanTextView
+                android:id="@+id/txtTitle"
+                android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:background="@drawable/round_corner_grey"
-                android:gravity="top"
-                android:hint="@string/want_to_share_ask"
-                android:minLines="3"
-                android:padding="10dp" />
+                android:layout_marginLeft="@dimen/common_margin"
+                android:layout_toRightOf="@+id/imgUser"
+                android:text="Title"
+                android:textColor="@color/colorAccent"
+                android:textSize="22sp"
+                android:textStyle="bold" />
+
 
             <RelativeLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="10dp">
+                android:layout_marginTop="@dimen/activity_horizontal_margin">
 
                 <ImageView
-                    android:id="@+id/imgCamera"
+                    android:id="@+id/imgUser"
+                    android:layout_width="40dp"
+                    android:layout_height="40dp"
+                    android:src="@drawable/ic_user_dummy"
+                    android:visibility="visible" />
+
+                <com.carelynk.utilz.fonts.TimeNewRomanTextView
+                    android:id="@+id/txtName"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_centerVertical="true"
-                    android:layout_marginRight="@dimen/activity_horizontal_margin"
-                    android:layout_toLeftOf="@+id/btnSend"
-                    android:src="@drawable/ic_camera_blue" />
+                    android:layout_marginLeft="@dimen/common_margin"
+                    android:layout_toRightOf="@+id/imgUser"
+                    android:text="User"
+                    android:textAppearance="?android:textAppearanceMedium"
+                    android:textColor="@android:color/black" />
 
-                <android.support.v7.widget.AppCompatButton
-                    android:id="@+id/btnSend"
+                <com.carelynk.utilz.fonts.TimeNewRomanTextView
+                    android:id="@+id/txtPostTime"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_below="@+id/txtName"
+                    android:layout_marginLeft="@dimen/common_margin"
+                    android:layout_marginTop="5dp"
+                    android:layout_toRightOf="@+id/imgUser"
+                    android:text="Posted on 2 hours ago"
+                    android:textColor="@color/color_text_dark" />
+
+                <TextView
+                    android:id="@+id/txtFollow"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_alignParentRight="true"
-                    android:layout_centerVertical="true"
-                    android:layout_marginTop="10dp"
-                    android:text="@string/send"
-                    android:textAppearance="?android:textAppearanceMedium"
-                    android:theme="@style/ButtonStyle" />
+                    android:padding="@dimen/common_margin"
+                    android:visibility="gone" />
+
+
+            </RelativeLayout>
+
+            <com.carelynk.utilz.fonts.TimeNewRomanTextView
+                android:id="@+id/txtDesc"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="@dimen/common_margin"
+                android:layout_marginTop="@dimen/common_margin"
+                android:layout_toRightOf="@+id/imgUser"
+                android:text="@string/dummy_text"
+                android:textColor="@android:color/black"
+                android:textSize="18sp"
+                android:visibility="visible" />
+
+            <LinearLayout
+                android:id="@+id/linWebView"
+                android:layout_width="match_parent"
+                android:layout_height="200dp"
+                android:layout_marginTop="10dp"
+                android:visibility="gone">
+
+                <WebView
+                    android:id="@+id/webView"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent" />
+
+            </LinearLayout>
+        </LinearLayout>
+
+        <ImageView
+            android:id="@+id/imgCover"
+            android:layout_width="match_parent"
+            android:layout_height="200dp"
+            android:scaleType="centerCrop"
+            android:transitionName="profile"
+            android:src="@drawable/ic_placeholder"
+            android:visibility="gone" />
+
+        <TextView
+            android:id="@+id/txtPlayVideo"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="20dp"
+            android:layout_marginRight="20dp"
+            android:layout_marginTop="@dimen/common_margin"
+            android:drawableLeft="@drawable/ic_youtube"
+            android:drawablePadding="5dp"
+            android:gravity="right"
+            android:text="Play Video"
+            android:textColor="@color/colorPrimary"
+            android:visibility="gone" />
+
+        <LinearLayout
+            android:id="@+id/linSupport"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:gravity="center"
+            android:paddingLeft="10dp"
+            android:paddingRight="10dp"
+            android:layout_marginTop="@dimen/common_margin"
+            android:orientation="horizontal"
+            android:visibility="visible">
+
+            <CheckBox
+                android:id="@+id/chkSupport"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="@dimen/common_margin"
+                android:layout_marginRight="@dimen/common_margin"
+                android:button="@drawable/checkbox_selector_fav"
+                android:text=" Support"
+                android:textAppearance="?android:textAppearanceSmall"
+                android:textColor="@color/colorAccent" />
+
+            <RelativeLayout
+                android:id="@+id/relEdit"
+                android:layout_width="match_parent"
+                android:visibility="invisible"
+                android:layout_height="wrap_content">
+
+                <ImageView
+                    android:id="@+id/imgEdit"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:src="@drawable/ic_edit_grey"
+                    android:layout_toLeftOf="@+id/imgDelete"
+                    android:padding="10dp"
+                    />
+
+                <ImageView
+                    android:id="@+id/imgDelete"
+                    android:padding="10dp"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:src="@drawable/ic_delete"
+                    android:layout_alignParentRight="true"
+                    />
 
             </RelativeLayout>
 
         </LinearLayout>
 
-    </android.support.v7.widget.CardView>
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+       >
+
+        <EditText
+            android:id="@+id/edtComment"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="@drawable/round_corner_grey"
+            android:gravity="top"
+            android:hint="Share what’s in your mind"
+            android:maxLines="3"
+            android:minLines="2"
+            android:padding="10dp" />
+
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:paddingRight="10dp"
+            android:layout_marginTop="10dp">
+
+            <ImageView
+                android:id="@+id/imgCamera"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_centerVertical="true"
+                android:layout_marginRight="@dimen/activity_horizontal_margin"
+                android:layout_toLeftOf="@+id/btnSend"
+                android:src="@drawable/ic_camera_blue" />
+
+            <ImageView
+                android:id="@+id/btnSend"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentRight="true"
+                android:layout_centerVertical="true"
+                android:layout_marginTop="10dp"
+                android:src="@drawable/ic_send" />
+
+        </RelativeLayout>
+
+        <RelativeLayout
+            android:id="@+id/rel_group_update"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:visibility="gone">
+
+            <ImageView
+                android:id="@+id/img_group_update"
+                android:layout_width="match_parent"
+                android:layout_height="180dp"
+                android:layout_marginTop="10dp"
+                android:src="@drawable/ic_placeholder" />
+
+            <ImageView
+                android:id="@+id/img_clear_group_update"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentRight="true"
+                android:layout_margin="10dp"
+                android:src="@drawable/ic_cancel_grey" />
+
+        </RelativeLayout>
+
+
+    </LinearLayout>
+
 
     <ProgressBar
         android:id="@+id/progressBar"
@@ -236,6 +258,6 @@
         android:layout_height="40dp"
         android:layout_gravity="center"
         android:layout_marginTop="10dp"
-        />
+        android:visibility="gone" />
 
 </LinearLayout>

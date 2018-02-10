@@ -1,0 +1,239 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools">
+
+    <data>
+
+
+    </data>
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+        <android.support.v4.widget.NestedScrollView
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:background="@color/color_app_bg"
+            android:clipToPadding="false"
+            android:fillViewport="true"
+            android:paddingBottom="100dp">
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:orientation="vertical"
+                tools:context=".dashboard.HomeActivity">
+
+                <RelativeLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="200dp">
+
+                    <ImageView
+                        android:id="@+id/img_event"
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:scaleType="centerCrop"
+                        android:src="@drawable/ic_placeholder" />
+
+                    <ImageView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:onClick="onClickBack"
+                        android:padding="10dp"
+                        android:src="@drawable/ic_back" />
+
+                </RelativeLayout>
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:orientation="vertical"
+                    android:padding="@dimen/activity_horizontal_margin">
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content">
+
+                        <com.carelynk.utilz.fonts.TimeNewRomanTextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="Event Name : "
+                            android:textColor="@color/color_text_dark"
+                            android:textAppearance="?android:textAppearanceLarge"
+                             />
+
+
+                        <com.carelynk.utilz.fonts.TimeNewRomanBoldTextView
+                            android:id="@+id/txt_title"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="Title"
+                            android:textAppearance="?android:textAppearanceLarge" />
+
+                    </LinearLayout>
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_marginTop="10dp"
+                        android:layout_height="wrap_content">
+
+                        <com.carelynk.utilz.fonts.TimeNewRomanTextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="Event Owner : "
+                            android:textColor="@color/color_text_dark"
+                            android:textAppearance="?android:textAppearanceLarge" />
+
+                        <com.carelynk.utilz.fonts.TimeNewRomanBoldTextView
+                            android:id="@+id/txt_username"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="Title"
+                            android:textAppearance="?android:textAppearanceLarge" />
+
+                    </LinearLayout>
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content">
+
+                        <com.carelynk.utilz.fonts.TimeNewRomanTextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginTop="10dp"
+                            android:text="Location : "
+                            android:textColor="@color/color_text_dark"
+                            android:textAppearance="?android:textAppearanceLarge"
+                             />
+
+                        <com.carelynk.utilz.fonts.TimeNewRomanBoldTextView
+                            android:id="@+id/txt_location"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginTop="10dp"
+                            android:text="Title"
+                            android:textAppearance="?android:textAppearanceLarge" />
+                    </LinearLayout>
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="10dp"
+                        android:orientation="horizontal">
+
+                        <com.carelynk.utilz.fonts.TimeNewRomanTextView
+                            android:id="@+id/txt_date_from"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="Date : "
+                            android:textAppearance="?android:textAppearanceMedium" />
+
+                        <com.carelynk.utilz.fonts.TimeNewRomanTextView
+                            android:id="@+id/txt_date_to"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:textColor="@android:color/black"
+                            android:text="Title"
+                            android:textAppearance="?android:textAppearanceMedium" />
+
+                    </LinearLayout>
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="10dp"
+                        android:orientation="horizontal">
+
+                        <com.carelynk.utilz.fonts.TimeNewRomanTextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="Time : "
+                            android:textAppearance="?android:textAppearanceMedium" />
+
+                        <com.carelynk.utilz.fonts.TimeNewRomanTextView
+                            android:id="@+id/txt_time_to"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:textColor="@android:color/black"
+                            android:text="Title"
+                            android:textAppearance="?android:textAppearanceMedium" />
+
+                    </LinearLayout>
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content">
+
+                        <com.carelynk.utilz.fonts.TimeNewRomanTextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginTop="10dp"
+                            android:text="Event Description : "
+                            android:textColor="@color/color_text_dark"
+                            android:textAppearance="?android:textAppearanceLarge"
+                             />
+
+                        <com.carelynk.utilz.fonts.TimeNewRomanBoldTextView
+                            android:id="@+id/txt_description"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginTop="10dp"
+                            android:text="Title"
+                            android:textColor="@android:color/black"
+                            android:textAppearance="?android:textAppearanceMedium" />
+
+                    </LinearLayout>
+
+                </LinearLayout>
+            </LinearLayout>
+        </android.support.v4.widget.NestedScrollView>
+
+        <LinearLayout
+            android:id="@+id/linRequestAll"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_alignParentBottom="true"
+            android:gravity="center"
+            android:orientation="horizontal"
+            android:paddingBottom="16dp"
+            android:paddingLeft="@dimen/activity_horizontal_margin"
+            android:paddingRight="@dimen/activity_horizontal_margin">
+
+            <com.carelynk.utilz.fonts.TimeNewRomanTextView
+                android:id="@+id/txtInviteUsers"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="@dimen/activity_horizontal_margin"
+                android:background="@drawable/round_corner_blue_fill"
+                android:ellipsize="end"
+                android:gravity="center"
+                android:lines="1"
+                android:minWidth="100dp"
+                android:padding="10dp"
+                android:text="Invite"
+                android:textAppearance="?android:textAppearanceSmall"
+                android:textColor="@android:color/white"
+                android:visibility="gone" />
+
+            <com.carelynk.utilz.fonts.TimeNewRomanTextView
+                android:id="@+id/txtViewMembers"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="@dimen/activity_horizontal_margin"
+                android:layout_marginRight="16dp"
+                android:background="@drawable/round_corner_blue_fill"
+                android:ellipsize="end"
+                android:lines="1"
+                android:minWidth="100dp"
+                android:padding="10dp"
+                android:text="@string/view_members"
+                android:textAppearance="?android:textAppearanceSmall"
+                android:textColor="@android:color/white" />
+
+        </LinearLayout>
+    </RelativeLayout>
+
+
+</layout>

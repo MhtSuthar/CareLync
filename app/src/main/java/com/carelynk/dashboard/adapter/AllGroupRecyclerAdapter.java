@@ -3,6 +3,7 @@ package com.carelynk.dashboard.adapter;
 import android.content.Context;
 import android.support.v7.widget.CardView;
 import android.support.v7.widget.RecyclerView;
+import android.text.TextUtils;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -11,11 +12,13 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.bumptech.glide.Glide;
+import com.bumptech.glide.request.RequestOptions;
 import com.carelynk.R;
 import com.carelynk.dashboard.fragment.MyGroupFragment;
 import com.carelynk.dashboard.model.GroupModel;
 import com.carelynk.dashboard.model.GroupModelGson;
 import com.carelynk.utilz.AppUtils;
+import com.carelynk.utilz.CircleTransform;
 
 import java.util.List;
 
@@ -24,13 +27,12 @@ import java.util.List;
  */
 public class AllGroupRecyclerAdapter extends RecyclerView.Adapter<AllGroupRecyclerAdapter.ViewHolder> {
 
-    private List<GroupModelGson.Result> mListGroup;
+    private List<GroupModelGson.AllGroupDet> mListGroup;
     private Context mContext;
     private MyGroupFragment myGroupFragment;
 
     public static class ViewHolder extends RecyclerView.ViewHolder {
 
-        public CardView cardView;
         public TextView txtGroupName;
         public TextView txtCreatedName, txtDesc;
         public ImageView imgGroup;
@@ -38,7 +40,6 @@ public class AllGroupRecyclerAdapter extends RecyclerView.Adapter<AllGroupRecycl
 
         public ViewHolder(View rowView) {
             super(rowView);
-            cardView = (CardView) rowView.findViewById(R.id.cardView);
             txtGroupName = (TextView) rowView.findViewById(R.id.txtGroupName);
             txtCreatedName = (TextView) rowView.findViewById(R.id.txtCreatedName);
             imgGroup = (ImageView) rowView.findViewById(R.id.imgGroup);
@@ -46,7 +47,7 @@ public class AllGroupRecyclerAdapter extends RecyclerView.Adapter<AllGroupRecycl
         }
     }
 
-    public AllGroupRecyclerAdapter(Context context, List<GroupModelGson.Result> mListPatient, MyGroupFragment myGroupFragment) {
+    public AllGroupRecyclerAdapter(Context context, List<GroupModelGson.AllGroupDet> mListPatient, MyGroupFragment myGroupFragment) {
         this.mListGroup = mListPatient;
         mContext = context;
         this.myGroupFragment = myGroupFragment;
@@ -68,7 +69,7 @@ public class AllGroupRecyclerAdapter extends RecyclerView.Adapter<AllGroupRecycl
 
         holder.txtGroupName.setText(mListGroup.get(position).getGroupName());
         holder.txtDesc.setText(mListGroup.get(position).getDescription());
-        holder.txtCreatedName.setText("Created on "+ AppUtils.formattedDate("dd/MM/yyyy", "dd-MMM-yyyy", mListGroup.get(position).getCreatedDate()));
+        holder.txtCreatedName.setText("Created on "+ AppUtils.formattedDate("MM/dd/yyyy", "dd-MMM-yyyy", mListGroup.get(position).getCreatedDate()));
 
         holder.itemView.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -77,13 +78,12 @@ public class AllGroupRecyclerAdapter extends RecyclerView.Adapter<AllGroupRecycl
             }
         });
 
-        /*if(feedModel.PhotoURL != null && !feedModel.PhotoURL.equals("") && !feedModel.PhotoURL.equals("null")) {
+        if(!TextUtils.isEmpty(mListGroup.get(position).getPhotoURL())) {
             holder.imgGroup.setVisibility(View.VISIBLE);
-            Log.e("Image", "onBindVieold http://www.demo.carelynk.com/Content"+feedModel.PhotoURL.
-                    split("Content")[1]);
-            Glide.with(mContext).load("http://www.demo.carelynk.com/Content"+feedModel.PhotoURL.split("Content")[1]).into(holder.imgGroup);
+            Glide.with(mContext).load(AppUtils.getImagePath(mListGroup.get(position).getPhotoURL())).apply(RequestOptions.circleCropTransform()).into(holder.imgGroup);
         }else
-            holder.imgGroup.setVisibility(View.GONE);*/
+            Glide.with(mContext).load(R.drawable.ic_launcher_black).apply(RequestOptions.circleCropTransform()).into(holder.imgGroup);
+
     }
 
     @Override

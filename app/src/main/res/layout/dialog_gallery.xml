@@ -14,7 +14,7 @@
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_weight="1"
-            android:padding="@dimen/activity_horizontal_margin"
+            android:padding="10dp"
             android:src="@drawable/ic_camera"
             />
 
@@ -23,8 +23,18 @@
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_weight="1"
-            android:padding="@dimen/activity_horizontal_margin"
+            android:padding="10dp"
             android:src="@drawable/ic_gallery"
+            />
+
+        <ImageView
+            android:id="@+id/imgVideo"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:visibility="gone"
+            android:padding="10dp"
+            android:src="@drawable/ic_video"
             />
 
     </LinearLayout>
